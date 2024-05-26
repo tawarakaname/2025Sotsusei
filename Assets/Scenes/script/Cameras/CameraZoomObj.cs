@@ -6,27 +6,23 @@ public class CameraZoomObj : MonoBehaviour
 
 {
     [SerializeField] Camera zoomCamera;
-    [SerializeField] Camera mainCamera;
 
-    void Start()
+    private CameraManeger cameraManeger;
+    private void Start()
     {
-        // CameraManagerにメインカメラを設定
-        CameraManeger.instance.SetMainCamera(mainCamera);
-        Debug.Log("CameraManagerにメインカメラを設定しました: " + mainCamera.name);
+        cameraManeger = CameraManeger.instance;
+
     }
 
+
+   
     // クリックしたら、用意してあるカメラに切り替える
     public void OnClickObj()
     {   
         Debug.Log("カメラ切り替え");
-        CameraManeger.instance.SetZoomCamera(zoomCamera);
+        cameraManeger.SetZoomCamera(zoomCamera);
     }
 
-    // もう一度クリックしたらメインカメラに戻る
-    public void OnClickReturnMainCamera()
-    {
-        Debug.Log("メインカメラに戻ります");
-        CameraManeger.instance.ReturnToMainCamera(mainCamera);
-    }
+
 }
 

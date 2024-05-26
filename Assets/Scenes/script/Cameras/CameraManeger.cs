@@ -13,30 +13,34 @@ public class CameraManeger : MonoBehaviour
     // メインカメラの参照
     public Camera mainCamera;
 
-    [SerializeField] Transform[] mainCameraTransform;
+    private Camera currentCamera;
 
     private void Awake()
     {
         instance = this;
     }
-   
 
-    // メインカメラの初期位置を設定する
-    public void SetMainCamera(Camera camera)
+    private void Update()
     {
-        mainCamera = camera;
+        if (Input.GetButtonDown("Jump"))
+        {
+            ReturnToMainCamera();
+        }
     }
 
 
     public void SetZoomCamera(Camera camera)
     {
+        currentCamera = camera;
         Camera.main.gameObject.SetActive(false);
         camera.gameObject.SetActive(true);
     }
 
     // メインカメラに戻る
-    public void ReturnToMainCamera(Camera camera)
+    public void ReturnToMainCamera()
     {
+        if(currentCamera != null)
+            currentCamera.gameObject.SetActive(false);
         mainCamera.gameObject.SetActive(true);
         Debug.Log("メインカメラに戻ります: " + mainCamera.name);
       
