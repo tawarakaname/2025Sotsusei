@@ -9,7 +9,31 @@ public class Item
     {
         capsuleA,
         capsuleB,
-        capsuleC
+        capsuleC,
+        capsuleD,
+        balloon,
+        BTB,
+        key1,
+        bluekey,
+        allcup,
+        diacup,
+        heartcup,
+        starcup,
+        Dkey1,
+        Dkey2,
+        dry,
+        watercan,
+        Skey,
+        Mheartcup,
+        batteryA,
+        batteryB,
+        batteryC,
+        Mheart,
+        Dkey,
+        Dkeys,
+        dryber,
+
+
     }
 
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class PickupObj : MonoBehaviour
 {
     [SerializeField] Item.Type itemType;
+    [SerializeField] FlagManager.FlagType flagToSet;
     Item item;
 
     private void Start()
@@ -17,10 +18,13 @@ public class PickupObj : MonoBehaviour
 
     public void OnClickObj()
     {
-        Debug.Log("拾う");
 
         Itembox.instance.SetItem(item);
         gameObject.SetActive(false);
+
+        // フラグを設定する
+        FlagManager.Instance.SetFlag(flagToSet, true);
+        Debug.Log("FlagON");
     }
 
 
