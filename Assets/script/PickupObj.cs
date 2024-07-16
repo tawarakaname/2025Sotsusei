@@ -13,6 +13,17 @@ public class PickupObj : MonoBehaviour
         // itemタイプに応じてitemを作成する
         item = ItemGenerater.instance.Spawn(itemType);
     }
+
+    void Update()
+    {
+        // PS4コントローラーの⚪︎ボタンは「Fire2」として認識されます
+        if (Input.GetButtonDown("Fire2"))
+        {
+            OnClickObj();
+            Debug.Log("⚪︎ボタンが押されました！");
+        }
+    }
+
     // クリックしたらログを出す
     // クリックしたらobjを消す
 
