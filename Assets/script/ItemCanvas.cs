@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ItemCanvas : MonoBehaviour
 {
-    [SerializeField] private GameObject itemObject;
+    [SerializeField] private GameObject Canvas;
     // Start is called before the first frame update
     void Start()
     {
-        itemObject.SetActive(false);
+        Canvas.SetActive(false);
     }
 
         // Update is called once per frame
@@ -17,7 +17,7 @@ public class ItemCanvas : MonoBehaviour
         // PS4コントローラーの▫︎ボタンは「Fire0」として認識されます
         if (Input.GetButtonDown("Fire0"))
         {
-            itemObject.SetActive(true);
+            Canvas.SetActive(true);
             Debug.Log("▫︎ボタンが押されました！");
         }
     }

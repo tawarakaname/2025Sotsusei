@@ -49,7 +49,7 @@ public class FlagManager : MonoBehaviour
                 GameObject obj = new GameObject("FlagManager");
                 _instance = obj.AddComponent<FlagManager>();
                 DontDestroyOnLoad(obj);
-                //Debug.Log("FlagManager instance created");
+                Debug.Log("FlagManager instance created");
             }
             return _instance;
         }
