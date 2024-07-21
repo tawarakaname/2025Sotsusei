@@ -31,6 +31,7 @@ public class FlagManager : MonoBehaviour
         Dkey,
         Dkeys,
         dryber,
+        Motosen,
 
 
     }
@@ -48,6 +49,7 @@ public class FlagManager : MonoBehaviour
                 GameObject obj = new GameObject("FlagManager");
                 _instance = obj.AddComponent<FlagManager>();
                 DontDestroyOnLoad(obj);
+                //Debug.Log("FlagManager instance created");
             }
             return _instance;
         }
@@ -63,7 +65,7 @@ public class FlagManager : MonoBehaviour
         {
             flagDictionary.Add(flagType, false);
         }
-
+        //Debug.Log("Flags initialized");
     }
 
     private void Awake()
@@ -73,10 +75,12 @@ public class FlagManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
+           // Debug.Log("FlagManager Awake: Instance assigned");
         }
         else
         {
             Destroy(gameObject);
+            //Debug.Log("FlagManager Awake: Duplicate instance destroyed");
         }
     }
 
@@ -85,7 +89,7 @@ public class FlagManager : MonoBehaviour
     public bool GetFlag(FlagType flagtype)
     {
         if (flagDictionary.ContainsKey(flagtype))
-        {
+        { 
             return flagDictionary[flagtype];
         }
         return false;
