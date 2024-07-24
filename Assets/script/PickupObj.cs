@@ -6,7 +6,10 @@ public class PickupObj : MonoBehaviour
 {
     [SerializeField] Item.Type itemType;
     [SerializeField] FlagManager.FlagType flagToSet;
+    [SerializeField] Collider triggerCollider; // 追加したコライダーのフィールド
     Item item;
+
+    private bool playerInsideCollider = false;
 
     private void Start()
     {
@@ -16,27 +19,45 @@ public class PickupObj : MonoBehaviour
 
     void Update()
     {
-        // PS4コントローラーの⚪︎ボタンは「Fire2」として認識されます
-        if (Input.GetButtonDown("Fire2"))
+        if (playerInsideCollider)
         {
-            OnClickObj();
-            Debug.Log("⚪︎ボタンが押されました！");
+            // PS4コントローラーの⚪︎ボタンは「Fire2」として認識されます
+            if (Input.GetButtonDown("Fire2"))
+            {
+                OnClickObj();
+                Debug.Log("⚪︎ボタンが押されました！");
+            }
         }
     }
+            private void OnTriggerEnter(Collider other)
+            {
+                if (other.CompareTag("Player"))
+                {
+                    playerInsideCollider = true;
+                }
+            }
 
-    // クリックしたらログを出す
-    // クリックしたらobjを消す
+            private void OnTriggerExit(Collider other)
+            {
+                if (other.CompareTag("Player"))
+                {
+                    playerInsideCollider = false;
+                }
+            }
 
-    public void OnClickObj()
-    {
+            // クリックしたらログを出す
+            // クリックしたらobjを消す
 
-        Itembox.instance.SetItem(item);
-        gameObject.SetActive(false);
+            public void OnClickObj()
+            {
 
-        // フラグを設定する
-        FlagManager.Instance.SetFlag(flagToSet, true);
-        Debug.Log("FlagON");
-    }
+                Itembox.instance.SetItem(item);
+                gameObject.SetActive(false);
+
+                // フラグを設定する
+                FlagManager.Instance.SetFlag(flagToSet, true);
+                Debug.Log("FlagON");
+            }
 
 
-}
+        }

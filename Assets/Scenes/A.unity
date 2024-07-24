@@ -250,6 +250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   flagToSet: 0
+  triggerCollider: {fileID: 0}
 --- !u!114 &66702618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,6 +380,7 @@ GameObject:
   - component: {fileID: 91638159}
   - component: {fileID: 91638158}
   - component: {fileID: 91638157}
+  - component: {fileID: 91638163}
   m_Layer: 0
   m_Name: BTB
   m_TagString: Untagged
@@ -399,7 +401,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 5
-  flagToSet: 0
+  flagToSet: 5
+  triggerCollider: {fileID: 91638163}
 --- !u!114 &91638158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,6 +518,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &91638163
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91638156}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 2.14}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &140545329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1494,6 +1518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 6
   flagToSet: 0
+  triggerCollider: {fileID: 0}
 --- !u!114 &812563503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6966,6 +6991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 3
   flagToSet: 3
+  triggerCollider: {fileID: 0}
 --- !u!114 &1684981841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7500,6 +7526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 4
   flagToSet: 0
+  triggerCollider: {fileID: 0}
 --- !u!114 &2138187216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7982,6 +8009,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 2
   flagToSet: 2
+  triggerCollider: {fileID: 0}
 --- !u!1 &254934460514581140
 GameObject:
   m_ObjectHideFlags: 0
@@ -11930,6 +11958,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 2
   flagToSet: 0
+  triggerCollider: {fileID: 0}
 --- !u!4 &4295896924175636160
 Transform:
   m_ObjectHideFlags: 0
@@ -14221,6 +14250,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 1
   flagToSet: 1
+  triggerCollider: {fileID: 0}
 --- !u!114 &6568128069450688343
 MonoBehaviour:
   m_ObjectHideFlags: 0
