@@ -20,9 +20,9 @@ public class ColorPassword : MonoBehaviour
     {
         if (IsClear())
         {
-            Debug.Log("クリア");
-            //*クリアの時に発動
-            //*ClearEvent.Invoke();
+            // フラグを設定する
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.ColorPasswordclear, true);
+            Debug.Log("ColorPasswordclearFlagON");
         }
     }
 

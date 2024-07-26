@@ -32,7 +32,8 @@ public class FlagManager : MonoBehaviour
         Dkeys,
         dryber,
         Motosen,
-
+        HintA,
+        ColorPasswordclear,
 
     }
 

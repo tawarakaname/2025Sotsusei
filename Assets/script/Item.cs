@@ -32,6 +32,7 @@ public class Item
         Dkey,
         Dkeys,
         dryber,
+        HintA,
 
 
     }

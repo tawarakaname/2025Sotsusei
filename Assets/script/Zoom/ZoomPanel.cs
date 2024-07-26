@@ -17,6 +17,22 @@ public class ZoomPanel : MonoBehaviour
     {
         panel.SetActive(false);
     }
+    void Update()
+    {
+        // PS4コントローラーの三角ボタンは「Fire3」として認識されます
+        if (Input.GetButtonDown("Fire3"))
+        {
+            if (panel.activeSelf && imageComponent != null)
+            {
+                ToggleImage();
+            }
+            else
+            {
+                ShowPanel();
+            }
+            Debug.Log("三角ボタンが押されました！");
+        }
+    }
     //やること
     //(アイテムを選択していたら)Zoomボタンが押されたらBigパネル表示
     public void ShowPanel()
@@ -40,10 +56,6 @@ public class ZoomPanel : MonoBehaviour
 
             zoomObj.transform.SetParent(objParent, false);
 
-
-            // 画像のクリックイベントを設定
-            Button button = zoomObj.AddComponent<Button>();
-            button.onClick.AddListener(ToggleImage);
         }
     }
 

@@ -21,10 +21,20 @@ public class MotosenItem : MonoBehaviour
         if (HintA == null) return; // HintAが設定されていない場合は何もしない
 
         bool isMotosenFlagOn = flagManager.GetFlag(FlagManager.FlagType.Motosen);
+        bool isHintAFlagOn = flagManager.GetFlag(FlagManager.FlagType.HintA); // HintAフラグの状態を取得
 
-        if (isMotosenFlagOn)
+
+        if (isMotosenFlagOn && isHintAFlagOn)
         {
-            // フラグがONの場合、HintAを表示
+            // 両方のフラグがONの場合、HintAを非表示
+            if (HintA.activeSelf)
+            {
+                HintA.SetActive(false);
+            }
+        }
+        else if (isMotosenFlagOn)
+        {
+            // MotosenフラグがONでHintAフラグがOFFの場合、HintAを表示
             if (!HintA.activeSelf)
             {
                 HintA.SetActive(true);
@@ -32,7 +42,7 @@ public class MotosenItem : MonoBehaviour
         }
         else
         {
-            // フラグがOFFの場合、HintAを非表示
+            // MotosenフラグがOFFの場合、HintAを非表示
             if (HintA.activeSelf)
             {
                 HintA.SetActive(false);
