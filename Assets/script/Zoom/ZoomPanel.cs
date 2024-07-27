@@ -32,6 +32,13 @@ public class ZoomPanel : MonoBehaviour
             }
             Debug.Log("三角ボタンが押されました！");
         }
+
+        // PS4コントローラーのバツボタンは「Fire1」として認識されます
+        if (Input.GetButtonDown("Fire1"))
+        {
+            ClosePanel();
+            Debug.Log("バツボタンが押されました！");
+        }
     }
     //やること
     //(アイテムを選択していたら)Zoomボタンが押されたらBigパネル表示
