@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class FireParticle : MonoBehaviour
 {
-    [SerializeField] private GameObject Fireparticle;
+    [SerializeField] private GameObject FireparticleA;
+    [SerializeField] private GameObject FireparticleB;
+    [SerializeField] private GameObject FireparticleC;
+    [SerializeField] private GameObject FireparticleD;
     private FlagManager flagManager;
 
     void Start()
@@ -12,33 +15,33 @@ public class FireParticle : MonoBehaviour
         flagManager = FlagManager.Instance; // FlagManagerのインスタンスを取得
 
         // 初期状態でFireparticleを非表示に設定
-        if (Fireparticle != null)
-        {
-            Fireparticle.SetActive(false);
-        }
+        if (FireparticleA != null) FireparticleA.SetActive(false);
+        if (FireparticleB != null) FireparticleB.SetActive(false);
+        if (FireparticleC != null) FireparticleC.SetActive(false);
+        if (FireparticleD != null) FireparticleD.SetActive(false);
     }
 
     void Update()
     {
-        if (Fireparticle == null) return; // Fireparticleが設定されていない場合は何もしない
-
         bool isColorPasswordclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.ColorPasswordclear);
 
-        if (isColorPasswordclearFlagOn)
+        SetParticleActive(FireparticleA, isColorPasswordclearFlagOn);
+        SetParticleActive(FireparticleB, isColorPasswordclearFlagOn);
+        SetParticleActive(FireparticleC, isColorPasswordclearFlagOn);
+        SetParticleActive(FireparticleD, isColorPasswordclearFlagOn);
+    }
+
+    private void SetParticleActive(GameObject particle, bool isActive)
+    {
+        if (particle == null) return;
+
+        if (isActive && !particle.activeSelf)
         {
-            // ColorPasswordclearフラグがONの場合、Fireparticleを表示
-            if (!Fireparticle.activeSelf)
-            {
-                Fireparticle.SetActive(true);
-            }
+            particle.SetActive(true);
         }
-        else
+        else if (!isActive && particle.activeSelf)
         {
-            // ColorPasswordclearフラグがOFFの場合、Fireparticleを非表示
-            if (Fireparticle.activeSelf)
-            {
-                Fireparticle.SetActive(false);
-            }
+            particle.SetActive(false);
         }
     }
 }
