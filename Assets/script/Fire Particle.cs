@@ -24,11 +24,20 @@ public class FireParticle : MonoBehaviour
     void Update()
     {
         bool isColorPasswordclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.ColorPasswordclear);
+        bool isFireParticleONFlagOn = flagManager.GetFlag(FlagManager.FlagType.FireParticleON);
+
 
         SetParticleActive(FireparticleA, isColorPasswordclearFlagOn);
         SetParticleActive(FireparticleB, isColorPasswordclearFlagOn);
         SetParticleActive(FireparticleC, isColorPasswordclearFlagOn);
         SetParticleActive(FireparticleD, isColorPasswordclearFlagOn);
+
+        if (isColorPasswordclearFlagOn && !isFireParticleONFlagOn)
+        {
+            // フラグを設定する
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.FireParticleON, true);
+            Debug.Log("FireParticleFlagON");
+        }
     }
 
     private void SetParticleActive(GameObject particle, bool isActive)

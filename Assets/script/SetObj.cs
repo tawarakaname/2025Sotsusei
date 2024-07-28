@@ -6,8 +6,40 @@ public class SetObj : MonoBehaviour
 {
     [SerializeField] GameObject setObject;
     [SerializeField] Item.Type useItem;
+    [SerializeField] Collider triggerCollider; // 追加したコライダーのフィールド
 
-    //(適切なアイテムを選択した状態で)
+    private bool playerInsideCollider = false;
+
+    void Update()
+    {
+        if (playerInsideCollider)
+        {
+            // PS4コントローラーの⚪︎ボタンは「Fire2」として認識されます
+            if (Input.GetButtonDown("Fire2"))
+            {
+                OnClickThis();
+                Debug.Log("⚪︎ボタンが押されました！");
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInsideCollider = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInsideCollider = false;
+        }
+    }
+
+
     //OBJをクリックしたら
     public void OnClickThis()
     {

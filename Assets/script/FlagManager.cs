@@ -34,6 +34,7 @@ public class FlagManager : MonoBehaviour
         Motosen,
         HintA,
         ColorPasswordclear,
+        FireParticleON,
 
     }
 
