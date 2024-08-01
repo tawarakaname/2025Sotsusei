@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; //シーン遷移させる場合に必要
 
 public class ItemCanvas : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class ItemCanvas : MonoBehaviour
     void Start()
     {
         Canvas.SetActive(false);
+
+        DontDestroyOnLoad(gameObject); //シーンを切り替えても削除しない
     }
 
         // Update is called once per frame
