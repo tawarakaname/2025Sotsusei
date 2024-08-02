@@ -35,6 +35,7 @@ public class FlagManager : MonoBehaviour
         HintA,
         ColorPasswordclear,
         FireParticleON,
+        BoxB,
 
     }
 
