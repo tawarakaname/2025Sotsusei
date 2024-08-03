@@ -9,6 +9,7 @@ public class WallTrace : MonoBehaviour
     [SerializeField] private GameObject WalltraceC;
     [SerializeField] private GameObject WalltraceD;
     private FlagManager flagManager;
+    private float flagOnTime = -1f; // フラグがオンになった時刻を記録するための変数
 
     void Start()
     {
@@ -25,13 +26,18 @@ public class WallTrace : MonoBehaviour
     {
         bool isColorPasswordclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.ColorPasswordclear);
 
+        if (isColorPasswordclearFlagOn && flagOnTime < 0f)
+        {
+            flagOnTime = Time.time; // フラグがオンになった時刻を記録
+        }
 
-        WalltraceA.SetActive(isColorPasswordclearFlagOn);
-        WalltraceB.SetActive(isColorPasswordclearFlagOn);
-        WalltraceC.SetActive(isColorPasswordclearFlagOn);
-        WalltraceD.SetActive(isColorPasswordclearFlagOn);
-
-
+        if (flagOnTime >= 0f && Time.time >= flagOnTime + 3f)　//3秒後
+        {
+            if (WalltraceA != null) WalltraceA.SetActive(true);
+            if (WalltraceB != null) WalltraceB.SetActive(true);
+            if (WalltraceC != null) WalltraceC.SetActive(true);
+            if (WalltraceD != null) WalltraceD.SetActive(true);
+        }
     }
 
 }

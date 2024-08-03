@@ -36,6 +36,7 @@ public class FlagManager : MonoBehaviour
         ColorPasswordclear,
         FireParticleON,
         BoxB,
+        hasActivatedWalltrace,
 
     }
 
