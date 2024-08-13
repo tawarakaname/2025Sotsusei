@@ -7,6 +7,7 @@ public class PickupObj : MonoBehaviour
     [SerializeField] Item.Type itemType;
     [SerializeField] FlagManager.FlagType flagToSet;
     [SerializeField] Collider triggerCollider; // 追加したコライダーのフィールド
+    [SerializeField] private GameObject TextBox;
     Item item;
 
     private bool playerInsideCollider = false;
@@ -57,7 +58,19 @@ public class PickupObj : MonoBehaviour
                 // フラグを設定する
                 FlagManager.Instance.SetFlag(flagToSet, true);
                 Debug.Log("FlagON");
-            }
 
+                // テキストボックスを表示
+                TextBox.SetActive(true);
+                // フラグに対応するテキストを表示
+                TextManager textManager = FindObjectOfType<TextManager>();
+                if (textManager != null)
+                {
+                  textManager.DisplayTextForFlag(flagToSet);
+                }
+                else
+                {
+                  Debug.LogWarning("TextManager がシーン内に見つかりません。");
+                }
+             }
 
-        }
+ }
