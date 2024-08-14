@@ -59,18 +59,18 @@ public class PickupObj : MonoBehaviour
                 FlagManager.Instance.SetFlag(flagToSet, true);
                 Debug.Log("FlagON");
 
-                // テキストボックスを表示
-                TextBox.SetActive(true);
+
                 // フラグに対応するテキストを表示
                 TextManager textManager = FindObjectOfType<TextManager>();
                 if (textManager != null)
                 {
-                  textManager.DisplayTextForFlag(flagToSet);
+                    // テキストが存在するかを確認
+                    if (textManager.HasTextForFlag(flagToSet)) 
+                    {
+                        // テキストボックスを表示
+                        TextBox.SetActive(true);
+                        textManager.DisplayTextForFlag(flagToSet);
+                    }
                 }
-                else
-                {
-                  Debug.LogWarning("TextManager がシーン内に見つかりません。");
-                }
-             }
-
- }
+            }
+}
