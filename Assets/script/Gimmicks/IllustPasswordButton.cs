@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class ColorPasswordButton : MonoBehaviour
+public class IllustPasswordButton : MonoBehaviour
 {
     [SerializeField] TMP_Text numberText;
     public int number;
@@ -20,7 +20,7 @@ public class ColorPasswordButton : MonoBehaviour
     public void OnClickThis()
     {
         number++;
-        if (number > 9)
+        if (number > 3)
         {
             number = 0;
         }

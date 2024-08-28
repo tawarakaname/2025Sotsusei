@@ -37,6 +37,7 @@ public class FlagManager : MonoBehaviour
         FireParticleON,
         BoxB,
         hasActivatedWalltrace,
+        IllustPasswordclear,
 
     }
 
