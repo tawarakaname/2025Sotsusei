@@ -38,6 +38,7 @@ public class FlagManager : MonoBehaviour
         BoxB,
         hasActivatedWalltrace,
         IllustPasswordclear,
+        Bluetureasure,
 
     }
 
