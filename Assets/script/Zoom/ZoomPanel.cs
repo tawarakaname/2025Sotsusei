@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ZoomPanel : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class ZoomPanel : MonoBehaviour
     private void Start()
     {
         panel.SetActive(false);
+        DontDestroyOnLoad(gameObject);
     }
     void Update()
     {
