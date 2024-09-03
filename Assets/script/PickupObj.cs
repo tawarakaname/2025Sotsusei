@@ -26,7 +26,7 @@ public class PickupObj : MonoBehaviour
             if (Input.GetButtonDown("Fire2"))
             {
                 OnClickObj();
-                Debug.Log("⚪︎ボタンが押されました！");
+                
             }
         }
     }
