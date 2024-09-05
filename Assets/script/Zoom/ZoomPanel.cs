@@ -13,17 +13,20 @@ public class ZoomPanel : MonoBehaviour
     private Sprite originalSprite;
     private Sprite zoomSprite;
     private bool isZoomSprite = false;
+    private FlagManager flagManager;
 
     private void Start()
     {
         panel.SetActive(false);
         DontDestroyOnLoad(gameObject);
+        flagManager = FlagManager.Instance;
     }
     void Update()
     {
         // PS4コントローラーの三角ボタンは「Fire3」として認識されます
         if (Input.GetButtonDown("Fire3"))
         {
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.zoompanel, true);
             if (panel.activeSelf && imageComponent != null)
             {
                 ToggleImage();
@@ -35,6 +38,7 @@ public class ZoomPanel : MonoBehaviour
             Debug.Log("三角ボタンが押されました！");
         }
 
+        bool iszoompanelFlagOn = flagManager.GetFlag(FlagManager.FlagType.zoompanel);
         // PS4コントローラーのバツボタンは「Fire1」として認識されます
         if (Input.GetButtonDown("Fire1"))
         {
@@ -87,6 +91,7 @@ public class ZoomPanel : MonoBehaviour
     {
         panel.SetActive(false);
         Destroy(zoomObj);
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.zoompanel, false);
     }
 }
 

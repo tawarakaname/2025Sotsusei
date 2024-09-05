@@ -39,6 +39,8 @@ public class FlagManager : MonoBehaviour
         hasActivatedWalltrace,
         IllustPasswordclear,
         Bluetureasure,
+        itembox,
+        zoompanel,
 
     }
 
