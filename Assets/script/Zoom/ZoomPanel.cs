@@ -23,6 +23,8 @@ public class ZoomPanel : MonoBehaviour
     }
     void Update()
     {
+        bool isitemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
+
         // PS4コントローラーの三角ボタンは「Fire3」として認識されます
         if (Input.GetButtonDown("Fire3"))
         {
@@ -50,25 +52,30 @@ public class ZoomPanel : MonoBehaviour
     //(アイテムを選択していたら)Zoomボタンが押されたらBigパネル表示
     public void ShowPanel()
     {
+       bool isitemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
+        if (!isitemboxFlagOn)
+        {
+            panel.SetActive(false); // itemboxフラグがfalseの場合はパネルを非表示のままにする
+            return;
+        }
+
         Item item = Itembox.instance.GetSelectedItem();
         if (item != null)
         {
             Destroy(zoomObj);
             panel.SetActive(true);
-            //アイテムを表示
-            // 新しいGameObjectを作成し、それにImageコンポーネントを追加してSpriteを設定する
-            zoomObj = new GameObject("ZoomItem");
 
+            //アイテムを表示
+            zoomObj = new GameObject("ZoomItem");
             imageComponent = zoomObj.AddComponent<Image>();
 
             originalSprite = item.zoomObj;
             zoomSprite = item.zoomsprite;
 
-            // 最初はzoomObjが表示されるようにする
+            // 最初はoriginalSpriteを表示
             imageComponent.sprite = originalSprite;
 
             zoomObj.transform.SetParent(objParent, false);
-
         }
     }
 

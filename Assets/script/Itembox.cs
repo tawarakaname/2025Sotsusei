@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class Itembox : MonoBehaviour
 {
-    //Slotsにslot要素をコードから入れる方法
-    [SerializeField] Slot[] slots;
-    [SerializeField] Slot selectedSlot = null;
-    [SerializeField] Text notificationText;
+    [SerializeField] private Slot[] slots;
+    [SerializeField] private Slot selectedSlot = null;
+    [SerializeField] private Text notificationText;
 
-    //どこでも実行できるやつ(staticはどこでも引っ張っていける変数）
-    public static Itembox instance;
+    private int currentPosition = 0;  // 現在選択されているスロットの位置
+    private bool canMove = true;      // スティック操作の間隔を管理するためのフラグ
+    private FlagManager flagManager;
+
+    public static Itembox instance { get; private set; }
 
     private void Awake()
     {
@@ -19,6 +21,11 @@ public class Itembox : MonoBehaviour
         {
             instance = this;
             slots = GetComponentsInChildren<Slot>();
+            flagManager = FindObjectOfType<FlagManager>(); // 追加: FlagManager のインスタンスを取得
+        }
+        else
+        {
+            Destroy(gameObject);
         }
 
         // 初期状態でテキストを非表示にする
@@ -28,7 +35,96 @@ public class Itembox : MonoBehaviour
         }
     }
 
-    //Pickupobjがクリックされたらスロットにアイテムを入れる
+
+    private void Update()
+    {
+        // flagManagerがnullでないことを確認する
+        if (flagManager == null)
+        {
+            Debug.LogError("FlagManager is not assigned.");
+            return;
+        }
+
+        // Itemboxフラグがtrueでない場合は処理しない
+        if (!flagManager.GetFlag(FlagManager.FlagType.itembox))
+        {
+            return; // Itemboxフラグがfalseなら何もせずUpdateを終了
+        }
+
+        // スティックの入力を取得
+        float horizontalInput = Input.GetAxisRaw("Horizontal Stick-L");
+
+        // 入力があり、かつスティックを操作できる状態であれば
+        if (canMove && horizontalInput != 0)
+        {
+            if (horizontalInput > 0)
+            {
+                ShiftSlotRight(); // 右に移動
+            }
+            else if (horizontalInput < 0)
+            {
+                ShiftSlotLeft();  // 左に移動
+            }
+
+            // スティックを動かしている間は再度操作ができないようにする
+            canMove = false;
+            StartCoroutine(ResetCanMove());
+        }
+    }
+
+
+    private void ShiftSlotRight()
+    {
+        // 現在選択されているスロットを非表示
+        if (selectedSlot != null)
+        {
+            selectedSlot.HideBGPanel();
+        }
+
+        // アイテムが設定されているスロットを探す
+        do
+        {
+            currentPosition++;
+            if (currentPosition >= slots.Length)
+            {
+                currentPosition = 0; // リストの最後に達したら最初に戻る
+            }
+        } while (!slots[currentPosition].HasItem()); // アイテムがないスロットをスキップ
+
+        // 新しいスロットを選択
+        OnSelectSlot(currentPosition);
+    }
+
+    private void ShiftSlotLeft()
+    {
+        // 現在選択されているスロットを非表示
+        if (selectedSlot != null)
+        {
+            selectedSlot.HideBGPanel();
+        }
+
+        // アイテムが設定されているスロットを探す
+        do
+        {
+            currentPosition--;
+            if (currentPosition < 0)
+            {
+                currentPosition = slots.Length - 1; // リストの最初に達したら最後に戻る
+            }
+        } while (!slots[currentPosition].HasItem()); // アイテムがないスロットをスキップ
+
+        // 新しいスロットを選択
+        OnSelectSlot(currentPosition);
+    }
+
+    private IEnumerator ResetCanMove()
+    {
+        // 一定時間操作を待機（例: 0.2秒待機）
+        yield return new WaitForSeconds(0.2f);
+        canMove = true;
+    }
+
+    // Pickupobjがクリックされたらスロットにアイテムを入れる
     public void SetItem(Item item)
     {
         foreach (Slot slot in slots)
@@ -43,28 +139,29 @@ public class Itembox : MonoBehaviour
 
     public void OnSelectSlot(int position)
     {
-        //一旦全てのスロットの選択パネルを非表示
+        // すべてのスロットの選択パネルを非表示
         foreach (Slot slot in slots)
         {
             slot.HideBGPanel();
         }
         selectedSlot = null;
 
-        //選択されたスロットの選択パネルを表示
+        // 選択されたスロットの選択パネルを表示
         if (slots[position].OnSelected())
         {
             selectedSlot = slots[position];
         }
     }
 
-    //アイテムの使用を試みる＆使えるなら使ってしまう
+    // アイテムの使用を試みる＆使えるなら使ってしまう
     public bool TryUseItem(Item.Type type)
     {
-         //選択スロットがあるか
+        // 選択スロットがあるか
         if (selectedSlot == null)
         {
             return false;
         }
+
         if (selectedSlot.GetItem().type == type)
         {
             selectedSlot.SetItem(null);
@@ -86,10 +183,6 @@ public class Itembox : MonoBehaviour
 
     public Item GetSelectedItem()
     {
-        if (selectedSlot == null)
-        {
-            return null;
-        }
-        return selectedSlot.GetItem();
+        return selectedSlot?.GetItem();
     }
 }

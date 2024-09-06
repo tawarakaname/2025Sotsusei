@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SampleGimmick : MonoBehaviour
 {
+
     //やりたいこと
     //アイテムcubeを持っている状態で、クリックすると消える
     //　・クリック判定
@@ -17,6 +18,7 @@ public class SampleGimmick : MonoBehaviour
         Debug.Log("クリックしたよ！");
         //アイテムCubeを持っているかどうか
         //clearでオブジェクトを消す
+
         bool clear = Itembox.instance.TryUseItem(clearItem);
         if(clear == true)
         {

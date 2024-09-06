@@ -69,6 +69,10 @@ public class Slot : MonoBehaviour
         backgroundPanel.SetActive(false);
     }
 
+    public bool HasItem()
+    {
+        return GetItem() != null; // スロットにアイテムが設定されているかどうかを返す
+    }
 
 }
 
