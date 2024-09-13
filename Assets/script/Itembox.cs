@@ -8,6 +8,7 @@ public class Itembox : MonoBehaviour
     [SerializeField] private Slot[] slots;
     [SerializeField] private Slot selectedSlot = null;
     [SerializeField] private Text notificationText;
+    [SerializeField] private SelectedItem selectedItemPanel;
 
     private int currentPosition = 0;  // 現在選択されているスロットの位置
     private bool canMove = true;      // スティック操作の間隔を管理するためのフラグ
@@ -138,8 +139,11 @@ public class Itembox : MonoBehaviour
         if (slots[position].OnSelected())
         {
             selectedSlot = slots[position];
+            // 選択されたアイテムをSelectedItemクラスに通知
+            selectedItemPanel.UpdateSelectedItem(selectedSlot.GetItem());
         }
     }
+
 
     // アイテムの使用を試みる＆使えるなら使ってしまう
     public bool TryUseItem(Item.Type type)
@@ -166,6 +170,7 @@ public class Itembox : MonoBehaviour
             }
             return false;
         }
+
     }
 
     public Item GetSelectedItem()
