@@ -35,7 +35,6 @@ public class Itembox : MonoBehaviour
         }
     }
 
-
     private void Update()
     {
         // flagManagerがnullでないことを確認する
@@ -68,28 +67,16 @@ public class Itembox : MonoBehaviour
 
             // スティックを動かしている間は再度操作ができないようにする
             canMove = false;
-            StartCoroutine(ResetCanMove());
+            Invoke(nameof(ResetCanMove), 0.2f);  // コルーチンをInvokeで置き換え
         }
     }
 
-
     private void ShiftSlotRight()
     {
-        // 現在選択されているスロットを非表示
-        if (selectedSlot != null)
-        {
-            selectedSlot.HideBGPanel();
-        }
+        selectedSlot?.HideBGPanel();  // 現在選択されているスロットを非表示
 
         // アイテムが設定されているスロットを探す
-        do
-        {
-            currentPosition++;
-            if (currentPosition >= slots.Length)
-            {
-                currentPosition = 0; // リストの最後に達したら最初に戻る
-            }
-        } while (!slots[currentPosition].HasItem()); // アイテムがないスロットをスキップ
+        currentPosition = GetNextSlotPosition(currentPosition, 1);
 
         // 新しいスロットを選択
         OnSelectSlot(currentPosition);
@@ -97,30 +84,31 @@ public class Itembox : MonoBehaviour
 
     private void ShiftSlotLeft()
     {
-        // 現在選択されているスロットを非表示
-        if (selectedSlot != null)
-        {
-            selectedSlot.HideBGPanel();
-        }
+        selectedSlot?.HideBGPanel();  // 現在選択されているスロットを非表示
 
         // アイテムが設定されているスロットを探す
-        do
-        {
-            currentPosition--;
-            if (currentPosition < 0)
-            {
-                currentPosition = slots.Length - 1; // リストの最初に達したら最後に戻る
-            }
-        } while (!slots[currentPosition].HasItem()); // アイテムがないスロットをスキップ
+        currentPosition = GetNextSlotPosition(currentPosition, -1);
 
         // 新しいスロットを選択
         OnSelectSlot(currentPosition);
     }
 
-    private IEnumerator ResetCanMove()
+    // スロットを飛び越えて次のアイテムがあるスロットの位置を取得
+    private int GetNextSlotPosition(int startPos, int direction)
     {
-        // 一定時間操作を待機（例: 0.2秒待機）
-        yield return new WaitForSeconds(0.2f);
+        int newPosition = startPos;
+        do
+        {
+            newPosition += direction;
+            if (newPosition >= slots.Length) newPosition = 0;
+            if (newPosition < 0) newPosition = slots.Length - 1;
+        } while (!slots[newPosition].HasItem());
+
+        return newPosition;
+    }
+
+    private void ResetCanMove()
+    {
         canMove = true;
     }
 
@@ -156,7 +144,6 @@ public class Itembox : MonoBehaviour
     // アイテムの使用を試みる＆使えるなら使ってしまう
     public bool TryUseItem(Item.Type type)
     {
-        // 選択スロットがあるか
         if (selectedSlot == null)
         {
             return false;
