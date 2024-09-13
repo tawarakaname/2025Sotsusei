@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
     // 移動速度
     public float speed = 5f;

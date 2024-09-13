@@ -103,12 +103,11 @@ public class FlagManager : MonoBehaviour
         return false;
     }
 
-    // フラグの設定
     public void SetFlag(FlagType flagtype, bool value)
     {
         if (flagDictionary.ContainsKey(flagtype))
         {
-            Debug.Log($"{flagtype}");
+            Debug.Log($"フラグ: {flagtype}, 新しい値: {value}");  // フラグの名前と新しい値をログに出力
             flagDictionary[flagtype] = value;
         }
         else
@@ -117,5 +116,5 @@ public class FlagManager : MonoBehaviour
         }
     }
 
-    
+
 }

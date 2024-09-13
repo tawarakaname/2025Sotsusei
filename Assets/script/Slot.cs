@@ -19,14 +19,10 @@ public class Slot : MonoBehaviour
         backgroundPanel.SetActive(false);
     }
 
-    //アイテムボックスが空かどうか
+     // アイテムボックスが空かどうか
     public bool IsEmpty()
     {
-        if(item == null)
-        {
-            return true;
-        }
-        return false;
+        return item == null;
     }
 
     public void SetItem(Item item)

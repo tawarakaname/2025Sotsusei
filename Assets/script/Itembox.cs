@@ -11,8 +11,8 @@ public class Itembox : MonoBehaviour
     [SerializeField] private SelectedItem selectedItemPanel;
 
     private int currentPosition = 0;  // 現在選択されているスロットの位置
-    private bool canMove = true;      // スティック操作の間隔を管理するためのフラグ
     private FlagManager flagManager;
+    private float nextMoveTime = 0f; // 次に移動できる時間を記録
 
     public static Itembox instance { get; private set; }
 
@@ -21,8 +21,8 @@ public class Itembox : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            slots = GetComponentsInChildren<Slot>();
-            flagManager = FindObjectOfType<FlagManager>(); // 追加: FlagManager のインスタンスを取得
+            // FlagManager のインスタンスを取得
+            flagManager = FindObjectOfType<FlagManager>();
         }
         else
         {
@@ -36,39 +36,41 @@ public class Itembox : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (slots == null || slots.Length == 0)
+        {
+            slots = GetComponentsInChildren<Slot>();
+        }
+        // Start メソッドでは flagManager を再設定しない
+        // flagManager = FlagManager.Instance;
+    }
+
     private void Update()
     {
-        // flagManagerがnullでないことを確認する
-        if (flagManager == null)
+        bool isItemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
+        bool isZoomPanelFlagOn = flagManager.GetFlag(FlagManager.FlagType.zoompanel);
+
+        if (!isItemboxFlagOn || isZoomPanelFlagOn)
         {
-            Debug.LogError("FlagManager is not assigned.");
             return;
         }
 
-        // Itemboxフラグがtrueでない場合は処理しない
-        if (!flagManager.GetFlag(FlagManager.FlagType.itembox))
-        {
-            return; // Itemboxフラグがfalseなら何もせずUpdateを終了
-        }
-
-        // スティックの入力を取得
         float horizontalInput = Input.GetAxisRaw("Horizontal Stick-L");
 
-        // 入力があり、かつスティックを操作できる状態であれば
-        if (canMove && horizontalInput != 0)
+        // 現在の時間が nextMoveTime より大きい場合に移動を許可
+        if (Time.time >= nextMoveTime && horizontalInput != 0)
         {
             if (horizontalInput > 0)
             {
-                ShiftSlotRight(); // 右に移動
+                ShiftSlotRight();
             }
             else if (horizontalInput < 0)
             {
-                ShiftSlotLeft();  // 左に移動
+                ShiftSlotLeft();
             }
 
-            // スティックを動かしている間は再度操作ができないようにする
-            canMove = false;
-            Invoke(nameof(ResetCanMove), 0.2f);  // コルーチンをInvokeで置き換え
+            nextMoveTime = Time.time + 0.2f; // 0.2秒後に次の移動を許可
         }
     }
 
@@ -98,19 +100,22 @@ public class Itembox : MonoBehaviour
     private int GetNextSlotPosition(int startPos, int direction)
     {
         int newPosition = startPos;
+        int loopCount = 0;  // ループ回数のカウント
+
         do
         {
             newPosition += direction;
             if (newPosition >= slots.Length) newPosition = 0;
             if (newPosition < 0) newPosition = slots.Length - 1;
+
+            loopCount++;
+            if (loopCount > slots.Length)  // ループ回数がスロットの数を超えたら終了
+            {
+                return startPos;  // アイテムが見つからない場合は元の位置を返す
+            }
         } while (!slots[newPosition].HasItem());
 
         return newPosition;
-    }
-
-    private void ResetCanMove()
-    {
-        canMove = true;
     }
 
     // Pickupobjがクリックされたらスロットにアイテムを入れる
@@ -144,33 +149,14 @@ public class Itembox : MonoBehaviour
         }
     }
 
-
     // アイテムの使用を試みる＆使えるなら使ってしまう
     public bool TryUseItem(Item.Type type)
     {
-        if (selectedSlot == null)
+        if (selectedSlot != null)
         {
-            return false;
+            return selectedItemPanel.TryUseItem(type, selectedSlot, notificationText);
         }
-
-        if (selectedSlot.GetItem().type == type)
-        {
-            selectedSlot.SetItem(null);
-            selectedSlot.HideBGPanel();
-            selectedSlot = null;
-            return true;
-        }
-        else
-        {
-            // アイテムが間違っている場合にテキストを表示
-            if (notificationText != null)
-            {
-                notificationText.text = "このアイテムではないみたい";
-                notificationText.gameObject.SetActive(true); // テキストを表示
-            }
-            return false;
-        }
-
+        return false;
     }
 
     public Item GetSelectedItem()
@@ -178,3 +164,4 @@ public class Itembox : MonoBehaviour
         return selectedSlot?.GetItem();
     }
 }
+

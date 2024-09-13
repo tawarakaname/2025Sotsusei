@@ -8,7 +8,7 @@ public class ZoomPanel : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
     [SerializeField] private Transform objParent;
-    GameObject zoomObj;
+    private GameObject zoomObj;
     private Image imageComponent;
     private Sprite originalSprite;
     private Sprite zoomSprite;
@@ -20,13 +20,21 @@ public class ZoomPanel : MonoBehaviour
         panel.SetActive(false);
         DontDestroyOnLoad(gameObject);
         flagManager = FlagManager.Instance;
+
+        // ZoomObjectの初期化
+        zoomObj = new GameObject("ZoomItem");
+        imageComponent = zoomObj.AddComponent<Image>();
+        zoomObj.transform.SetParent(objParent, false);
+        zoomObj.SetActive(false);  // 初期状態で非表示
     }
+
     void Update()
     {
-        bool isitemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
+        bool isItemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
+        bool isZoomPanelFlagOn = flagManager.GetFlag(FlagManager.FlagType.zoompanel);
 
         // PS4コントローラーの三角ボタンは「Fire3」として認識されます
-        if (Input.GetButtonDown("Fire3"))
+        if (isItemboxFlagOn && Input.GetButtonDown("Fire3"))
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.zoompanel, true);
             if (panel.activeSelf && imageComponent != null)
@@ -37,22 +45,22 @@ public class ZoomPanel : MonoBehaviour
             {
                 ShowPanel();
             }
-            Debug.Log("三角ボタンが押されました！");
         }
 
-        bool iszoompanelFlagOn = flagManager.GetFlag(FlagManager.FlagType.zoompanel);
         // PS4コントローラーのバツボタンは「Fire1」として認識されます
-        if (Input.GetButtonDown("Fire1"))
+        if (isZoomPanelFlagOn && Input.GetButtonDown("Fire1"))
         {
+            // ZoomPanel フラグを false に設定する
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.zoompanel, false);
             ClosePanel();
-            Debug.Log("バツボタンが押されました！");
         }
     }
-    //やること
-    //(アイテムを選択していたら)Zoomボタンが押されたらBigパネル表示
+
+    // やること
+    // (アイテムを選択していたら)Zoomボタンが押されたらBigパネル表示
     public void ShowPanel()
     {
-       bool isitemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
+        bool isitemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
         if (!isitemboxFlagOn)
         {
             panel.SetActive(false); // itemboxフラグがfalseの場合はパネルを非表示のままにする
@@ -62,20 +70,15 @@ public class ZoomPanel : MonoBehaviour
         Item item = Itembox.instance.GetSelectedItem();
         if (item != null)
         {
-            Destroy(zoomObj);
-            panel.SetActive(true);
-
-            //アイテムを表示
-            zoomObj = new GameObject("ZoomItem");
-            imageComponent = zoomObj.AddComponent<Image>();
-
+            // ZoomObjectの表示準備
             originalSprite = item.zoomObj;
             zoomSprite = item.zoomsprite;
 
-            // 最初はoriginalSpriteを表示
+            // アイテムを表示
             imageComponent.sprite = originalSprite;
+            zoomObj.SetActive(true); // 非表示状態から表示状態へ変更
 
-            zoomObj.transform.SetParent(objParent, false);
+            panel.SetActive(true);
         }
     }
 
@@ -97,8 +100,7 @@ public class ZoomPanel : MonoBehaviour
     public void ClosePanel()
     {
         panel.SetActive(false);
-        Destroy(zoomObj);
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.zoompanel, false);
+        zoomObj.SetActive(false); // ZoomObjectを非表示にするだけで済む
     }
 }
 
