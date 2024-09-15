@@ -41,7 +41,7 @@ public class FlagManager : MonoBehaviour
         Bluetureasure,
         itembox,
         zoompanel,
-
+        CameraZoomObj,
     }
 
     // シングルトンインスタンス

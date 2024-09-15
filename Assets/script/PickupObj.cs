@@ -6,7 +6,7 @@ public class PickupObj : MonoBehaviour
 {
     [SerializeField] Item.Type itemType;
     [SerializeField] FlagManager.FlagType flagToSet;
-    [SerializeField] Collider triggerCollider; // 追加したコライダーのフィールド
+    [SerializeField] Collider triggerCollider;
     [SerializeField] private GameObject TextBox;
     Item item;
 
@@ -26,51 +26,49 @@ public class PickupObj : MonoBehaviour
             if (Input.GetButtonDown("Fire2"))
             {
                 OnClickObj();
-                
             }
         }
     }
-            private void OnTriggerEnter(Collider other)
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInsideCollider = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInsideCollider = false;
+        }
+    }
+
+    // クリックしたらobjを消す
+    public void OnClickObj()
+    {
+        // アイテムを設定
+        Itembox.instance.SetItem(item);
+
+        // アイテムが設定された後の処理
+        gameObject.SetActive(false);
+
+        // フラグを設定する
+        FlagManager.Instance.SetFlag(flagToSet, true);
+        Debug.Log("FlagON");
+
+        // フラグに対応するテキストを表示
+        TextManager textManager = FindObjectOfType<TextManager>();
+        if (textManager != null)
+        {
+            if (textManager.HasTextForFlag(flagToSet))
             {
-                if (other.CompareTag("Player"))
-                {
-                    playerInsideCollider = true;
-                }
+                TextBox.SetActive(true);
+                textManager.DisplayTextForFlag(flagToSet);
             }
+        }
+    }
 
-            private void OnTriggerExit(Collider other)
-            {
-                if (other.CompareTag("Player"))
-                {
-                    playerInsideCollider = false;
-                }
-            }
-
-            // クリックしたらログを出す
-            // クリックしたらobjを消す
-
-            public void OnClickObj()
-            {
-
-                Itembox.instance.SetItem(item);
-                gameObject.SetActive(false);
-
-                // フラグを設定する
-                FlagManager.Instance.SetFlag(flagToSet, true);
-                Debug.Log("FlagON");
-
-
-                // フラグに対応するテキストを表示
-                TextManager textManager = FindObjectOfType<TextManager>();
-                if (textManager != null)
-                {
-                    // テキストが存在するかを確認
-                    if (textManager.HasTextForFlag(flagToSet)) 
-                    {
-                        // テキストボックスを表示
-                        TextBox.SetActive(true);
-                        textManager.DisplayTextForFlag(flagToSet);
-                    }
-                }
-            }
 }

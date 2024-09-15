@@ -4,45 +4,72 @@ using UnityEngine;
 
 public class CameraManeger : MonoBehaviour
 {
-
-    //カメラの切り替え
-    //どこにカメラを有効にするのか
-    //どのファイルからでも関数を実行できる
     public static CameraManeger instance;
 
-    // メインカメラの参照
-    public Camera mainCamera;
+    // メインカメラの参照をキャッシュ
+    [SerializeField] private Camera mainCamera;
 
     private Camera currentCamera;
+    private FlagManager flagManager;
 
     private void Awake()
     {
-        instance = this;
+        // シングルトンの実装を安全にする
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); // 重複するインスタンスを破棄
+            return;
+        }
+
+        // MainCameraの参照を明示的にセットする
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+        }
+        flagManager = FlagManager.Instance; 
     }
 
     private void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        // ボタンが押されたら、フラグを確認
+        if (Input.GetButtonDown("Fire1"))
         {
-            ReturnToMainCamera();
+            if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
+            {
+                ReturnToMainCamera();
+                flagManager.SetFlag(FlagManager.FlagType.CameraZoomObj, false);
+            }
         }
     }
 
-
+    // ズームカメラをセットする
     public void SetZoomCamera(Camera camera)
     {
-        currentCamera = camera;
-        Camera.main.gameObject.SetActive(false);
-        camera.gameObject.SetActive(true);
+        if (camera != currentCamera)
+        {
+            if (currentCamera != null)
+            {
+                currentCamera.gameObject.SetActive(false);
+            }
+
+            currentCamera = camera;
+            mainCamera.gameObject.SetActive(false);
+            currentCamera.gameObject.SetActive(true);
+        }
     }
 
     // メインカメラに戻る
     public void ReturnToMainCamera()
     {
-        if(currentCamera != null)
+        if (currentCamera != null && currentCamera.gameObject.activeSelf)
+        {
             currentCamera.gameObject.SetActive(false);
-        mainCamera.gameObject.SetActive(true);
-        Debug.Log("メインカメラに戻ります: " + mainCamera.name);
-      
+            mainCamera.gameObject.SetActive(true);
+            currentCamera = null; // メインカメラに戻ったので、currentCameraをクリア
+        }
     }
 }
