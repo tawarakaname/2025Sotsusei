@@ -9,9 +9,6 @@ public class TextManager : MonoBehaviour
     private Dictionary<FlagManager.FlagType, string> textDictionary;
     [SerializeField] private GameObject TextBox;
 
-    // 会話を進めるためのキー Enter
-    public Key PushActionKey { get => Key.Enter; }
-
     // 現在表示中のテキストとその行インデックス
     private string[] currentTextLines;
     private int currentLineIndex = 0;
@@ -68,7 +65,8 @@ public class TextManager : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current[PushActionKey].wasPressedThisFrame && currentTextLines != null)
+        // PS4コントローラーの丸ボタンで会話を進める
+        if (Input.GetButtonDown("Fire2") && currentTextLines != null)
         {
             currentLineIndex++;
             if (currentLineIndex < currentTextLines.Length)
@@ -82,4 +80,5 @@ public class TextManager : MonoBehaviour
             }
         }
     }
+
 }
