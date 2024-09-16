@@ -19,8 +19,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // itemboxフラグがtrueの場合、プレイヤーの移動とアニメーションを無効化
-        if (flagManager.GetFlag(FlagManager.FlagType.itembox))
+        // itemboxフラグまたはCamerazoomobjflagがtrueの場合、プレイヤーの移動とアニメーションを無効化
+        if (flagManager.GetFlag(FlagManager.FlagType.itembox) || flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
         {
             movement = Vector3.zero; // 移動量を0に設定
             animator.SetFloat("Speed", 0f); // アニメーションを停止
@@ -38,8 +38,8 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        // itemboxフラグがtrueの場合、移動処理を無効化
-        if (flagManager.GetFlag(FlagManager.FlagType.itembox))
+        // itemboxフラグまたはCamerazoomobjflagがtrueの場合、移動処理を無効化
+        if (flagManager.GetFlag(FlagManager.FlagType.itembox) || flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
         {
             return; // ここでFixedUpdateの処理を終了
         }

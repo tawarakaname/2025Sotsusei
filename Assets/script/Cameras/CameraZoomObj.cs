@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraZoomObj : MonoBehaviour
-
 {
     [SerializeField] Camera zoomCamera;
     [SerializeField] Collider triggerCollider;
@@ -18,8 +17,8 @@ public class CameraZoomObj : MonoBehaviour
 
     void Update()
     {
-        // プレイヤーがコライダー内にいて、ボタンが押されたときのみ処理
-        if (playerInsideCollider && Input.GetButtonDown("Fire2"))
+        // CameraZoomObjFlagがfalseかつプレイヤーがコライダー内にいて、ボタンが押されたときのみ処理
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj) && playerInsideCollider && Input.GetButtonDown("Fire2"))
         {
             OnClickThis();
         }
@@ -44,8 +43,11 @@ public class CameraZoomObj : MonoBehaviour
     // クリックしたら、用意してあるカメラに切り替える
     public void OnClickThis()
     {
-        cameraManeger.SetZoomCamera(zoomCamera);
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.CameraZoomObj, true);
+        // CameraZoomObjFlagがまだfalseの場合のみフラグをセット
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj))
+        {
+            cameraManeger.SetZoomCamera(zoomCamera);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.CameraZoomObj, true);
+        }
     }
 }
-
