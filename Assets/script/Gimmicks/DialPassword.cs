@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DialPassword : MonoBehaviour
@@ -7,15 +5,23 @@ public class DialPassword : MonoBehaviour
     private const float MoveCooldown = 0.2f;  // 移動に関するクールダウン時間
     private const string FireButton = "Fire2"; // 丸ボタンに対応するボタン名
     private const string HorizontalInput = "Horizontal Stick-L"; // 横方向の入力キー名
+    private const float RotationDuration = 0.5f; // 回転にかかる時間（秒）
 
     [SerializeField] int[] correctNumbers;
     [SerializeField] DialPasswordButton[] dialpasswordButtons;
+    [SerializeField] private GameObject neji01;
+    [SerializeField] private GameObject neji02;
 
     private int currentPosition = 0;  // 現在選択されているスロットの位置
     private float nextMoveTime = 0f;  // 次に移動できる時間を記録
     private bool isFireButtonPressed = false; // 丸ボタンの押下を管理
 
     private FlagManager flagManager;
+
+    private float rotationProgress = 0f;
+    private Quaternion startRotation;
+    private Quaternion endRotation;
+    private GameObject rotatingObject = null;
 
     // 選択中のボタンのインデックスを保持
     private int lastSelectedPosition = -1;
@@ -46,6 +52,12 @@ public class DialPassword : MonoBehaviour
 
         // 丸ボタンの入力処理
         HandleFireButtonInput();
+
+        // 回転を処理
+        if (rotatingObject != null)
+        {
+            RotateNejiOverTime();
+        }
     }
 
     // 横方向の入力処理
@@ -75,6 +87,9 @@ public class DialPassword : MonoBehaviour
 
                 // クリア判定を呼び出す
                 CheckClear();
+
+                // 回転アニメーションの処理を追加
+                HandleRotationAnimation();
             }
             isFireButtonPressed = true; // 丸ボタン押下フラグをtrueに設定
         }
@@ -82,6 +97,51 @@ public class DialPassword : MonoBehaviour
         {
             // 丸ボタンが離されたらフラグをリセット
             isFireButtonPressed = false;
+        }
+    }
+
+    // 回転アニメーションを処理
+    private void HandleRotationAnimation()
+    {
+        // 現在の選択位置に応じた回転処理を行う
+        switch (currentPosition)
+        {
+            case 0:
+                StartRotation(neji01, 90f);
+                break;
+            case 1:
+                StartRotation(neji01, -90f);
+                break;
+            case 2:
+                StartRotation(neji02, 90f);
+                break;
+            case 3:
+                StartRotation(neji02, -90f);
+                break;
+        }
+    }
+
+    // 回転を開始
+    private void StartRotation(GameObject neji, float angle)
+    {
+        rotatingObject = neji;
+        startRotation = neji.transform.rotation;
+        endRotation = startRotation * Quaternion.Euler(0, angle, 0);
+        rotationProgress = 0f;
+    }
+
+    // 指定した時間をかけてオブジェクトを回転させる処理
+    private void RotateNejiOverTime()
+    {
+        if (rotationProgress < 1f)
+        {
+            rotationProgress += Time.deltaTime / RotationDuration;
+            rotatingObject.transform.rotation = Quaternion.Lerp(startRotation, endRotation, rotationProgress);
+        }
+        else
+        {
+            rotatingObject.transform.rotation = endRotation; // 最後に正確な角度をセット
+            rotatingObject = null; // 回転完了後、対象をリセット
         }
     }
 

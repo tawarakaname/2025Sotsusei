@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class IllustPassword : MonoBehaviour
 {
-    //*正解すると、外部の関数を実行する(Unity Event)
-    // *public UnityEvent ClearEvent;
-
-    //正解
+    // 正解の番号
     [SerializeField] int[] correctNumbers;
 
-    //現在の数値:colorpasswordButtonのnumberを見ればいい
+    // 現在のパネルの数値
     [SerializeField] IllustPasswordButton[] IllustpasswordButtons;
 
-    //クリックするたびに現在のパネルの数値と正解を比較
-    //一致するならクリアログ
+    // 最初に非表示のオブジェクト
+    [SerializeField] private GameObject capsuleD;
 
+
+    // クリックするたびに現在のパネルの数値と正解を比較
     public void CheckClear()
     {
         if (IsClear())
@@ -23,14 +22,15 @@ public class IllustPassword : MonoBehaviour
             // フラグを設定する
             FlagManager.Instance.SetFlag(FlagManager.FlagType.IllustPasswordclear, true);
             Debug.Log("IllustPasswordclearFlagON");
+
+            // フラグが設定されたので capsuleD を表示する
+            capsuleD.SetActive(true);
         }
     }
 
+    // 全てのパネルが正解かどうかチェックする
     bool IsClear()
     {
-        //正解しているかどうか　
-        // =>　一つでも一致しなければfalse
-        // => 全てのチェックをクリアすればtrue
         for (int i = 0; i < correctNumbers.Length; i++)
         {
             if (IllustpasswordButtons[i].number != correctNumbers[i])
@@ -41,4 +41,5 @@ public class IllustPassword : MonoBehaviour
         return true;
     }
 }
+
  
