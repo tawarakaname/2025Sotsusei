@@ -1,32 +1,47 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SelectedItem : MonoBehaviour
 {
-    [SerializeField] private Image image;
-    private Item currentItem;
+    [SerializeField] private Image image; // UIのImageコンポーネント
+    private Item currentItem; // 現在選択されているアイテム
 
-    // アイテムを更新するメソッドを追加
+    private void Awake()
+    {
+        // シーンが切り替わってもこのゲームオブジェクトを保持する
+        DontDestroyOnLoad(gameObject);
+    }
+
+    // アイテムを更新するメソッド
     public void UpdateSelectedItem(Item item)
     {
         currentItem = item;
-        if (item != null)
+
+        // アイテムがnullでない場合にスプライトを更新
+        if (item != null && image != null)
         {
-            image.sprite = item.sprite;  // アイテムに対応するスプライトを表示
+            image.sprite = item.sprite;
+        }
+        else if (image != null)
+        {
+            image.sprite = null; // アイテムがnullの場合はスプライトを消去
         }
     }
 
-    // アイテムの使用を試みる＆使えるなら使ってしまう
+    // アイテムの使用を試みるメソッド
     public bool TryUseItem(Item.Type type, Slot slot, Text notificationText)
     {
+        // 現在のアイテムが正しい場合
         if (currentItem != null && currentItem.type == type)
         {
-            // アイテムを使用する処理を実行
+            // アイテムを使用する処理
             currentItem = null;
-            image.sprite = null;  // アイテムを削除した場合はスプライトも消去
+            if (image != null)
+            {
+                image.sprite = null; // アイテムを削除した場合はスプライトも消去
+            }
 
+            // スロットが指定されている場合
             if (slot != null)
             {
                 slot.SetItem(null); // スロットからアイテムを削除
@@ -37,7 +52,7 @@ public class SelectedItem : MonoBehaviour
         }
         else
         {
-            // アイテムが間違っている場合にテキストを表示
+            // アイテムが間違っている場合に通知テキストを表示
             if (notificationText != null)
             {
                 notificationText.text = "このアイテムではないみたい";

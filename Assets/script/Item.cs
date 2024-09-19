@@ -1,5 +1,27 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
+
+public class ItemManager : MonoBehaviour
+{
+    public static ItemManager Instance { get; private set; }
+
+    public List<Item> items; // Itemのリスト
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // このゲームオブジェクトをシーンが変わっても保持する
+        }
+        else
+        {
+            Destroy(gameObject); // 既にインスタンスが存在する場合は新しいインスタンスを破棄する
+        }
+    }
+}
+
 
 [Serializable]
 public class Item
@@ -51,6 +73,7 @@ public class Item
         this.zoomObj = zoomObj;
         this.zoomsprite = zoomsprite;
     }
+
 }
 
 
