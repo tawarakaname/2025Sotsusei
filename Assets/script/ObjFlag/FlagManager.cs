@@ -45,6 +45,10 @@ public class FlagManager : MonoBehaviour
         CameraZoomObj,
         BoxACamera,
         GasCamera0,
+        GasCamera1,
+        GasCamera2,
+        GasCamera3,
+        BoxBCamera,
     }
 
     // シングルトンインスタンス
