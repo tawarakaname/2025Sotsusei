@@ -37,6 +37,8 @@ public class CameraZoomObj : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInsideCollider = false;
+            // プレイヤーがコライダーから出たときにフラグをリセット
+            ResetCameraFlag();
         }
     }
 
@@ -47,7 +49,48 @@ public class CameraZoomObj : MonoBehaviour
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj))
         {
             cameraManeger.SetZoomCamera(zoomCamera);
+            SetCameraFlag();
             FlagManager.Instance.SetFlag(FlagManager.FlagType.CameraZoomObj, true);
+        }
+    }
+
+    private void SetCameraFlag()
+    {
+        // カメラの名前に基づいてフラグを設定
+        var flagToSet = GetFlagTypeFromCameraName(zoomCamera.name);
+        if (flagToSet.HasValue)
+        {
+            FlagManager.Instance.SetFlag(flagToSet.Value, true);
+        }
+    }
+
+    private void ResetCameraFlag()
+    {
+        // カメラの名前に基づいてフラグをリセット
+        var flagToReset = GetFlagTypeFromCameraName(zoomCamera.name);
+        if (flagToReset.HasValue)
+        {
+            FlagManager.Instance.SetFlag(flagToReset.Value, false);
+        }
+    }
+
+    private FlagManager.FlagType? GetFlagTypeFromCameraName(string cameraName)
+    {
+        // カメラ名に基づいてフラグタイプを返す
+        if (string.IsNullOrEmpty(cameraName))
+        {
+            return null; // 名前がない場合はnullを返す
+        }
+
+        switch (cameraName)
+        {
+            case "BoxACamera":
+                return FlagManager.FlagType.BoxACamera; // 例
+            case "GasCamera0":
+                return FlagManager.FlagType.GasCamera0; // 例
+            // 他のカメラの名前に基づくフラグを追加
+            default:
+                return null; // 名前がない場合や既知でないカメラ名の場合はnullを返す
         }
     }
 }

@@ -43,6 +43,8 @@ public class FlagManager : MonoBehaviour
         itembox,
         zoompanel,
         CameraZoomObj,
+        BoxACamera,
+        GasCamera0,
     }
 
     // シングルトンインスタンス
@@ -58,7 +60,6 @@ public class FlagManager : MonoBehaviour
                 GameObject obj = new GameObject("FlagManager");
                 _instance = obj.AddComponent<FlagManager>();
                 DontDestroyOnLoad(obj);
-                Debug.Log("FlagManager instance created");
             }
             return _instance;
         }

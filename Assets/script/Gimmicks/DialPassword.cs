@@ -1,30 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DialPassword : MonoBehaviour
 {
     private const float MoveCooldown = 0.2f;  // 移動に関するクールダウン時間
-    private const string FireButton = "Fire2"; // 丸ボタンに対応するボタン名
-    private const string HorizontalInput = "Horizontal Stick-L"; // 横方向の入力キー名
     private const float RotationDuration = 0.5f; // 回転にかかる時間（秒）
 
-    [SerializeField] int[] correctNumbers;
-    [SerializeField] DialPasswordButton[] dialpasswordButtons;
-    [SerializeField] private GameObject neji01;
-    [SerializeField] private GameObject neji02;
+    [SerializeField] private int[] correctNumbers; // 正しい数字の配列
+    [SerializeField] private DialPasswordButton[] dialpasswordButtons; // ダイヤルボタンの配列
+    [SerializeField] private GameObject neji01; // ダイヤルのオブジェクト
+    [SerializeField] private GameObject neji02; // ダイヤルのオブジェクト
 
-    private int currentPosition = 0;  // 現在選択されているスロットの位置
-    private float nextMoveTime = 0f;  // 次に移動できる時間を記録
+    private int currentPosition = 0; // 現在選択されているスロットの位置
+    private float nextMoveTime = 0f; // 次に移動できる時間を記録
     private bool isFireButtonPressed = false; // 丸ボタンの押下を管理
 
-    private FlagManager flagManager;
+    private FlagManager flagManager; // フラグマネージャーのインスタンス
 
-    private float rotationProgress = 0f;
-    private Quaternion startRotation;
-    private Quaternion endRotation;
-    private GameObject rotatingObject = null;
+    private float rotationProgress = 0f; // 回転の進捗
+    private Quaternion startRotation; // 開始時の回転
+    private Quaternion endRotation; // 終了時の回転
+    private GameObject rotatingObject = null; // 現在回転中のオブジェクト
 
-    // 選択中のボタンのインデックスを保持
-    private int lastSelectedPosition = -1;
+    private int lastSelectedPosition = -1; // 最後に選択したボタンのインデックス
 
     private void Start()
     {
@@ -32,7 +31,6 @@ public class DialPassword : MonoBehaviour
         SelectDialButton(currentPosition); // 初期選択状態を設定
     }
 
-    // パスワードのクリアをチェック
     public void CheckClear()
     {
         if (IsClear())
@@ -44,161 +42,128 @@ public class DialPassword : MonoBehaviour
 
     private void Update()
     {
-        // CameraZoomObjFlagがfalseなら早めに処理を終了
-        if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj)) return;
+        // 必要なフラグが無効な場合、処理を終了
+        if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) && !flagManager.GetFlag(FlagManager.FlagType.GasCamera0))
+            return;
 
-        // 横方向の入力を取得し、移動処理
-        HandleHorizontalInput();
-
-        // 丸ボタンの入力処理
-        HandleFireButtonInput();
-
-        // 回転を処理
-        if (rotatingObject != null)
-        {
-            RotateNejiOverTime();
-        }
+        HandleHorizontalInput(); // 水平方向の入力を処理
+        HandleFireButtonInput(); // 丸ボタンの入力を処理
+        RotateNejiOverTime(); // 回転アニメーションを実行
     }
 
-    // 横方向の入力処理
     private void HandleHorizontalInput()
     {
-        float horizontalInput = Input.GetAxisRaw(HorizontalInput);
-
-        // 左右移動処理、次の移動が可能かチェック
-        if (Time.time >= nextMoveTime && horizontalInput != 0)
+        if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) && flagManager.GetFlag(FlagManager.FlagType.GasCamera0))
         {
-            MoveSelection(horizontalInput);
-            nextMoveTime = Time.time + MoveCooldown; // 次に移動できる時間を更新
+            float horizontalInput = Input.GetAxisRaw("Horizontal Stick-L");
+
+            if (Time.time >= nextMoveTime && horizontalInput != 0)
+            {
+                MoveSelection(horizontalInput); // スロットの移動を処理
+                nextMoveTime = Time.time + MoveCooldown; // 次の移動時間を設定
+            }
         }
     }
 
-    // 丸ボタンの入力処理
     private void HandleFireButtonInput()
     {
-        if (Input.GetButtonDown(FireButton) && !isFireButtonPressed)
+        if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) && flagManager.GetFlag(FlagManager.FlagType.GasCamera0))
         {
-            var currentButton = dialpasswordButtons[currentPosition]; // キャッシュしてアクセス回数を減らす
-            // 選択中のボタンが背景パネルを表示している場合のみ処理を実行
-            if (currentButton.BgPanel.activeSelf)
+            if (Input.GetButtonDown("Fire2") && !isFireButtonPressed)
             {
-                currentButton.OnClickThis();
-                Debug.Log("DialPasswordclick");
-
-                // クリア判定を呼び出す
-                CheckClear();
-
-                // 回転アニメーションの処理を追加
-                HandleRotationAnimation();
+                var currentButton = dialpasswordButtons[currentPosition];
+                if (currentButton.BgPanel.activeSelf)
+                {
+                    currentButton.OnClickThis(); // 現在のボタンをクリック
+                    CheckClear(); // クリア条件をチェック
+                    HandleRotationAnimation(); // 回転アニメーションを処理
+                }
+                isFireButtonPressed = true; // ボタンが押されたことを記録
             }
-            isFireButtonPressed = true; // 丸ボタン押下フラグをtrueに設定
-        }
-        else if (!Input.GetButton(FireButton))
-        {
-            // 丸ボタンが離されたらフラグをリセット
-            isFireButtonPressed = false;
+            else if (Input.GetButtonUp("Fire2"))
+            {
+                isFireButtonPressed = false; // ボタンが離されたことを記録
+            }
         }
     }
 
-    // 回転アニメーションを処理
     private void HandleRotationAnimation()
     {
-        // 現在の選択位置に応じた回転処理を行う
-        switch (currentPosition)
-        {
-            case 0:
-                StartRotation(neji01, 90f);
-                break;
-            case 1:
-                StartRotation(neji01, -90f);
-                break;
-            case 2:
-                StartRotation(neji02, 90f);
-                break;
-            case 3:
-                StartRotation(neji02, -90f);
-                break;
-        }
+        GameObject targetNeji = (currentPosition < 2) ? neji01 : neji02; // 選択位置に応じて対象を決定
+        float angle = (currentPosition % 2 == 0) ? 90f : -90f; // 90度または-90度の回転
+        StartRotation(targetNeji, angle); // 回転処理を開始
     }
 
-    // 回転を開始
     private void StartRotation(GameObject neji, float angle)
     {
-        rotatingObject = neji;
-        startRotation = neji.transform.rotation;
-        endRotation = startRotation * Quaternion.Euler(0, angle, 0);
-        rotationProgress = 0f;
+        rotatingObject = neji; // 回転対象のオブジェクトを設定
+        startRotation = neji.transform.rotation; // 現在の回転を記録
+        endRotation = startRotation * Quaternion.Euler(0, angle, 0); // 終了時の回転を計算
+        rotationProgress = 0f; // 回転進捗をリセット
     }
 
-    // 指定した時間をかけてオブジェクトを回転させる処理
     private void RotateNejiOverTime()
     {
-        if (rotationProgress < 1f)
+        if (rotatingObject != null)
         {
-            rotationProgress += Time.deltaTime / RotationDuration;
-            rotatingObject.transform.rotation = Quaternion.Lerp(startRotation, endRotation, rotationProgress);
-        }
-        else
-        {
-            rotatingObject.transform.rotation = endRotation; // 最後に正確な角度をセット
-            rotatingObject = null; // 回転完了後、対象をリセット
+            rotationProgress += Time.deltaTime / RotationDuration; // 回転進捗を更新
+            rotatingObject.transform.rotation = Quaternion.Lerp(startRotation, endRotation, rotationProgress); // 線形補間で回転を適用
+
+            if (rotationProgress >= 1f) // 回転が完了した場合
+            {
+                rotatingObject.transform.rotation = endRotation; // 最終的な回転を設定
+                rotatingObject = null; // 回転完了後、対象をリセット
+                rotationProgress = 0f; // 進捗をリセット
+            }
         }
     }
 
-    // 現在選択されているダイヤルボタンを更新
     private void SelectDialButton(int position)
     {
         if (lastSelectedPosition == position) return; // 既に選択されている場合は何もしない
 
-        // 前の選択を解除
         if (lastSelectedPosition >= 0)
         {
-            dialpasswordButtons[lastSelectedPosition].HideBGDialPanel();
+            dialpasswordButtons[lastSelectedPosition].HideBGDialPanel(); // 前の選択を解除
         }
 
-        // 新たに選択されたボタンの背景パネルを表示
-        dialpasswordButtons[position].ShowBGPanel();
+        dialpasswordButtons[position].ShowBGPanel(); // 新たに選択されたボタンの背景パネルを表示
         lastSelectedPosition = position; // 新しい選択を記録
     }
 
-    // 選択を左右に移動
     private void MoveSelection(float input)
     {
         if (input > 0)
         {
-            ShiftSlotRight();
+            ShiftSlotRight(); // 右にシフト
         }
         else
         {
-            ShiftSlotLeft();
+            ShiftSlotLeft(); // 左にシフト
         }
     }
 
-    // スロットを右にシフト
     private void ShiftSlotRight()
     {
-        currentPosition = (currentPosition + 1) % dialpasswordButtons.Length;
-        SelectDialButton(currentPosition);
+        currentPosition = (currentPosition + 1) % dialpasswordButtons.Length; // 現在の位置を更新
+        SelectDialButton(currentPosition); // 新たに選択を更新
     }
 
-    // スロットを左にシフト
     private void ShiftSlotLeft()
     {
-        currentPosition = (currentPosition - 1 + dialpasswordButtons.Length) % dialpasswordButtons.Length;
-        SelectDialButton(currentPosition);
+        currentPosition = (currentPosition - 1 + dialpasswordButtons.Length) % dialpasswordButtons.Length; // 現在の位置を更新
+        SelectDialButton(currentPosition); // 新たに選択を更新
     }
 
-    // クリア条件をチェック
     private bool IsClear()
     {
-        // 配列アクセスをキャッシュして無駄なアクセスを防ぐ
         for (int i = 0; i < correctNumbers.Length; i++)
         {
             if (dialpasswordButtons[i].number != correctNumbers[i])
             {
-                return false;
+                return false; // クリア条件に満たない場合
             }
         }
-        return true;
+        return true; // すべての条件を満たした場合
     }
 }

@@ -57,7 +57,6 @@ public class PickupObj : MonoBehaviour
 
         // フラグを設定する
         FlagManager.Instance.SetFlag(flagToSet, true);
-        Debug.Log("FlagON");
 
         // フラグに対応するテキストを表示
         TextManager textManager = FindObjectOfType<TextManager>();

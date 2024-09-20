@@ -4,28 +4,74 @@ using TMPro;
 public class IllustPasswordButton : MonoBehaviour
 {
     [SerializeField] TMP_Text numberText;
-    public int number;
+    public int number { get; private set; } // 外部から数値を変更できないようにプロパティ化
 
     // 数字に対応するマテリアル
     [SerializeField] Material[] materials;
     [SerializeField] Renderer objectRenderer;
+    [SerializeField] GameObject IllustbgPanel; // 背景パネル
+
+    private FlagManager flagManager;
+    public GameObject BgPanel => IllustbgPanel; // 背景パネルの参照を公開
+
+    private bool isSelected = false; // 選択状態を管理するフラグ
 
     private void Start()
     {
+        InitializeButton();
+        flagManager = FlagManager.Instance;
+    }
+
+    // ボタンの初期化処理を分離
+    private void InitializeButton()
+    {
         number = 0;
-        numberText.text = number.ToString();
+        UpdateNumberDisplay();
         UpdateMaterial();
+        HideBGIllustPanel(); // 背景パネルは最初非表示
+    }
+
+    // 番号の表示を更新
+    private void UpdateNumberDisplay()
+    {
+        numberText.text = number.ToString();
     }
 
     public void OnClickThis()
     {
-        number++;
-        if (number > 3)
+        // フラグが無効な場合は処理を終了
+        if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
+            flagManager.GetFlag(FlagManager.FlagType.BoxACamera) &&
+            isSelected)
         {
-            number = 0;
+            number++;
+            if (number > 3)
+            {
+                number = 0;
+            }
+            UpdateNumberDisplay();
+            UpdateMaterial();
         }
-        numberText.text = number.ToString();
-        UpdateMaterial();
+    }
+
+    // 背景パネルを表示し、選択状態にする
+    public void ShowBGPanel()
+    {
+        IllustbgPanel.SetActive(true);
+        SetSelectedState(true);
+    }
+
+    // 背景パネルを非表示にし、選択状態を解除する
+    public void HideBGIllustPanel()
+    {
+        IllustbgPanel.SetActive(false);
+        SetSelectedState(false);
+    }
+
+    // 選択状態を管理
+    private void SetSelectedState(bool state)
+    {
+        isSelected = state;
     }
 
     private void UpdateMaterial()

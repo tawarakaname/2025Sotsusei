@@ -3,84 +3,75 @@ using TMPro;
 
 public class DialPasswordButton : MonoBehaviour
 {
-    // 定数で最大値・最小値を定義しておく
-    private const int MaxNumber = 9;
-    private const int MinNumber = 0;
+    private const int MaxNumber = 9; // 最大値
+    private const int MinNumber = 0; // 最小値
 
-    [SerializeField] TMP_Text numberText;
-    public int number { get; private set; } // 外部から数値を変更できないようにプロパティ化
+    [SerializeField] private TMP_Text numberText; // 番号表示用のテキスト
+    public int number { get; private set; } // 外部から数値を変更できないプロパティ
 
-    [SerializeField] Material[] materials;
-    [SerializeField] Renderer objectRenderer;
+    [SerializeField] private Material[] materials; // マテリアル配列
+    [SerializeField] private Renderer objectRenderer; // オブジェクトのレンダラー
+    [SerializeField] private GameObject DialbgPanel; // 背景パネル
 
-    [SerializeField] GameObject DialbgPanel; // 背景パネル
-
-    private FlagManager flagManager;
+    private FlagManager flagManager; // フラグマネージャーのインスタンス
     public GameObject BgPanel => DialbgPanel; // 背景パネルの参照を公開
 
     private bool isSelected = false; // 選択状態を管理するフラグ
 
     private void Start()
     {
-        // 初期化処理
-        InitializeButton();
-
-        // FlagManagerのインスタンスを取得
-        flagManager = FlagManager.Instance;
+        InitializeButton(); // ボタンの初期化処理
+        flagManager = FlagManager.Instance; // FlagManagerのインスタンスを取得
     }
 
     // ボタンの初期化処理を分離
     private void InitializeButton()
     {
-        number = MinNumber;
-        UpdateNumberDisplay();
+        number = MinNumber; // 初期値を設定
+        UpdateNumberDisplay(); // 表示を更新
         HideBGDialPanel(); // 背景パネルは最初非表示
     }
 
     // 番号の表示を更新
     private void UpdateNumberDisplay()
     {
-        numberText.text = number.ToString();
+        numberText.text = number.ToString(); // 数字をテキストに変換して表示
     }
 
-    // クリックされた時の処理
     public void OnClickThis()
     {
-        // カメラズームフラグが有効で、ボタンが選択されている時のみ処理を実行
-        if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) && isSelected)
+        // フラグが有効で、ボタンが選択されている時のみ処理を実行
+        if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
+            flagManager.GetFlag(FlagManager.FlagType.GasCamera0) && isSelected)
         {
-            IncrementNumber();
+            IncrementNumber(); // 数字をインクリメント
         }
     }
 
-    // 数値をインクリメントして、10を超えたら0にリセット
+    // 数値をインクリメントし、10を超えたら0にリセット
     private void IncrementNumber()
     {
-        number++;
-        if (number > MaxNumber)
-        {
-            number = MinNumber;
-        }
-        UpdateNumberDisplay(); // 表示の更新
+        number = (number + 1) % (MaxNumber + 1); // 10を超えたら0にリセット
+        UpdateNumberDisplay(); // 表示を更新
     }
 
     // 背景パネルを表示し、選択状態にする
     public void ShowBGPanel()
     {
-        DialbgPanel.SetActive(true);
-        SetSelectedState(true);
+        DialbgPanel.SetActive(true); // 背景パネルを表示
+        SetSelectedState(true); // 選択状態にする
     }
 
     // 背景パネルを非表示にし、選択状態を解除する
     public void HideBGDialPanel()
     {
-        DialbgPanel.SetActive(false);
-        SetSelectedState(false);
+        DialbgPanel.SetActive(false); // 背景パネルを非表示
+        SetSelectedState(false); // 選択状態を解除
     }
 
     // 選択状態を管理
     private void SetSelectedState(bool state)
     {
-        isSelected = state;
+        isSelected = state; // 選択状態を設定
     }
 }
