@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class SetObj : MonoBehaviour
 {
@@ -35,12 +37,18 @@ public class SetObj : MonoBehaviour
         }
     }
 
-    // アイテムを使う処理を最適化
     public void OnClickThis()
     {
         if (Itembox.instance.TryUseItem(useItem))
         {
+            Item selectedItem = Itembox.instance.GetSelectedItem();
+            if (selectedItem != null)
+            {
+                // フラグをtrueに設定
+                FlagManager.Instance.SetFlag(selectedItem.flagType, true);
+            }
             setObject.SetActive(true);
         }
     }
+
 }

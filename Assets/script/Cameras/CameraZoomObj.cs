@@ -85,9 +85,11 @@ public class CameraZoomObj : MonoBehaviour
         switch (cameraName)
         {
             case "BoxACamera":
-                return FlagManager.FlagType.BoxACamera; // 例
+                return FlagManager.FlagType.BoxACamera; 
             case "GasCamera0":
-                return FlagManager.FlagType.GasCamera0; // 例
+                return FlagManager.FlagType.GasCamera0;
+            case "BoxBCamera":
+                return FlagManager.FlagType.BoxBCamera;
             // 他のカメラの名前に基づくフラグを追加
             default:
                 return null; // 名前がない場合や既知でないカメラ名の場合はnullを返す

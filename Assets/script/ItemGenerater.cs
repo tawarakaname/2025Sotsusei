@@ -16,7 +16,6 @@ public class ItemGenerater : MonoBehaviour
         }
     }
 
-    
     public Item Spawn(Item.Type type)
     {
         // typeListの中からtypeと一致したら同じitemを生成して渡す
@@ -24,7 +23,9 @@ public class ItemGenerater : MonoBehaviour
         {
             if (item.type == type)
             {
-                return new Item(item.type, item.sprite, item.zoomObj, item.zoomsprite);
+                // flagNameを指定して新しいItemを生成
+                return new Item(item.type, item.sprite, item.zoomObj, item.zoomsprite, item.flagType);
+
             }
         }
         return null;

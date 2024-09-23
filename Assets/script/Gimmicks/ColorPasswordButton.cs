@@ -51,6 +51,7 @@ public class ColorPasswordButton : MonoBehaviour
             {
                 number = 0;
             }
+            Debug.Log($"Button clicked: new number is {number}");
             UpdateNumberDisplay();
             UpdateMaterial();
         }

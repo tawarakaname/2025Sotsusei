@@ -49,6 +49,14 @@ public class FlagManager : MonoBehaviour
         GasCamera2,
         GasCamera3,
         BoxBCamera,
+        usecapsuleA,
+        usecapsuleB,
+        usecapsuleC,
+        usecapsuleD,
+        useBluekey,
+        useBalloon,
+        usekey1,
+        useBTB
     }
 
     // シングルトンインスタンス

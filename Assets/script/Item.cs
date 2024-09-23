@@ -1,27 +1,5 @@
 using System;
 using UnityEngine;
-using System.Collections.Generic;
-
-public class ItemManager : MonoBehaviour
-{
-    public static ItemManager Instance { get; private set; }
-
-    public List<Item> items; // Itemのリスト
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject); // このゲームオブジェクトをシーンが変わっても保持する
-        }
-        else
-        {
-            Destroy(gameObject); // 既にインスタンスが存在する場合は新しいインスタンスを破棄する
-        }
-    }
-}
-
 
 [Serializable]
 public class Item
@@ -55,25 +33,47 @@ public class Item
         Dkeys,
         dryber,
         HintA,
-
-
+        usecapsuleA,
+        usecapsuleB,
+        usecapsuleC,
+        usecapsuleD,
+        useballoon,
+        useBTB,
+        usekey1,
+        usebluekey,
+        useallcup,
+        usediacup,
+        useheartcup,
+        usestarcup,
+        useDkey1,
+        useDkey2,
+        usedry,
+        usewatercan,
+        useSkey,
+        useMheartcup,
+        usebatteryA,
+        usebatteryB,
+        usebatteryC,
+        useMheart,
+        useDkey,
+        useDkeys,
+        usedryber,
+        useHintA,
     }
-
 
     public Type type;          // 種類
     public Sprite sprite;      // Slotに表示する画像
     public Sprite zoomObj;     // 拡大表示する画像
     public Sprite zoomsprite;  // 拡大表示する画像(裏)
+    public FlagManager.FlagType flagType; // フラグタイプを直接持つ
 
     // コンストラクタ
-    public Item(Type type, Sprite sprite, Sprite zoomObj, Sprite zoomsprite)
+    public Item(Type type, Sprite sprite, Sprite zoomObj, Sprite zoomsprite, FlagManager.FlagType flagType)
     {
         this.type = type;
         this.sprite = sprite;
         this.zoomObj = zoomObj;
         this.zoomsprite = zoomsprite;
+        this.flagType = flagType; // フラグタイプを初期化
     }
-
 }
-
-

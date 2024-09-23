@@ -155,10 +155,21 @@ public class Itembox : MonoBehaviour
     {
         if (selectedSlot != null)
         {
-            return selectedItemPanel.TryUseItem(type, selectedSlot, notificationText);
+            Item selectedItem = selectedSlot.GetItem();
+            if (selectedItem.type == type)
+            {
+                // アイテムを使用する処理を追加
+                bool result = selectedItemPanel.TryUseItem(type, selectedSlot, notificationText);
+
+                // フラグのタイプが設定されている場合、そのフラグをtrueに設定
+                flagManager.SetFlag(selectedItem.flagType, true);
+
+                return result;
+            }
         }
         return false;
     }
+
 
     public Item GetSelectedItem()
     {

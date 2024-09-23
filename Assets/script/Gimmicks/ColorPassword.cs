@@ -77,6 +77,7 @@ public class ColorPassword : MonoBehaviour
             }
         }
     }
+
     private void SelectColorButton(int position)
     {
         if (lastSelectedPosition == position) return; // 既に選択されている場合は何もしない
@@ -100,9 +101,9 @@ public class ColorPassword : MonoBehaviour
 
     bool IsClear()
     {
-        //正解しているかどうか　
         for (int i = 0; i < correctNumbers.Length; i++)
         {
+            Debug.Log($"Button {i} number: {ColorpasswordButtons[i].number}, correct: {correctNumbers[i]}"); // デバッグログ
             if (ColorpasswordButtons[i].number != correctNumbers[i])
             {
                 return false;
@@ -110,5 +111,6 @@ public class ColorPassword : MonoBehaviour
         }
         return true;
     }
+
+
 }
- 
