@@ -157,7 +157,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 9
-  flagToSet: 9
   triggerCollider: {fileID: 0}
   TextBox: {fileID: 3224506823492157272}
 --- !u!114 &27133693
@@ -449,7 +448,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 8
-  flagToSet: 8
   triggerCollider: {fileID: 274351830}
   TextBox: {fileID: 3224506823492157272}
 --- !u!114 &274351825
@@ -622,7 +620,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 10
-  flagToSet: 10
   triggerCollider: {fileID: 0}
   TextBox: {fileID: 3224506823492157272}
 --- !u!114 &415436300
@@ -808,6 +805,98 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &705345538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 705345539}
+  - component: {fileID: 705345541}
+  - component: {fileID: 705345540}
+  m_Layer: 0
+  m_Name: Aquariumcamera2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &705345539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705345538}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.5126428, z: -0, w: 0.858602}
+  m_LocalPosition: {x: -1.05, y: -0.50999993, z: -0.52}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7848556987755111243}
+  m_LocalEulerAnglesHint: {x: 0, y: 61.68, z: 0}
+--- !u!81 &705345540
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705345538}
+  m_Enabled: 1
+--- !u!20 &705345541
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 705345538}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &797526546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,7 +1142,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 11
-  flagToSet: 11
   triggerCollider: {fileID: 0}
   TextBox: {fileID: 3224506823492157272}
 --- !u!114 &875759734
@@ -1205,7 +1293,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 7
-  flagToSet: 7
   triggerCollider: {fileID: 0}
   TextBox: {fileID: 0}
 --- !u!114 &1007066138
@@ -1323,6 +1410,190 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1591734688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1591734689}
+  - component: {fileID: 1591734691}
+  - component: {fileID: 1591734690}
+  m_Layer: 0
+  m_Name: Aquariumcamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1591734689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591734688}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.5126428, z: -0, w: 0.858602}
+  m_LocalPosition: {x: -0.9, y: -0.51, z: -0.51}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4015675805647719384}
+  m_LocalEulerAnglesHint: {x: 0, y: 61.68, z: 0}
+--- !u!81 &1591734690
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591734688}
+  m_Enabled: 1
+--- !u!20 &1591734691
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591734688}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!1 &2078135011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2078135012}
+  - component: {fileID: 2078135014}
+  - component: {fileID: 2078135013}
+  m_Layer: 0
+  m_Name: Aquariumcamera0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2078135012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078135011}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.5126428, z: -0, w: 0.858602}
+  m_LocalPosition: {x: -0.85, y: -0.51927066, z: -0.46}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2567919107712335445}
+  m_LocalEulerAnglesHint: {x: 0, y: 61.68, z: 0}
+--- !u!81 &2078135013
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078135011}
+  m_Enabled: 1
+--- !u!20 &2078135014
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078135011}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!33 &23394474665866086
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1564,6 +1835,8 @@ GameObject:
   - component: {fileID: 296339107759080956}
   - component: {fileID: 6824634185001428987}
   - component: {fileID: 1318481989876462509}
+  - component: {fileID: 6824634185001428989}
+  - component: {fileID: 6824634185001428988}
   m_Layer: 0
   m_Name: Aquarium1
   m_TagString: Untagged
@@ -2017,7 +2290,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 15
-  flagToSet: 0
   triggerCollider: {fileID: 0}
   TextBox: {fileID: 0}
 --- !u!33 &1400753661936255521
@@ -2321,7 +2593,8 @@ Transform:
   m_LocalPosition: {x: -27.34, y: 5.04, z: 53.27}
   m_LocalScale: {x: 3.37, y: 4.314649, z: 3.3254294}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 2078135012}
   m_Father: {fileID: 2833289298675352337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!223 &2659452896841940614
@@ -2449,6 +2722,8 @@ GameObject:
   - component: {fileID: 8861654326713065372}
   - component: {fileID: 400808203153443377}
   - component: {fileID: 5708100509038394993}
+  - component: {fileID: 8861654326713065374}
+  - component: {fileID: 8861654326713065373}
   m_Layer: 0
   m_Name: Aquarium2
   m_TagString: Untagged
@@ -3062,7 +3337,8 @@ Transform:
   m_LocalPosition: {x: -25.54, y: 5, z: 50.48}
   m_LocalScale: {x: 3.37, y: 4.314649, z: 3.3254294}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 1591734689}
   m_Father: {fileID: 2833289298675352337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &4078215759632874575
@@ -4255,6 +4531,41 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6824634185001428988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419088572259263669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa0da4e16ead43c98c1d82ae572ac5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoomCamera: {fileID: 1591734691}
+  triggerCollider: {fileID: 6824634185001428989}
+--- !u!65 &6824634185001428989
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419088572259263669}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: -0.5, z: 0.7}
+  m_Center: {x: -0.08, y: -0.85, z: -0.1}
 --- !u!4 &6991163083798686886
 Transform:
   m_ObjectHideFlags: 0
@@ -4442,7 +4753,8 @@ Transform:
   m_LocalPosition: {x: -23.51, y: 5, z: 47.7}
   m_LocalScale: {x: 3.37, y: 4.314649, z: 3.3254294}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 705345539}
   m_Father: {fileID: 2833289298675352337}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &7877332333528930103
@@ -4704,6 +5016,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2768759734343066905}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &8861654326713065373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2768759734343066905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa0da4e16ead43c98c1d82ae572ac5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoomCamera: {fileID: 705345541}
+  triggerCollider: {fileID: 8861654326713065374}
+--- !u!65 &8861654326713065374
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2768759734343066905}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.5, y: -0.5, z: 0.7}
+  m_Center: {x: -0.25, y: -0.85, z: -0.1}
 --- !u!4 &8869241236786177341
 Transform:
   m_ObjectHideFlags: 0
@@ -4842,6 +5189,8 @@ GameObject:
   - component: {fileID: 7375141331466395809}
   - component: {fileID: 819235829681931346}
   - component: {fileID: 2387978355130445275}
+  - component: {fileID: 9161614152361136132}
+  - component: {fileID: 9161614152361136131}
   m_Layer: 0
   m_Name: Aquarium0
   m_TagString: Untagged
@@ -4849,6 +5198,41 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &9161614152361136131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9161614152361136130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2aa0da4e16ead43c98c1d82ae572ac5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoomCamera: {fileID: 2078135014}
+  triggerCollider: {fileID: 9161614152361136132}
+--- !u!65 &9161614152361136132
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9161614152361136130}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6, y: -0.5, z: 0.7}
+  m_Center: {x: -0.2, y: -0.85, z: -0.1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

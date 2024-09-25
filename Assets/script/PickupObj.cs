@@ -5,7 +5,6 @@ using UnityEngine;
 public class PickupObj : MonoBehaviour
 {
     [SerializeField] Item.Type itemType;
-    [SerializeField] FlagManager.FlagType flagToSet;
     [SerializeField] Collider triggerCollider;
     [SerializeField] private GameObject TextBox;
     Item item;
@@ -55,19 +54,12 @@ public class PickupObj : MonoBehaviour
         // アイテムが設定された後の処理
         gameObject.SetActive(false);
 
-        // フラグを設定する
-        FlagManager.Instance.SetFlag(flagToSet, true);
-
-        // フラグに対応するテキストを表示
+        // アイテムのタイプに対応するテキストを表示
         TextManager textManager = FindObjectOfType<TextManager>();
         if (textManager != null)
         {
-            if (textManager.HasTextForFlag(flagToSet))
-            {
-                TextBox.SetActive(true);
-                textManager.DisplayTextForFlag(flagToSet);
-            }
+            TextBox.SetActive(true);
+            textManager.DisplayTextForItemType(item.type);
         }
     }
-
 }

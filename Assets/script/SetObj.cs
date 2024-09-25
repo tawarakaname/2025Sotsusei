@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-
 public class SetObj : MonoBehaviour
 {
     [SerializeField] GameObject setObject;
@@ -39,16 +38,16 @@ public class SetObj : MonoBehaviour
 
     public void OnClickThis()
     {
+        // アイテムを使用できるか試み、使用できたら処理を行う
         if (Itembox.instance.TryUseItem(useItem))
         {
             Item selectedItem = Itembox.instance.GetSelectedItem();
             if (selectedItem != null)
             {
-                // フラグをtrueに設定
-                FlagManager.Instance.SetFlag(selectedItem.flagType, true);
+                // アイテムのタイプに基づいてフラグをtrueに設定
+                FlagManager.Instance.SetFlagByType(selectedItem.type, true);
             }
             setObject.SetActive(true);
         }
     }
-
 }

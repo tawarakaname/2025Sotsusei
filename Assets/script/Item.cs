@@ -65,15 +65,13 @@ public class Item
     public Sprite sprite;      // Slotに表示する画像
     public Sprite zoomObj;     // 拡大表示する画像
     public Sprite zoomsprite;  // 拡大表示する画像(裏)
-    public FlagManager.FlagType flagType; // フラグタイプを直接持つ
 
     // コンストラクタ
-    public Item(Type type, Sprite sprite, Sprite zoomObj, Sprite zoomsprite, FlagManager.FlagType flagType)
+    public Item(Type type, Sprite sprite, Sprite zoomObj, Sprite zoomsprite)
     {
         this.type = type;
         this.sprite = sprite;
         this.zoomObj = zoomObj;
         this.zoomsprite = zoomsprite;
-        this.flagType = flagType; // フラグタイプを初期化
     }
 }

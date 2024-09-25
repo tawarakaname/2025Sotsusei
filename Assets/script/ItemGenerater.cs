@@ -18,18 +18,17 @@ public class ItemGenerater : MonoBehaviour
 
     public Item Spawn(Item.Type type)
     {
-        // typeListの中からtypeと一致したら同じitemを生成して渡す
         foreach (Item item in itemListEntity.itemList)
         {
             if (item.type == type)
             {
-                // flagNameを指定して新しいItemを生成
-                return new Item(item.type, item.sprite, item.zoomObj, item.zoomsprite, item.flagType);
-
+                // 必要に応じて他のプロパティを使用
+                return new Item(item.type, item.sprite, item.zoomObj, item.zoomsprite);
             }
         }
         return null;
     }
+
 
 
     public Sprite GetZoomItem(Item.Type type)

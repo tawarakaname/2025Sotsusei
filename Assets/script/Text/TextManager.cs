@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class TextManager : MonoBehaviour
 {
     public TextMeshProUGUI talkText; // TMPのテキストフィールド
-    private Dictionary<FlagManager.FlagType, string> textDictionary;
+    private Dictionary<Item.Type, string> textDictionary; // Item.Type に基づくテキスト辞書
     [SerializeField] private GameObject TextBox;
 
     // 現在表示中のテキストとその行インデックス
@@ -18,39 +18,32 @@ public class TextManager : MonoBehaviour
         TextBox.SetActive(false);
 
         // テキストの内容を初期化
-        textDictionary = new Dictionary<FlagManager.FlagType, string>
+        textDictionary = new Dictionary<Item.Type, string>
         {
-            { FlagManager.FlagType.capsuleA,
+            { Item.Type.capsuleA,
                 "a1\n" +
                 "a2\n" +
                 "a3\n" +
                 "a4\n" +
                 "fin" },
-            { FlagManager.FlagType.capsuleB, "BBBBBBBBBB" },
-            { FlagManager.FlagType.bluekey, "bluekeyyyyyyyy" },
-            // 他のフラグとテキストを追加
+            { Item.Type.capsuleB, "BBBBBBBBBB" },
+            { Item.Type.bluekey, "bluekeyyyyyyyy" },
+            // 他のItem.Typeとテキストを追加
         };
     }
 
     // 1文字にずつにかかる秒数 0.02秒
     public float CharIntervalSec { get => 0.02f; }
 
-    // フラグに対応するテキストを表示する
-    public void DisplayTextForFlag(FlagManager.FlagType flag)
+    // Item.Typeに対応するテキストを表示する
+    public void DisplayTextForItemType(Item.Type itemType)
     {
-        if (textDictionary.ContainsKey(flag) && FlagManager.Instance.GetFlag(flag))
+        if (textDictionary.ContainsKey(itemType))
         {
-            // テキストを行ごとに分割して保存
-            currentTextLines = textDictionary[flag].Split('\n');
+            currentTextLines = textDictionary[itemType].Split('\n');
             currentLineIndex = 0;
             DisplayCurrentLine();
         }
-    }
-
-    // FlagManager.FlagType 型のフラグに対応するテキストが存在するか確認する
-    public bool HasTextForFlag(FlagManager.FlagType flag)
-    {
-        return textDictionary.ContainsKey(flag);
     }
 
     // 現在の行を表示する
@@ -80,5 +73,4 @@ public class TextManager : MonoBehaviour
             }
         }
     }
-
 }
