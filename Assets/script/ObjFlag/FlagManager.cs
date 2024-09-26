@@ -50,6 +50,7 @@ public class FlagManager : MonoBehaviour
         GasCamera2,
         GasCamera3,
         BoxBCamera,
+        UICanvas,
        
     }
 
