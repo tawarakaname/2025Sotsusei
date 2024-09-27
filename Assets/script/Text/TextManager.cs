@@ -20,20 +20,12 @@ public class TextManager : MonoBehaviour
         // テキストの内容を初期化
         textDictionary = new Dictionary<Item.Type, string>
         {
-            { Item.Type.capsuleA,
-                "a1\n" +
-                "a2\n" +
-                "a3\n" +
-                "a4\n" +
-                "fin" },
+            { Item.Type.capsuleA, "a1\na2\na3\na4\nfin" },
             { Item.Type.capsuleB, "BBBBBBBBBB" },
             { Item.Type.bluekey, "bluekeyyyyyyyy" },
             // 他のItem.Typeとテキストを追加
         };
     }
-
-    // 1文字にずつにかかる秒数 0.02秒
-    public float CharIntervalSec { get => 0.02f; }
 
     // Item.Typeに対応するテキストを表示する
     public void DisplayTextForItemType(Item.Type itemType)
@@ -43,6 +35,10 @@ public class TextManager : MonoBehaviour
             currentTextLines = textDictionary[itemType].Split('\n');
             currentLineIndex = 0;
             DisplayCurrentLine();
+        }
+        else
+        {
+            TextBox.SetActive(false);
         }
     }
 
@@ -68,7 +64,7 @@ public class TextManager : MonoBehaviour
             }
             else
             {
-                // テキストが全て表示された場合、TextBoxを非表示にするなどの処理
+                // テキストが全て表示された場合、TextBoxを非表示にする
                 TextBox.SetActive(false);
             }
         }

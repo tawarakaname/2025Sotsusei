@@ -58,7 +58,7 @@ public class PickupObj : MonoBehaviour
         TextManager textManager = FindObjectOfType<TextManager>();
         if (textManager != null)
         {
-            TextBox.SetActive(true);
+            // テキストが存在しない場合には、TextBoxは表示されない
             textManager.DisplayTextForItemType(item.type);
         }
     }
