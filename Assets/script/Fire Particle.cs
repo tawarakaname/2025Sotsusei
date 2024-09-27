@@ -23,16 +23,16 @@ public class FireParticle : MonoBehaviour
 
     void Update()
     {
-        bool isMotosenFlagOn = flagManager.GetFlag(FlagManager.FlagType.Motosen);
+        // DialPasswordFlagを使用
+        bool isDialPasswordclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.DialPasswordclear);
         bool isFireParticleONFlagOn = flagManager.GetFlag(FlagManager.FlagType.FireParticleON);
 
+        SetParticleActive(FireparticleA, isDialPasswordclearFlagOn);
+        SetParticleActive(FireparticleB, isDialPasswordclearFlagOn);
+        SetParticleActive(FireparticleC, isDialPasswordclearFlagOn);
+        SetParticleActive(FireparticleD, isDialPasswordclearFlagOn);
 
-        SetParticleActive(FireparticleA, isMotosenFlagOn);
-        SetParticleActive(FireparticleB, isMotosenFlagOn);
-        SetParticleActive(FireparticleC, isMotosenFlagOn);
-        SetParticleActive(FireparticleD, isMotosenFlagOn);
-
-        if (isMotosenFlagOn && !isFireParticleONFlagOn)
+        if (isDialPasswordclearFlagOn && !isFireParticleONFlagOn)
         {
             // フラグを設定する
             FlagManager.Instance.SetFlag(FlagManager.FlagType.FireParticleON, true);

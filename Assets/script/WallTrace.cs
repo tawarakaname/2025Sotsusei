@@ -24,14 +24,14 @@ public class WallTrace : MonoBehaviour
 
     void Update()
     {
-        bool isColorPasswordclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.ColorPasswordclear);
+        bool isColorPasswordclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.DialPasswordclear);
 
         if (isColorPasswordclearFlagOn && flagOnTime < 0f)
         {
             flagOnTime = Time.time; // フラグがオンになった時刻を記録
         }
 
-        if (flagOnTime >= 0f && Time.time >= flagOnTime + 3f)　//3秒後
+        if (flagOnTime >= 0f && Time.time >= flagOnTime + 8f)　//3秒後
         {
             if (WalltraceA != null) WalltraceA.SetActive(true);
             if (WalltraceB != null) WalltraceB.SetActive(true);
