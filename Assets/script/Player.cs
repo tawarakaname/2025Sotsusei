@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     private Vector3 movement;
     private FlagManager flagManager;
 
+    [SerializeField] private GameObject playersheet; // playersheetをインスペクターから設定可能にする
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +21,17 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // itemboxフラグまたはCamerazoomobjflagがtrueの場合、プレイヤーの移動とアニメーションを無効化
+        // CameraZoomObj フラグが true の場合、playersheet を非表示
+        if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
+        {
+            playersheet.SetActive(false); // playersheetを非表示に設定
+        }
+        else
+        {
+            playersheet.SetActive(true); // playersheetを表示に設定
+        }
+
+        // itemboxフラグ、Camerazoomobjフラグ、または UICanvas フラグが true の場合、プレイヤーの移動とアニメーションを無効化
         if (flagManager.GetFlag(FlagManager.FlagType.itembox) || flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) || flagManager.GetFlag(FlagManager.FlagType.UICanvas))
         {
             movement = Vector3.zero; // 移動量を0に設定
@@ -38,7 +50,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        // itemboxフラグまたはCamerazoomobjflagがtrueの場合、移動処理を無効化
+        // itemboxフラグまたはCamerazoomobjフラグがtrueの場合、移動処理を無効化
         if (flagManager.GetFlag(FlagManager.FlagType.itembox) || flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) || flagManager.GetFlag(FlagManager.FlagType.UICanvas))
         {
             return; // ここでFixedUpdateの処理を終了

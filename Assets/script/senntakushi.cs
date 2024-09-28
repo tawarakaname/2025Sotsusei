@@ -5,53 +5,39 @@ public class SimpleButtonSelector : MonoBehaviour
 {
     public Button element1; // ボタン1
     public Button element2; // ボタン2
-    private Button[] buttons; // ボタンの配列
-    private int selectedIndex = 0; // 現在選択中のインデックス
-    private float inputThreshold = 0.5f; // スティックの感度（0.5f以上で反応）
-    private float switchDelay = 0.2f; // 選択を切り替えるまでの遅延
-    private float lastSwitchTime = 0; // 最後の切り替え時間
 
     void Start()
     {
-        buttons = new Button[] { element1, element2 };
-        UpdateButtonSelection(); // 初期選択の更新
+        // ボタンにクリックイベントを直接設定
+        element1.onClick.AddListener(OnElement1Selected);
+        element2.onClick.AddListener(OnElement2Selected);
     }
 
     void Update()
     {
-        // 左スティックの上下入力を取得
-        float verticalInput = Input.GetAxis("Vertical");
-
-        // 現在の時刻を取得
-        float currentTime = Time.time;
-
-        if (verticalInput > inputThreshold && currentTime - lastSwitchTime > switchDelay) // 上に移動
+        // "ばつ"ボタンで element1 を選択
+        if (Input.GetButtonDown("Fire1")) // ばつボタン
         {
-            selectedIndex = (selectedIndex == 0) ? buttons.Length - 1 : selectedIndex - 1;
-            lastSwitchTime = currentTime; // 切り替え時間を更新
-            UpdateButtonSelection();
+            OnElement1Selected();
         }
-        else if (verticalInput < -inputThreshold && currentTime - lastSwitchTime > switchDelay) // 下に移動
+        // "しかく"ボタンで element2 を選択
+        else if (Input.GetButtonDown("Fire3")) // しかくボタン
         {
-            selectedIndex = (selectedIndex + 1) % buttons.Length;
-            lastSwitchTime = currentTime; // 切り替え時間を更新
-            UpdateButtonSelection();
-        }
-
-        // 決定ボタン（まるボタン）で選択
-        if (Input.GetButtonDown("Fire2")) // "Fire1"はまるボタンに割り当てられていると仮定
-        {
-            buttons[selectedIndex].onClick.Invoke(); // 選択されたボタンのクリックを呼び出す
+            OnElement2Selected();
         }
     }
 
-    private void UpdateButtonSelection()
+    // element1 が選択された時の処理
+    private void OnElement1Selected()
     {
-        // 全てのボタンを非選択状態にし、選択中のボタンを強調表示
-        for (int i = 0; i < buttons.Length; i++)
-        {
-            buttons[i].interactable = (i == selectedIndex);
-            // ボタンの見た目を変更する場合はここで色やスケールを変更できます
-        }
+        Debug.Log("Element1 のアクションが実行されました");
+        // Element1の処理をここに記述
+    }
+
+    // element2 が選択された時の処理
+    private void OnElement2Selected()
+    {
+        Debug.Log("Element2 のアクションが実行されました");
+        // Element2の処理をここに記述
     }
 }
