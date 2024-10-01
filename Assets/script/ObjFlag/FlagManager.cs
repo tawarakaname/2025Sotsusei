@@ -51,7 +51,8 @@ public class FlagManager : MonoBehaviour
         GasCamera3,
         BoxBCamera,
         UICanvas,
-       
+        ThreePasswordclear,
+
     }
 
     // シングルトンインスタンス
