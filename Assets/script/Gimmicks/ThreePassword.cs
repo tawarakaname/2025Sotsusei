@@ -32,7 +32,7 @@ public class ThreePassword : MonoBehaviour
     private void Update()
     {
         if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) ||
-            !flagManager.GetFlag(FlagManager.FlagType.GasCamera0)) return;
+            !flagManager.GetFlag(FlagManager.FlagType.BdeskCamera)) return;
 
         HandleHorizontalInput();
         HandleFireButtonInput();

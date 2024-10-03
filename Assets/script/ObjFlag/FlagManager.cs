@@ -52,6 +52,7 @@ public class FlagManager : MonoBehaviour
         BoxBCamera,
         UICanvas,
         ThreePasswordclear,
+        BdeskCamera,
 
     }
 

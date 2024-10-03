@@ -45,14 +45,21 @@ public class CameraZoomObj : MonoBehaviour
     // クリックしたら、用意してあるカメラに切り替える
     public void OnClickThis()
     {
-        // CameraZoomObjFlagがまだfalseの場合のみフラグをセット
-        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj))
+        if (zoomCamera != null) // カメラが存在する場合のみ処理を実行
         {
-            cameraManeger.SetZoomCamera(zoomCamera);
-            SetCameraFlag();
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.CameraZoomObj, true);
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj))
+            {
+                cameraManeger.SetZoomCamera(zoomCamera);
+                SetCameraFlag();
+                FlagManager.Instance.SetFlag(FlagManager.FlagType.CameraZoomObj, true);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("zoomCamera is null. It might have been destroyed.");
         }
     }
+
 
     private void SetCameraFlag()
     {
@@ -90,9 +97,16 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.GasCamera0;
             case "BoxBCamera":
                 return FlagManager.FlagType.BoxBCamera;
+            case "BdeskCamera":
+                return FlagManager.FlagType.BdeskCamera;
             // 他のカメラの名前に基づくフラグを追加
             default:
                 return null; // 名前がない場合や既知でないカメラ名の場合はnullを返す
         }
     }
+    private void OnDestroy()
+    {
+        Debug.Log("Camera has been destroyed.");
+    }
+
 }

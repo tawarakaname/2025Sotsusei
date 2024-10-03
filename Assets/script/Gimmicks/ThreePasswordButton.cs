@@ -39,7 +39,7 @@ public class ThreePasswordButton : MonoBehaviour
     public void OnClickThis()
     {
         if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
-            flagManager.GetFlag(FlagManager.FlagType.GasCamera0) && isSelected)
+            flagManager.GetFlag(FlagManager.FlagType.BdeskCamera) && isSelected)
         {
             IncrementNumber();
         }

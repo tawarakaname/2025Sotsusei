@@ -10,9 +10,16 @@ public class ItemGenerater : MonoBehaviour
     public static ItemGenerater instance;
     private void Awake()
     {
+        // シングルトンパターンを適用
         if (instance == null)
         {
             instance = this;
+            // このオブジェクトをシーンが移動しても破棄しないようにする
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); // 既に存在している場合は破棄する
         }
     }
 

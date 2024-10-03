@@ -18,6 +18,7 @@ public class CameraManeger : MonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -46,9 +47,14 @@ public class CameraManeger : MonoBehaviour
         }
     }
 
-    // ズームカメラをセットする
     public void SetZoomCamera(Camera camera)
     {
+        if (camera == null)
+        {
+            Debug.LogWarning("Attempted to set a null camera as the zoom camera.");
+            return;
+        }
+
         if (camera != currentCamera)
         {
             if (currentCamera != null)
@@ -61,6 +67,7 @@ public class CameraManeger : MonoBehaviour
             currentCamera.gameObject.SetActive(true);
         }
     }
+
 
     // メインカメラに戻る
     public void ReturnToMainCamera()
