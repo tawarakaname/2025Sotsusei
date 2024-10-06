@@ -6,9 +6,9 @@ public class IllustPasswordButton : MonoBehaviour
     [SerializeField] TMP_Text numberText;
     public int number { get; private set; } // 外部から数値を変更できないようにプロパティ化
 
-    // 数字に対応するマテリアル
-    [SerializeField] Material[] materials;
-    [SerializeField] Renderer objectRenderer;
+    // 数字に対応するスプライト
+    [SerializeField] Sprite[] sprites;
+    [SerializeField] Renderer objectRenderer; // QuadのRendererコンポーネント
     [SerializeField] GameObject IllustbgPanel; // 背景パネル
 
     private FlagManager flagManager;
@@ -27,7 +27,7 @@ public class IllustPasswordButton : MonoBehaviour
     {
         number = 0;
         UpdateNumberDisplay();
-        UpdateMaterial();
+        UpdateSprite();
         HideBGIllustPanel(); // 背景パネルは最初非表示
     }
 
@@ -50,7 +50,7 @@ public class IllustPasswordButton : MonoBehaviour
                 number = 0;
             }
             UpdateNumberDisplay();
-            UpdateMaterial();
+            UpdateSprite(); // スプライトの更新を実行
         }
     }
 
@@ -74,13 +74,19 @@ public class IllustPasswordButton : MonoBehaviour
         isSelected = state;
     }
 
-    private void UpdateMaterial()
+    // スプライトをQuadに反映
+    private void UpdateSprite()
     {
-        if (objectRenderer != null && materials != null && materials.Length > 0)
+        if (objectRenderer != null && sprites != null && sprites.Length > 0)
         {
-            // 現在の数値に対応するマテリアルを適用
-            int materialIndex = Mathf.Clamp(number, 0, materials.Length - 1);
-            objectRenderer.material = materials[materialIndex];
+            // 現在の数値に対応するスプライトを適用
+            int spriteIndex = Mathf.Clamp(number, 0, sprites.Length - 1);
+            Sprite selectedSprite = sprites[spriteIndex];
+
+            // スプライトをQuadのマテリアルに設定
+            Material material = new Material(Shader.Find("Sprites/Default"));
+            material.mainTexture = selectedSprite.texture;
+            objectRenderer.material = material;
         }
     }
 }

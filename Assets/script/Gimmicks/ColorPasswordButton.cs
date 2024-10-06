@@ -6,11 +6,9 @@ public class ColorPasswordButton : MonoBehaviour
     [SerializeField] TMP_Text numberText;
     public int number { get; private set; } // 外部から数値を変更できないようにプロパティ化
 
-    // 数字に対応するマテリアル
-    [SerializeField] Material[] materials;
-    [SerializeField] Renderer objectRenderer;
+    [SerializeField] Sprite[] images;  // 5択のスプライト配列
+    [SerializeField] Renderer objectRenderer;  // QuadのRendererコンポーネント
     [SerializeField] GameObject ColorbgPanel; // 背景パネル
-
 
     private FlagManager flagManager;
     public GameObject BgPanel => ColorbgPanel; // 背景パネルの参照を公開
@@ -19,21 +17,18 @@ public class ColorPasswordButton : MonoBehaviour
 
     private void Start()
     {
-
         InitializeButton();
         flagManager = FlagManager.Instance;
     }
 
-    // ボタンの初期化処理を分離
     private void InitializeButton()
     {
         number = 0;
         UpdateNumberDisplay();
-        UpdateMaterial();
+        UpdateSprite();  // スプライトを更新
         HideBGColorPanel(); // 背景パネルは最初非表示
     }
 
-    // 番号の表示を更新
     private void UpdateNumberDisplay()
     {
         numberText.text = number.ToString();
@@ -41,48 +36,51 @@ public class ColorPasswordButton : MonoBehaviour
 
     public void OnClickThis()
     {
-        // フラグが無効な場合は処理を終了
         if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
             flagManager.GetFlag(FlagManager.FlagType.BoxBCamera) &&
             isSelected)
         {
             number++;
-            if (number > 3)
+            if (number > 4)  // 5択に変更
             {
                 number = 0;
             }
             Debug.Log($"ShowBGPanel called on button {number}");
 
             UpdateNumberDisplay();
-            UpdateMaterial();
+            UpdateSprite();  // スプライトを更新
         }
     }
-    // 背景パネルを表示し、選択状態にする
+
     public void ShowBGPanel()
     {
         ColorbgPanel.SetActive(true);
         SetSelectedState(true);
     }
-    // 背景パネルを非表示にし、選択状態を解除する
+
     public void HideBGColorPanel()
     {
         ColorbgPanel.SetActive(false);
         SetSelectedState(false);
     }
 
-    // 選択状態を管理
     private void SetSelectedState(bool state)
     {
         isSelected = state;
     }
 
-    private void UpdateMaterial()
+    private void UpdateSprite()
     {
-        if (objectRenderer != null && materials != null && materials.Length > 0)
+        if (objectRenderer != null && images != null && images.Length > 0)
         {
-            // 現在の数値に対応するマテリアルを適用
-            int materialIndex = Mathf.Clamp(number, 0, materials.Length - 1);
-            objectRenderer.material = materials[materialIndex];
+            // 現在の数値に対応するスプライトを適用
+            int spriteIndex = Mathf.Clamp(number, 0, images.Length - 1);
+            Sprite selectedSprite = images[spriteIndex];
+
+            // スプライトをQuadのマテリアルに設定
+            Material material = new Material(Shader.Find("Sprites/Default"));
+            material.mainTexture = selectedSprite.texture;
+            objectRenderer.material = material;
         }
     }
 }
