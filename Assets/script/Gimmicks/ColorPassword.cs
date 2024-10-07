@@ -21,6 +21,10 @@ public class ColorPassword : MonoBehaviour
 
     public void CheckClear()
     {
+        // フラグがすでにtrueの場合は何もしない
+        if (flagManager.GetFlag(FlagManager.FlagType.ColorPasswordclear))
+            return;
+
         if (IsClear())
         {
             // フラグを設定する
@@ -28,6 +32,7 @@ public class ColorPassword : MonoBehaviour
             Debug.Log("ColorPasswordclearFlagON");
         }
     }
+
     private void Update()
     {
         // 必要なフラグが無効な場合は処理を終了
@@ -101,7 +106,6 @@ public class ColorPassword : MonoBehaviour
     {
         for (int i = 0; i < correctNumbers.Length; i++)
         {
-            Debug.Log($"Button {i} number: {ColorpasswordButtons[i].number}, correct: {correctNumbers[i]}"); // デバッグログ
             if (ColorpasswordButtons[i].number != correctNumbers[i])
             {
                 return false;

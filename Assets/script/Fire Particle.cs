@@ -36,7 +36,19 @@ public class FireParticle : MonoBehaviour
     {
         bool isDialPasswordclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.DialPasswordclear);
         bool isFireParticleONFlagOn = flagManager.GetFlag(FlagManager.FlagType.FireParticleON);
-        bool isColorPasswordclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.ColorPasswordclear);
+        bool isCapsuleclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.capsuleclear);
+
+        // アイテムタイプに基づくフラグの取得
+        bool isCapsuleAOn = flagManager.GetFlagByType(Item.Type.capsuleA);
+        bool isCapsuleBOn = flagManager.GetFlagByType(Item.Type.capsuleB);
+        bool isCapsuleCOn = flagManager.GetFlagByType(Item.Type.capsuleC);
+        bool isCapsuleDOn = flagManager.GetFlagByType(Item.Type.capsuleD);
+
+        // すべてのcapsuleフラグがtrueの場合、capsuleclearフラグをtrueに設定
+        if (!isCapsuleclearFlagOn && isCapsuleAOn && isCapsuleBOn && isCapsuleCOn && isCapsuleDOn)
+        {
+            flagManager.SetFlag(FlagManager.FlagType.capsuleclear, true);
+        }
 
         SetParticleActive(FireparticleA, isDialPasswordclearFlagOn);
         SetParticleActive(FireparticleB, isDialPasswordclearFlagOn);
@@ -49,8 +61,8 @@ public class FireParticle : MonoBehaviour
             Debug.Log("FireParticleFlagON");
         }
 
-        // colorpasswordclear フラグがオンになったら色を変更
-        if (isColorPasswordclearFlagOn)
+        // capsuleclear フラグがオンになったら色を変更
+        if (isCapsuleclearFlagOn)
         {
             ChangeParticleColor(particleSystemA, Color.yellow);              // Aは黄色
             ChangeParticleColor(particleSystemB, new Color(0.3f, 1f, 0.5f));  // Bはライムグリーン
@@ -58,6 +70,8 @@ public class FireParticle : MonoBehaviour
             ChangeParticleColor(particleSystemD, new Color(1f, 0.5f, 0f));   // Dはオレンジ
         }
     }
+
+
 
     private void SetParticleActive(GameObject particle, bool isActive)
     {

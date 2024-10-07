@@ -24,6 +24,7 @@ public class DialPassword : MonoBehaviour
     private GameObject rotatingObject = null; // 現在回転中のオブジェクト
 
     private int lastSelectedPosition = -1; // 最後に選択したボタンのインデックス
+    private bool isCleared = false; // クリア状態を記録
 
     private void Start()
     {
@@ -31,25 +32,77 @@ public class DialPassword : MonoBehaviour
         SelectDialButton(currentPosition); // 初期選択状態を設定
     }
 
-    public void CheckClear()
+    private void CheckClear()
     {
         if (IsClear())
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.DialPasswordclear, true);
             Debug.Log("DialPasswordclearFlagON");
+
+            // クリア状態をtrueに設定
+            isCleared = true;
+
+            // DialPasswordButtonクラスを無効化する
+            DisableDialPasswordButtons();
         }
     }
 
+    // DialPasswordButtonクラスを無効化するメソッド
+    private void DisableDialPasswordButtons()
+    {
+        foreach (var button in dialpasswordButtons)
+        {
+            button.enabled = false; // 各ボタンを無効にする
+        }
+    }
     private void Update()
     {
-        // 必要なフラグが無効な場合、処理を終了
-        if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) && !flagManager.GetFlag(FlagManager.FlagType.GasCamera0))
+        // クリアされた場合、SetObjの入力を有効にする
+        if (isCleared)
+        {
+            EnableSetObjInput(flagManager.GetFlag(FlagManager.FlagType.DialPasswordclear)); // DialPasswordclearフラグに基づいて入力を有効に
             return;
+        }
+        else
+        {
+            HandleInput(); // 入力処理を共通メソッドに分離
+            RotateNejiOverTime();
+        }
 
-        HandleHorizontalInput(); // 水平方向の入力を処理
-        HandleFireButtonInput(); // 丸ボタンの入力を処理
-        RotateNejiOverTime(); // 回転アニメーションを実行
+        // CameraZoomObjとGasCamera0のフラグがfalseの時にSetObjの入力を有効に
+        if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
+            !flagManager.GetFlag(FlagManager.FlagType.GasCamera0))
+        {
+            EnableSetObjInput(true); // SetObjの入力を有効に
+        }
+        else
+        {
+            EnableSetObjInput(false); // SetObjの入力を無効に
+        }
     }
+
+
+
+    private void EnableSetObjInput(bool enable)
+    {
+        SetObj[] setObjs = FindObjectsOfType<SetObj>(); // シーン内のすべての SetObj を取得
+        foreach (var setObj in setObjs)
+        {
+            setObj.enabled = enable; // SetObj の有効状態を設定
+        }
+    }
+
+
+    private void HandleInput()
+    {
+        if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
+            flagManager.GetFlag(FlagManager.FlagType.GasCamera0))
+        {
+            HandleHorizontalInput();
+            HandleFireButtonInput();
+        }
+    }
+
 
     private void HandleHorizontalInput()
     {
@@ -127,6 +180,7 @@ public class DialPassword : MonoBehaviour
             dialpasswordButtons[lastSelectedPosition].HideBGDialPanel(); // 前の選択を解除
         }
 
+
         dialpasswordButtons[position].ShowBGPanel(); // 新たに選択されたボタンの背景パネルを表示
         lastSelectedPosition = position; // 新しい選択を記録
     }
@@ -166,4 +220,5 @@ public class DialPassword : MonoBehaviour
         }
         return true; // すべての条件を満たした場合
     }
+    
 }

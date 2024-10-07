@@ -4,6 +4,7 @@ public class BoxBitem : MonoBehaviour
 {
     public GameObject balloon; // インスペクタで設定するGameObject型のフィールド
     private FlagManager flagManager;
+    private bool hasBalloonShown = false; // balloonが表示されたかどうかを管理するフラグ
 
     void Start()
     {
@@ -20,32 +21,34 @@ public class BoxBitem : MonoBehaviour
     {
         if (balloon == null) return; // balloonが設定されていない場合は何もしない
 
-        bool isBoxBFlagOn = flagManager.GetFlag(FlagManager.FlagType.BoxB);
-        bool isballoonFlagOn = flagManager.GetFlag(FlagManager.FlagType.balloon); //balloonフラグの状態を取得
+        bool isColorPasswordclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.ColorPasswordclear);
+        bool isballoonFlagOn = flagManager.GetFlag(FlagManager.FlagType.balloon); // balloonフラグの状態を取得
 
-
-        if (isBoxBFlagOn && isballoonFlagOn)
+        if (isColorPasswordclearFlagOn && isballoonFlagOn)
         {
             // 両方のフラグがONの場合、balloonを非表示
             if (balloon.activeSelf)
             {
                 balloon.SetActive(false);
+                hasBalloonShown = false; // balloonが非表示になったのでフラグをリセット
             }
         }
-        else if (isBoxBFlagOn)
+        else if (isColorPasswordclearFlagOn && !hasBalloonShown)
         {
-            // BoxBフラグがONでballoonフラグがOFFの場合、balloonを表示
+            // ColorPasswordclearフラグがONでballoonフラグがOFFの場合、balloonを表示
             if (!balloon.activeSelf)
             {
                 balloon.SetActive(true);
+                hasBalloonShown = true; // balloonが表示されたのでフラグを更新
             }
         }
-        else
+        else if (!isColorPasswordclearFlagOn)
         {
-            // BoxBフラグがOFFの場合、balloonを非表示
+            // ColorPasswordclearフラグがOFFの場合、balloonを非表示
             if (balloon.activeSelf)
             {
                 balloon.SetActive(false);
+                hasBalloonShown = false; // balloonが非表示になったのでフラグをリセット
             }
         }
     }

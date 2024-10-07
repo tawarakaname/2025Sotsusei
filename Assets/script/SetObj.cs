@@ -11,14 +11,31 @@ public class SetObj : MonoBehaviour
 
     private bool playerInsideCollider = false;
 
+    void OnEnable()
+    {
+        UpdateSetObjEnabled(); // 初期化時に有効状態を設定
+    }
+
     void Update()
     {
+        // フラグに基づいてこのコンポーネントを有効無効に設定
+        UpdateSetObjEnabled();
+
         // プレイヤーがコライダー内にいて、ボタンが押されたときのみ処理
-        if (playerInsideCollider && Input.GetButtonDown("Fire2"))
+        if (playerInsideCollider && Input.GetButtonDown("Fire2") && enabled) // enabledがtrueの時のみ処理
         {
             OnClickThis();
         }
     }
+
+    private void UpdateSetObjEnabled()
+    {
+        // DialPasswordclearフラグも考慮
+        enabled =  FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear);
+    }
+
+   
+
 
     private void OnTriggerEnter(Collider other)
     {
