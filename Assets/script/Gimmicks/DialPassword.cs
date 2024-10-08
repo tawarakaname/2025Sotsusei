@@ -220,5 +220,5 @@ public class DialPassword : MonoBehaviour
         }
         return true; // すべての条件を満たした場合
     }
-    
+
 }

@@ -33,8 +33,8 @@ public class ZoomPanel : MonoBehaviour
         bool isItemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
         bool isZoomPanelFlagOn = flagManager.GetFlag(FlagManager.FlagType.zoompanel);
 
-        // PS4コントローラーの三角ボタンは「Fire3」として認識されます
-        if (isItemboxFlagOn && Input.GetButtonDown("Fire3"))
+        // PS4コントローラーのまるボタンは「Fire2」として認識されます
+        if (isItemboxFlagOn && Input.GetButtonDown("Fire2"))
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.zoompanel, true);
             if (panel.activeSelf && imageComponent != null)
