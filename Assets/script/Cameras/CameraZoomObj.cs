@@ -20,7 +20,9 @@ public class CameraZoomObj : MonoBehaviour
         // CameraZoomObjFlagがfalseかつプレイヤーがコライダー内にいて、ボタンが押されたときのみ処理
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj) && playerInsideCollider && Input.GetButtonDown("Fire2"))
         {
+
             OnClickThis();
+
         }
     }
 
@@ -52,6 +54,7 @@ public class CameraZoomObj : MonoBehaviour
                 cameraManeger.SetZoomCamera(zoomCamera);
                 SetCameraFlag();
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.CameraZoomObj, true);
+
             }
         }
         else
@@ -108,5 +111,5 @@ public class CameraZoomObj : MonoBehaviour
     {
         Debug.Log("Camera has been destroyed.");
     }
-
+    
 }
