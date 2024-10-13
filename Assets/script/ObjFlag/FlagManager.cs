@@ -54,6 +54,7 @@ public class FlagManager : MonoBehaviour
         ThreePasswordclear,
         BdeskCamera,
         capsuleclear,
+        Akeyget,
 
     }
 

@@ -3,12 +3,11 @@ using UnityEngine;
 
 public class BalloonSet : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer; // スプライトを表示するためのSpriteRenderer
-    public Sprite[] balloonSprites; // 切り替える3枚の画像（スプライト）
+    public Renderer quadRenderer; // QuadのRendererコンポーネント
+    public Texture[] balloonTextures; // 切り替える3枚のテクスチャ（スプライトをテクスチャに変換しておく）
     public float frameDuration = 0.5f; // 1枚の画像を表示する時間（秒）
 
     public Transform animationPosition; // アニメーションを表示する場所
-    public Vector3 spriteRotation; // スプライトの回転角度（X, Y, Z）
 
     private bool hasPlayed = false;
     private int currentFrame = 0;
@@ -16,29 +15,26 @@ public class BalloonSet : MonoBehaviour
     void Update()
     {
         // balloon フラグが true になったかどうかを確認
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.balloon) && !hasPlayed)
+        if (FlagManager.Instance.GetFlagByType(Item.Type.balloon) && !hasPlayed)
         {
-            StartCoroutine(PlayBalloonSpriteAnimation());
+            StartCoroutine(PlayBalloonTextureAnimation());
             hasPlayed = true; // 一度だけ再生するようにフラグを立てる
         }
     }
 
-    // スプライトを順番に切り替えるコルーチン
-    IEnumerator PlayBalloonSpriteAnimation()
+    // テクスチャを順番に切り替えるコルーチン
+    IEnumerator PlayBalloonTextureAnimation()
     {
-        // スプライトの表示場所を指定
+        // テクスチャの表示場所を指定
         if (animationPosition != null)
         {
-            spriteRenderer.transform.position = animationPosition.position;
+            quadRenderer.transform.position = animationPosition.position;
         }
 
-        // スプライトの回転を指定
-        spriteRenderer.transform.rotation = Quaternion.Euler(spriteRotation);
-
-        while (currentFrame < balloonSprites.Length)
+        while (currentFrame < balloonTextures.Length)
         {
-            // 現在のフレームのスプライトを設定
-            spriteRenderer.sprite = balloonSprites[currentFrame];
+            // 現在のフレームのテクスチャを設定
+            quadRenderer.material.mainTexture = balloonTextures[currentFrame];
 
             // frameDuration秒待つ
             yield return new WaitForSeconds(frameDuration);
@@ -46,6 +42,8 @@ public class BalloonSet : MonoBehaviour
             // 次のフレームに進む
             currentFrame++;
         }
+
+        // テクスチャが正常に再生されたらAkeygetフラグをtrueに設定
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Akeyget, true);
     }
 }
-

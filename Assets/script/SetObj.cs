@@ -64,7 +64,13 @@ public class SetObj : MonoBehaviour
                 // アイテムのタイプに基づいてフラグをtrueに設定
                 FlagManager.Instance.SetFlagByType(selectedItem.type, true);
             }
-            setObject.SetActive(true);
+
+            // setObjectがnullでない場合のみ処理を行う
+            if (setObject != null)
+            {
+                setObject.SetActive(true);
+            }
         }
     }
+
 }
