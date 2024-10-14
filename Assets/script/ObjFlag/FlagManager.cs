@@ -55,6 +55,7 @@ public class FlagManager : MonoBehaviour
         BdeskCamera,
         capsuleclear,
         Akeyget,
+        havekey1,
 
     }
 

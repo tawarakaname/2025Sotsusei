@@ -32,7 +32,7 @@ public class DialPassword : MonoBehaviour
         SelectDialButton(currentPosition); // 初期選択状態を設定
     }
 
-    private void CheckClear()
+    public void CheckClear()
     {
         if (IsClear())
         {
@@ -127,9 +127,8 @@ public class DialPassword : MonoBehaviour
                 var currentButton = dialpasswordButtons[currentPosition];
                 if (currentButton.BgPanel.activeSelf)
                 {
-                    currentButton.OnClickThis(); // 現在のボタンをクリック
-                    CheckClear(); // クリア条件をチェック
-                    HandleRotationAnimation(); // 回転アニメーションを処理
+                    currentButton.OnClickThis(); // ボタンのクリック処理を実行
+                    CheckClear(); // クリア条件をチェックする処理を追加
                 }
                 isFireButtonPressed = true; // ボタンが押されたことを記録
             }

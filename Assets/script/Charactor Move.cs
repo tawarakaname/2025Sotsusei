@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SphereMove : MonoBehaviour
 {
-
     void Start()
     {
         DontDestroyOnLoad(gameObject);
@@ -13,11 +12,24 @@ public class SphereMove : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        // フラグの状態を取得
+        bool ishavekey1FlagOn = FlagManager.Instance.GetFlag(FlagManager.FlagType.havekey1);
+
+        // warpAtoBに衝突した場合、フラグが有効ならシーン遷移
         if (collision.gameObject.name == "warpAtoB")
         {
-            SceneManager.LoadScene("B");
-            this.transform.position = new Vector3(0, 0, 8);
+            if (ishavekey1FlagOn) // フラグがオンの場合のみ処理実行
+            {
+                SceneManager.LoadScene("B");
+                this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定
+            }
+            else
+            {
+                Debug.Log("havekey1 flag is not set. Warp is not available.");
+            }
         }
+
+        // warpBtoCはそのまま動作
         if (collision.gameObject.name == "warpBtoC")
         {
             SceneManager.LoadScene("C");

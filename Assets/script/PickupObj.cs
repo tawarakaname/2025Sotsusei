@@ -61,5 +61,11 @@ public class PickupObj : MonoBehaviour
             // テキストが存在しない場合には、TextBoxは表示されない
             textManager.DisplayTextForItemType(item.type);
         }
+
+        // itemTypeが"key1"だった場合のみ、Flagを設定
+        if (itemType == Item.Type.key1)
+        {
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.havekey1, true);
+        }
     }
 }
