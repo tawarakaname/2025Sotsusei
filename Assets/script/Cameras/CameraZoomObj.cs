@@ -102,6 +102,12 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.BoxBCamera;
             case "BdeskCamera":
                 return FlagManager.FlagType.BdeskCamera;
+            case "Aquariumcamera0":
+                return FlagManager.FlagType.Aquariumcamera0;
+            case "Aquariumcamera1":
+                return FlagManager.FlagType.Aquariumcamera1;
+            case "Aquariumcamera2":
+                return FlagManager.FlagType.Aquariumcamera2;
             // 他のカメラの名前に基づくフラグを追加
             default:
                 return null; // 名前がない場合や既知でないカメラ名の場合はnullを返す

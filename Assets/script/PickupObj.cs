@@ -7,9 +7,11 @@ public class PickupObj : MonoBehaviour
     [SerializeField] Item.Type itemType;
     [SerializeField] Collider triggerCollider;
     [SerializeField] private GameObject TextBox;
+    [SerializeField] private GameObject modelobj;
     Item item;
 
     private bool playerInsideCollider = false;
+    private bool ispickup = false;
 
     private void Start()
     {
@@ -48,18 +50,35 @@ public class PickupObj : MonoBehaviour
     // クリックしたらobjを消す
     public void OnClickObj()
     {
-        // アイテムを設定
-        Itembox.instance.SetItem(item);
+        if(!ispickup)
+        {
+            // アイテムを設定
+            Itembox.instance.SetItem(item);
+            ispickup = true;
+        }
+        
 
         // アイテムが設定された後の処理
-        gameObject.SetActive(false);
+        modelobj.SetActive(false);
 
         // アイテムのタイプに対応するテキストを表示
         TextManager textManager = FindObjectOfType<TextManager>();
         if (textManager != null)
         {
-            // テキストが存在しない場合には、TextBoxは表示されない
-            textManager.DisplayTextForItemType(item.type);
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+            {
+                // テキストが存在しない場合には、TextBoxは表示されない
+                textManager.DisplayTextForItemType(item.type);
+            }
+            else
+            {
+                textManager.DisplayCurrentLine();
+                if(!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+          
         }
 
         // itemTypeが"key1"だった場合のみ、Flagを設定

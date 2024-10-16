@@ -56,6 +56,10 @@ public class FlagManager : MonoBehaviour
         capsuleclear,
         Akeyget,
         havekey1,
+        Aquariumcamera0,
+        Aquariumcamera1,
+        Aquariumcamera2,
+        Textbox,
 
     }
 
