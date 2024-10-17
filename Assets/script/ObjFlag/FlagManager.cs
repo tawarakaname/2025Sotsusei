@@ -60,6 +60,7 @@ public class FlagManager : MonoBehaviour
         Aquariumcamera1,
         Aquariumcamera2,
         Textbox,
+        NoteCamera,
 
     }
 

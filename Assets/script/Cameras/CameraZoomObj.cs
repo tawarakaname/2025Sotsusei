@@ -108,6 +108,8 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.Aquariumcamera1;
             case "Aquariumcamera2":
                 return FlagManager.FlagType.Aquariumcamera2;
+            case "NoteCamera":
+                return FlagManager.FlagType.NoteCamera;
             // 他のカメラの名前に基づくフラグを追加
             default:
                 return null; // 名前がない場合や既知でないカメラ名の場合はnullを返す

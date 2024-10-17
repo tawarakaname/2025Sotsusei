@@ -23438,7 +23438,7 @@ MonoBehaviour:
   itemType: 6
   triggerCollider: {fileID: 887943658}
   TextBox: {fileID: 8573304856268882693}
-  modelobj: {fileID: 0}
+  modelobj: {fileID: 887943656}
 --- !u!64 &887943661
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -35796,7 +35796,7 @@ MonoBehaviour:
   itemType: 4
   triggerCollider: {fileID: 1717431920}
   TextBox: {fileID: 8573304856268882693}
-  modelobj: {fileID: 0}
+  modelobj: {fileID: 1717431919}
 --- !u!64 &1717431923
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -38915,6 +38915,7 @@ GameObject:
   - component: {fileID: 1984871184}
   - component: {fileID: 1984871189}
   - component: {fileID: 1984871188}
+  - component: {fileID: 1984871190}
   m_Layer: 0
   m_Name: Note_A
   m_TagString: Untagged
@@ -39045,6 +39046,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   zoomCamera: {fileID: 1227316424}
   triggerCollider: {fileID: 1984871188}
+--- !u!114 &1984871190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984871183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b1b37d1dd05c43ee9666c77529d5e0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textManager: {fileID: 1028529182}
+  TextBox: {fileID: 8573304856268882693}
+  Notecollider: {fileID: 1984871188}
 --- !u!1 &2015575086
 GameObject:
   m_ObjectHideFlags: 0

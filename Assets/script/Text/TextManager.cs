@@ -31,9 +31,10 @@ public class TextManager : MonoBehaviour
         keywordTextDictionary = new Dictionary<string, string>
         {
            
-            { "smell1", "hallo/You smell something strange." },
-            { "smell2", " /nioiarimasu" },
-            { "smell3", " /kusakunai\aaaaa" },
+            { "smell1", "hallo\nYou smell something strange." },
+            { "smell2", "nioiarimasu" },
+            { "smell3", "kusakunai\naaaa" },
+            { "NoteA","bokunonoteda!!!!!" },
         };
     }
 
@@ -99,29 +100,6 @@ public class TextManager : MonoBehaviour
                 }
             }
             
-        }
-    }
-
-
-    private void Textlineskip()
-    {
-        // テキストが表示されている場合にのみ、丸ボタンで進める
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-        {
-            //if (Input.GetButtonDown("Fire2"))
-            {
-                currentLineIndex++;
-                if (currentLineIndex < currentTextLines.Length)
-                {
-                    DisplayCurrentLine();
-                }
-                else
-                {
-                    // テキストが全て表示された場合、TextBoxを非表示にする
-                    TextBox.SetActive(false);
-                    Debug.Log("Textboxがfalse");
-                }
-            }
         }
     }
 }
