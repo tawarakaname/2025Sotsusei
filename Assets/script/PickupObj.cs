@@ -72,7 +72,7 @@ public class PickupObj : MonoBehaviour
             }
             else
             {
-                textManager.DisplayCurrentLine();
+             　　 textManager.DisplayCurrentLine();
                 if(!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
                 {
                     gameObject.SetActive(false);

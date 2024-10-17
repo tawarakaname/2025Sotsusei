@@ -9,7 +9,6 @@ public class TextManager : MonoBehaviour
 
     private Dictionary<Item.Type, string> textDictionary; // Item.Type に基づくテキスト辞書
     private Dictionary<string, string> keywordTextDictionary; // キーワードに基づくテキスト辞書
-    private FlagManager flagManager;
 
     // 現在表示中のテキストとその行インデックス
     private string[] currentTextLines;

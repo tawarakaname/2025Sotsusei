@@ -13,12 +13,12 @@ public class SphereMove : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         // フラグの状態を取得
-        bool ishavekey1FlagOn = FlagManager.Instance.GetFlag(FlagManager.FlagType.havekey1);
+        bool isAdooropenFlagOn = FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen);
 
         // warpAtoBに衝突した場合、フラグが有効ならシーン遷移
         if (collision.gameObject.name == "warpAtoB")
         {
-            if (ishavekey1FlagOn) // フラグがオンの場合のみ処理実行
+            if (isAdooropenFlagOn) // フラグがオンの場合のみ処理実行
             {
                 SceneManager.LoadScene("B");
                 this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定

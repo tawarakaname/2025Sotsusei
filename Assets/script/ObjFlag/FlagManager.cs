@@ -13,7 +13,6 @@ public class FlagManager : MonoBehaviour
         capsuleD,
         balloon,
         BTB,
-        key1,
         bluekey,
         allcup,
         diacup,
@@ -61,6 +60,8 @@ public class FlagManager : MonoBehaviour
         Aquariumcamera2,
         Textbox,
         NoteCamera,
+        Adooropen,
+        StandCamera,
 
     }
 

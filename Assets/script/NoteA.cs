@@ -46,7 +46,7 @@ public class NoteA : MonoBehaviour
             // Textboxが表示されている場合
             else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
             {
-                textManager.DisplayCurrentLine(); // 次のテキストラインを表示
+              //  textManager.DisplayCurrentLine(); // 次のテキストラインを表示
                 Debug.Log("Displaying next line");
             }
         }

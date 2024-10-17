@@ -3,13 +3,12 @@ using TMPro;
 
 public class DialPasswordButton : MonoBehaviour
 {
-    private const int MaxNumber = 9; // 最大値
+    private const int MaxNumber = 5; // 最大値
     private const int MinNumber = 0; // 最小値
 
     [SerializeField] private TMP_Text numberText; // 番号表示用のテキスト
     public int number { get; private set; } // 外部から数値を変更できないプロパティ
 
-    [SerializeField] private Material[] materials; // マテリアル配列
     [SerializeField] private Renderer objectRenderer; // オブジェクトのレンダラー
     [SerializeField] private GameObject DialbgPanel; // 背景パネル
 
@@ -22,7 +21,9 @@ public class DialPasswordButton : MonoBehaviour
     {
         InitializeButton(); // ボタンの初期化処理
         flagManager = FlagManager.Instance; // FlagManagerのインスタンスを取得
+       
     }
+
 
     // ボタンの初期化処理を分離
     private void InitializeButton()
@@ -48,10 +49,17 @@ public class DialPasswordButton : MonoBehaviour
         }
     }
 
-    // 数値をインクリメントし、10を超えたら0にリセット
+    // 数値をインクリメントし、最大値を超えたら0にリセット
     private void IncrementNumber()
     {
-        number = (number + 1) % (MaxNumber + 1); // 10を超えたら0にリセット
+        number = (number + 1) % (MaxNumber + 1); // 最大値を超えたら0にリセット
+        UpdateNumberDisplay(); // 表示を更新
+    }
+
+    // 数字をリセットし、表示を更新
+    public void ResetNumber()
+    {
+        number = 0; // 数字をリセット
         UpdateNumberDisplay(); // 表示を更新
     }
 

@@ -6,6 +6,7 @@ public class DialPass : MonoBehaviour
 {
     [SerializeField] GameObject Dialpassword;
     private bool iszoom;
+    private DialPasswordButton dialPasswordButton; // DialPasswordButton スクリプトへの参照
 
     private void Start()
     {
@@ -20,6 +21,11 @@ public class DialPass : MonoBehaviour
         {
             iszoom = true;
             Dialpassword.SetActive(true);
+            DialPasswordButton[] dialPasswordButtons = Dialpassword.GetComponentsInChildren<DialPasswordButton>();
+            foreach (var button in dialPasswordButtons)
+            {
+                button.ResetNumber(); // 数字をリセット
+            }
         }
         else if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.GasCamera0) && iszoom)
         {
