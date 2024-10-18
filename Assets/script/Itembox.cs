@@ -7,7 +7,6 @@ public class Itembox : MonoBehaviour
 {
     [SerializeField] private Slot[] slots;
     [SerializeField] private Slot selectedSlot = null;
-    [SerializeField] private Text notificationText;
     [SerializeField] private SelectedItem selectedItemPanel;
 
     private int currentPosition = 0;  // 現在選択されているスロットの位置
@@ -28,12 +27,6 @@ public class Itembox : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
-
-        // 初期状態でテキストを非表示にする
-        if (notificationText != null)
-        {
-            notificationText.gameObject.SetActive(false);
         }
     }
 
@@ -150,20 +143,31 @@ public class Itembox : MonoBehaviour
         }
     }
 
-    // アイテムの使用を試みる＆使えるなら使ってしまう
     public bool TryUseItem(Item.Type type)
     {
-        if (selectedSlot != null)
+        // selectedSlotがnullでないか確認
+        if (selectedSlot == null)
         {
-            Item selectedItem = selectedSlot.GetItem();
-            if (selectedItem.type == type)
-            {
-                bool result = selectedItemPanel.TryUseItem(type, selectedSlot, notificationText);
-                return result;
-            }
+            return false; // スロットが選択されていない場合は早期リターン
         }
-        return false;
+
+        // 選択されたスロットのアイテムがnullでないか確認
+        Item selectedItem = selectedSlot.GetItem();
+        if (selectedItem == null)
+        {
+            return false; // アイテムがnullの場合は早期リターン
+        }
+
+        // アイテムのタイプが一致している場合のみ使用を試みる
+        if (selectedItem.type == type)
+        {
+            bool result = selectedItemPanel.TryUseItem(type, selectedSlot);
+            return result;
+        }
+
+        return false; // タイプが一致しない場合
     }
+
 
 
 

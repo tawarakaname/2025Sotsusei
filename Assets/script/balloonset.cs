@@ -7,20 +7,75 @@ public class BalloonSet : MonoBehaviour
     public Texture[] balloonTextures; // 切り替える3枚のテクスチャ（スプライトをテクスチャに変換しておく）
     public float frameDuration = 0.5f; // 1枚の画像を表示する時間（秒）
 
+    [SerializeField] GameObject TextBox; // TextBoxへの参照を公開
+    [SerializeField] TextManager textManager; // TextManagerへの参照を公開
+    [SerializeField] Collider standCollider;
+
+    private string currentKeyword; // 現在のコライダーに対応するキーワード
+
     public Transform animationPosition; // アニメーションを表示する場所
 
     private bool hasPlayed = false;
     private int currentFrame = 0;
 
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        // balloon フラグが true になったかどうかを確認
+        // balloon フラグが false の場合にのみ処理を実行
+        if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
+        {
+            // プレイヤーがコライダーに接触した場合
+            if (other.CompareTag("Player"))
+            {
+                if (standCollider.bounds.Intersects(other.bounds))
+                {
+                    currentKeyword = "BalloonStand";
+                }
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        // balloon フラグが false の場合にのみ処理を実行
+        if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
+        {
+            // プレイヤーがコライダーから出た場合、キーワードをリセット
+            if (other.CompareTag("Player"))
+            {
+                currentKeyword = null;
+                TextBox.SetActive(false); // コライダーを出た時にTextBoxを非表示にする
+            }
+        }
+    }
+
+    private void Update()
+    {
+        // balloon フラグが true ならテクスチャアニメーションを再生
         if (FlagManager.Instance.GetFlagByType(Item.Type.balloon) && !hasPlayed)
         {
             StartCoroutine(PlayBalloonTextureAnimation());
             hasPlayed = true; // 一度だけ再生するようにフラグを立てる
         }
+        // balloon フラグが false の場合のみ、コライダーとFire2に関連した動作を行う
+        else if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
+        { 
+            // Fire2ボタンとTextBoxの処理
+            if (Input.GetButtonDown("Fire2") && currentKeyword != null && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+            {
+                OnClickstandThis();
+            }
+            else if (Input.GetButtonDown("Fire2") && currentKeyword != null && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+            {
+                textManager.DisplayCurrentLine();
+            }
+        }
     }
+
+    public void OnClickstandThis()
+    {
+        textManager.DisplayTextForKeyword(currentKeyword);
+    }
+
 
     // テクスチャを順番に切り替えるコルーチン
     IEnumerator PlayBalloonTextureAnimation()

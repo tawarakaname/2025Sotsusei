@@ -12,7 +12,6 @@ public class SetObj : MonoBehaviour
     [SerializeField] TextManager textManager; // TextManagerへの参照を公開
 
     private bool playerInsideCollider = false;
-    private string currentKeyword; // キーワードを保持する変数
 
     void OnEnable()
     {
@@ -27,11 +26,7 @@ public class SetObj : MonoBehaviour
         // プレイヤーがコライダー内にいて、ボタンが押されたときのみ処理
         if (playerInsideCollider && Input.GetButtonDown("Fire2") && enabled) // enabledがtrueの時のみ処理
         {
-            // アイテムの使用を試み、間違っていた場合はTextBoxを表示
-            if (!OnClickThis())
-            {
-                textManager.DisplayTextForKeyword(currentKeyword);
-            }
+            OnClickThis();
         }
     }
 
@@ -46,7 +41,6 @@ public class SetObj : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInsideCollider = true;
-            currentKeyword = null; // コライダーに入ったときにキーワードをリセット
             TextBox.SetActive(false); // コライダーに入ったときにTextBoxを非表示にする
         }
     }
@@ -80,10 +74,9 @@ public class SetObj : MonoBehaviour
         }
         else
         {
-            // アイテムが間違っている場合の処理
-            currentKeyword = "Miss"; // 間違ったアイテムに対応するキーワードを設定
             TextBox.SetActive(true); // TextBoxを表示
             return false; // アイテムが正しく使用されなかった場合
         }
     }
 }
+ 

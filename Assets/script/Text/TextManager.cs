@@ -42,6 +42,7 @@ public class TextManager : MonoBehaviour
             { "smell3", "kusakunai\naaaa" },
             { "NoteA", "bokunonoteda!!!!!" },
             { "Miss", "korejanaimitai..." },
+            { "BalloonStand", "nanikahasamesou" },
         };
 
         // Item.Typeに基づく画像の初期化
@@ -60,6 +61,7 @@ public class TextManager : MonoBehaviour
             { "smell3", Hicon2 },
             { "NoteA", Hicon3 },
             { "Miss", Hicon3 },
+            { "BalloonStand", Hicon1},
         };
 
         // 最初は画像を全て非表示にする

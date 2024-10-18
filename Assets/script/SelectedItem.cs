@@ -27,12 +27,17 @@ public class SelectedItem : MonoBehaviour
             image.sprite = null; // アイテムがnullの場合はスプライトを消去
         }
     }
-
     // アイテムの使用を試みるメソッド
-    public bool TryUseItem(Item.Type type, Slot slot, Text notificationText)
+    public bool TryUseItem(Item.Type type, Slot slot)
     {
+        // currentItemがnullの場合は早期リターン
+        if (currentItem == null)
+        {
+            return false; // アイテムがnullの場合、使用できないためfalseを返す
+        }
+
         // 現在のアイテムが正しい場合
-        if (currentItem != null && currentItem.type == type)
+        if (currentItem.type == type)
         {
             // アイテムを使用する処理
             currentItem = null;
@@ -48,17 +53,10 @@ public class SelectedItem : MonoBehaviour
                 slot.HideBGPanel(); // スロットの背景パネルを非表示
             }
 
-            return true;
+            return true; // アイテムが正しく使用された場合trueを返す
         }
-        else
-        {
-            // アイテムが間違っている場合に通知テキストを表示
-            if (notificationText != null)
-            {
-                notificationText.text = "このアイテムではないみたい";
-                notificationText.gameObject.SetActive(true); // テキストを表示
-            }
-            return false;
-        }
+
+        // アイテムのタイプが一致しない場合
+        return false;
     }
 }
