@@ -159,10 +159,6 @@ public class Itembox : MonoBehaviour
             if (selectedItem.type == type)
             {
                 bool result = selectedItemPanel.TryUseItem(type, selectedSlot, notificationText);
-
-                // アイテムのタイプに基づいてフラグをtrueに設定
-                FlagManager.Instance.SetFlagByType(selectedItem.type, true);
-
                 return result;
             }
         }
