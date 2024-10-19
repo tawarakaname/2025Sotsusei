@@ -175,5 +175,6 @@ public class Itembox : MonoBehaviour
     {
         return selectedSlot?.GetItem();
     }
+
 }
 

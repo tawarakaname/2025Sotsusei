@@ -49,4 +49,5 @@ public class Item
         this.zoomObj = zoomObj;
         this.zoomsprite = zoomsprite;
     }
+
 }

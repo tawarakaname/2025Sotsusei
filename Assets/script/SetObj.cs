@@ -59,6 +59,7 @@ public class SetObj : MonoBehaviour
         if (Itembox.instance.TryUseItem(useItem))
         {
             Item selectedItem = Itembox.instance.GetSelectedItem();
+
             if (selectedItem != null)
             {
                 // アイテムのタイプに基づいてフラグをtrueに設定

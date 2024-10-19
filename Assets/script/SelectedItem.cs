@@ -49,11 +49,13 @@ public class SelectedItem : MonoBehaviour
             // スロットが指定されている場合
             if (slot != null)
             {
-                slot.SetItem(null); // スロットからアイテムを削除
+                //slot.SetItem(null); // スロットからアイテムを削除
                 slot.HideBGPanel(); // スロットの背景パネルを非表示
             }
 
             return true; // アイテムが正しく使用された場合trueを返す
+            
+           
         }
 
         // アイテムのタイプが一致しない場合
