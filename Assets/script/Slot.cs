@@ -28,7 +28,6 @@ public class Slot : MonoBehaviour
     public void SetItem(Item item)
     {
         this.item = item;
-        Debug.Log(this.item);
         UpdateImage(item);
     }
 

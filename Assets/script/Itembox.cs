@@ -141,6 +141,7 @@ public class Itembox : MonoBehaviour
             // 選択されたアイテムをSelectedItemクラスに通知
             selectedItemPanel.UpdateSelectedItem(selectedSlot.GetItem());
         }
+
     }
 
     public bool TryUseItem(Item.Type type)

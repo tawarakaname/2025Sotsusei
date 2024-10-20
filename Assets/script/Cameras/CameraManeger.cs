@@ -39,13 +39,18 @@ public class CameraManeger : MonoBehaviour
         // ボタンが押されたら、フラグを確認
         if (Input.GetButtonDown("Fire1"))
         {
-            if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
+            // Itemgetpanel フラグが false の場合のみ処理を実行
+            if (!flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel))
             {
-                ReturnToMainCamera();
-                flagManager.SetFlag(FlagManager.FlagType.CameraZoomObj, false);
+                if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
+                {
+                    ReturnToMainCamera();
+                    flagManager.SetFlag(FlagManager.FlagType.CameraZoomObj, false);
+                }
             }
         }
     }
+
 
     public void SetZoomCamera(Camera camera)
     {

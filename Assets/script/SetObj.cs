@@ -60,10 +60,11 @@ public class SetObj : MonoBehaviour
         {
             Item selectedItem = Itembox.instance.GetSelectedItem();
 
-            if (selectedItem != null)
+            //if (selectedItem != null)
             {
                 // アイテムのタイプに基づいてフラグをtrueに設定
-                FlagManager.Instance.SetFlagByType(selectedItem.type, true);
+              //  FlagManager.Instance.SetFlagByType(selectedItem.type, true);
+                
             }
 
             // setObjectがnullでない場合のみ処理を行う
