@@ -25,11 +25,13 @@ public class DialPassword : MonoBehaviour
 
     private int lastSelectedPosition = -1; // 最後に選択したボタンのインデックス
     private bool isCleared = false; // クリア状態を記録
+    [SerializeField] AudioSource audioSource;
 
     private void Start()
     {
         flagManager = FlagManager.Instance; // FlagManagerのインスタンスをキャッシュ
         SelectDialButton(currentPosition); // 初期選択状態を設定
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void CheckClear()
@@ -127,7 +129,10 @@ public class DialPassword : MonoBehaviour
                 var currentButton = dialpasswordButtons[currentPosition];
                 if (currentButton.BgPanel.activeSelf)
                 {
+
+                    audioSource.Play(); //鳴らしたいタイミングに追加
                     currentButton.OnClickThis(); // ボタンのクリック処理を実行
+                    HandleRotationAnimation();   // 回転アニメーションを実行
                     CheckClear(); // クリア条件をチェックする処理を追加
                 }
                 isFireButtonPressed = true; // ボタンが押されたことを記録
@@ -138,6 +143,7 @@ public class DialPassword : MonoBehaviour
             }
         }
     }
+
 
     private void HandleRotationAnimation()
     {

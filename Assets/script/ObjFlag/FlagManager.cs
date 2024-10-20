@@ -64,6 +64,7 @@ public class FlagManager : MonoBehaviour
         StandCamera,
         Aboxopen,
         Itemgetpanel,
+        Gasbaneropen,
     }
 
     // シングルトンインスタンス
