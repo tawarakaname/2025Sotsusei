@@ -14,6 +14,7 @@ public class ZoomPanel : MonoBehaviour
     private Sprite zoomSprite;
     private bool isZoomSprite = false;
     private FlagManager flagManager;
+    [SerializeField] AudioSource audioSource;
 
     private void Start()
     {
@@ -26,6 +27,7 @@ public class ZoomPanel : MonoBehaviour
         imageComponent = zoomObj.AddComponent<Image>();
         zoomObj.transform.SetParent(objParent, false);
         zoomObj.SetActive(false);  // 初期状態で非表示
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -36,6 +38,8 @@ public class ZoomPanel : MonoBehaviour
         // PS4コントローラーのまるボタンは「Fire2」として認識されます
         if (isItemboxFlagOn && Input.GetButtonDown("Fire2"))
         {
+            audioSource.Play(); // 鳴らしたいタイミングで再生
+
             FlagManager.Instance.SetFlag(FlagManager.FlagType.zoompanel, true);
             if (panel.activeSelf && imageComponent != null)
             {

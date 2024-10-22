@@ -23,13 +23,14 @@ public class PickupObj : MonoBehaviour
         // Imageが設定されていない場合の警告
         if (targetImage == null)
         {
-            Debug.LogWarning("targetImageが設定されていません。Inspectorで設定してください。");
+            return;
         }
         else
         {
             // Imageを非表示にする
             targetImage.SetActive(false);
         }
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -39,13 +40,19 @@ public class PickupObj : MonoBehaviour
             // PS4コントローラーの⚪︎ボタンは「Fire2」として認識されます
             if (Input.GetButtonDown("Fire2"))
             {
-                
                 OnClickObj();
-                audioSource.Play(); //鳴らしたいタイミングに追
 
+                // audioSourceがnullならreturn、そうでなければPlay
+                if (audioSource == null)
+                {
+                    return;
+                }
+
+                audioSource.Play(); // 鳴らしたいタイミングで再生
             }
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {

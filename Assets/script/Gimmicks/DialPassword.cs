@@ -25,13 +25,13 @@ public class DialPassword : MonoBehaviour
 
     private int lastSelectedPosition = -1; // 最後に選択したボタンのインデックス
     private bool isCleared = false; // クリア状態を記録
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioSource ButtonaudioSource;
 
     private void Start()
     {
         flagManager = FlagManager.Instance; // FlagManagerのインスタンスをキャッシュ
         SelectDialButton(currentPosition); // 初期選択状態を設定
-        audioSource = GetComponent<AudioSource>();
+        ButtonaudioSource = GetComponent<AudioSource>();
     }
 
     public void CheckClear()
@@ -40,7 +40,6 @@ public class DialPassword : MonoBehaviour
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.DialPasswordclear, true);
             Debug.Log("DialPasswordclearFlagON");
-
             // クリア状態をtrueに設定
             isCleared = true;
 
@@ -130,7 +129,7 @@ public class DialPassword : MonoBehaviour
                 if (currentButton.BgPanel.activeSelf)
                 {
 
-                    audioSource.Play(); //鳴らしたいタイミングに追加
+                    ButtonaudioSource.Play(); //鳴らしたいタイミングに追加
                     currentButton.OnClickThis(); // ボタンのクリック処理を実行
                     HandleRotationAnimation();   // 回転アニメーションを実行
                     CheckClear(); // クリア条件をチェックする処理を追加
