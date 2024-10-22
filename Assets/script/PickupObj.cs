@@ -9,6 +9,8 @@ public class PickupObj : MonoBehaviour
     [SerializeField] private GameObject TextBox;
     [SerializeField] private GameObject modelobj;
     Item item;
+    [SerializeField] GameObject targetImage; // 表示・非表示を制御するImage
+    [SerializeField] AudioSource audioSource;
 
     private bool playerInsideCollider = false;
     private bool ispickup = false;
@@ -17,6 +19,17 @@ public class PickupObj : MonoBehaviour
     {
         // itemタイプに応じてitemを作成する
         item = ItemGenerater.instance.Spawn(itemType);
+
+        // Imageが設定されていない場合の警告
+        if (targetImage == null)
+        {
+            Debug.LogWarning("targetImageが設定されていません。Inspectorで設定してください。");
+        }
+        else
+        {
+            // Imageを非表示にする
+            targetImage.SetActive(false);
+        }
     }
 
     void Update()
@@ -27,6 +40,7 @@ public class PickupObj : MonoBehaviour
             if (Input.GetButtonDown("Fire2"))
             {
                 OnClickObj();
+                audioSource.Play(); //鳴らしたいタイミングに追加
             }
         }
     }
@@ -36,6 +50,13 @@ public class PickupObj : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInsideCollider = true;
+
+            if (targetImage != null)
+            {
+                targetImage.SetActive(true);
+            }
+
+
         }
     }
 
@@ -44,6 +65,12 @@ public class PickupObj : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInsideCollider = false;
+
+            if (targetImage != null)
+            {
+                targetImage.SetActive(false); // Imageを非表示
+            }
+
         }
     }
 
@@ -87,4 +114,6 @@ public class PickupObj : MonoBehaviour
             FlagManager.Instance.SetFlag(FlagManager.FlagType.havekey1, true);
         }
     }
+
+
 }

@@ -6,6 +6,7 @@ public class CameraZoomObj : MonoBehaviour
 {
     [SerializeField] Camera zoomCamera;
     [SerializeField] Collider triggerCollider;
+    [SerializeField] GameObject targetImage; // 表示・非表示を制御するImage
 
     private CameraManeger cameraManeger;
     private bool playerInsideCollider = false;
@@ -13,6 +14,16 @@ public class CameraZoomObj : MonoBehaviour
     private void Start()
     {
         cameraManeger = CameraManeger.instance;
+        // Imageが設定されていない場合の警告
+        if (targetImage == null)
+        {
+            Debug.LogWarning("targetImageが設定されていません。Inspectorで設定してください。");
+        }
+        else
+        {
+            // Imageを非表示にする
+            targetImage.SetActive(false);
+        }
     }
 
     void Update()
@@ -31,6 +42,13 @@ public class CameraZoomObj : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInsideCollider = true;
+
+            if (targetImage != null)
+            {
+                targetImage.SetActive(true);
+            }
+
+
         }
     }
 
@@ -39,6 +57,11 @@ public class CameraZoomObj : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInsideCollider = false;
+
+            if (targetImage != null)
+            {
+                targetImage.SetActive(false); // Imageを非表示
+            }
             // プレイヤーがコライダーから出たときにフラグをリセット
             ResetCameraFlag();
         }
