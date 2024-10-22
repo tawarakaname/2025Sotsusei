@@ -29,8 +29,8 @@ public class TextManager : MonoBehaviour
         // Item.Typeに基づくテキストの内容を初期化
         textDictionary = new Dictionary<Item.Type, string>
         {
-            { Item.Type.capsuleA, "a1\na2\na3\na4\nfin" },
-            { Item.Type.capsuleB, "BBBBBBBBBB" },
+            { Item.Type.capsuleA, "なんか落ちてたよ！" },
+            { Item.Type.capsuleB, "これ何かなー？" },
             { Item.Type.bluekey, "bluekeyyyyyyyy" },
         };
 

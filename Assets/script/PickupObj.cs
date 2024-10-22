@@ -39,8 +39,10 @@ public class PickupObj : MonoBehaviour
             // PS4コントローラーの⚪︎ボタンは「Fire2」として認識されます
             if (Input.GetButtonDown("Fire2"))
             {
+                
                 OnClickObj();
-                audioSource.Play(); //鳴らしたいタイミングに追加
+                audioSource.Play(); //鳴らしたいタイミングに追
+
             }
         }
     }
@@ -94,18 +96,14 @@ public class PickupObj : MonoBehaviour
         {
             if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
             {
-                // テキストが存在しない場合には、TextBoxは表示されない
                 textManager.DisplayTextForItemType(item.type);
             }
             else
             {
-             　　 textManager.DisplayCurrentLine();
-                if(!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-                {
-                    gameObject.SetActive(false);
-                }
+                textManager.DisplayCurrentLine();
+                gameObject.SetActive(false);
             }
-          
+
         }
 
         // itemTypeが"key1"だった場合のみ、Flagを設定

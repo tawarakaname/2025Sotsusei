@@ -33,7 +33,7 @@ public class CameraZoomObj : MonoBehaviour
         {
 
             OnClickThis();
-
+            targetImage.SetActive(false);
         }
     }
 
