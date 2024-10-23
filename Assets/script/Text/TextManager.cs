@@ -135,17 +135,12 @@ public class TextManager : MonoBehaviour
                 }
                 else
                 {
-                    currentLineIndex = 0;
-
-                    if (currentLineIndex == currentTextLines.Length)
-                    {
                         // 最後の行を超えたら両方のTextBoxを非表示にする
                         TextBox.SetActive(false);
                         DTextBox.SetActive(false);
                       
                         FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
                         Debug.Log("Textboxがfalse");
-                    }
                 }
             }
         }

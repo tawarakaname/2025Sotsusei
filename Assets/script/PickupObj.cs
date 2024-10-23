@@ -74,6 +74,7 @@ public class PickupObj : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (ispickup) gameObject.SetActive(false);
             playerInsideCollider = false;
 
             if (targetImage != null)
@@ -87,13 +88,13 @@ public class PickupObj : MonoBehaviour
     // クリックしたらobjを消す
     public void OnClickObj()
     {
-        if(!ispickup)
+        if (!ispickup)
         {
             // アイテムを設定
             Itembox.instance.SetItem(item);
             ispickup = true;
         }
-        
+
 
         // アイテムが設定された後の処理
         modelobj.SetActive(false);
@@ -109,8 +110,6 @@ public class PickupObj : MonoBehaviour
             else
             {
                 textManager.DisplayCurrentLine();
-                Debug.Log("unn");
-                gameObject.SetActive(false);
             }
 
         }
