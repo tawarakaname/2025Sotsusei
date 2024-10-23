@@ -13,6 +13,11 @@ public class TextManager : MonoBehaviour
     [SerializeField] private Image Hicon2; // Hicon2 の画像
     [SerializeField] private Image Hicon3; // Hicon3 の画像
 
+    public GameObject DTextBox; // D君のTextBox
+    public TextMeshProUGUI DtalkText; // D君のテキスト
+    [SerializeField] private Image Dicon0; // D君のアイコン（複数ある場合は他のアイコンも追加可能）
+
+
     private Dictionary<Item.Type, string> textDictionary; // Item.Type に基づくテキスト辞書
     private Dictionary<string, string> keywordTextDictionary; // キーワードに基づくテキスト辞書
     private Dictionary<Item.Type, Image> imageDictionary; // Item.Type に基づく画像辞書
@@ -25,24 +30,23 @@ public class TextManager : MonoBehaviour
     private void Start()
     {
         TextBox.SetActive(false);
+        DTextBox.SetActive(false);
 
-        // Item.Typeに基づくテキストの内容を初期化
         textDictionary = new Dictionary<Item.Type, string>
         {
-            { Item.Type.capsuleA, "なんか落ちてたよ！" },
-            { Item.Type.capsuleB, "これ何かなー？" },
-            { Item.Type.bluekey, "bluekeyyyyyyyy" },
+                { Item.Type.capsuleA, "H: なんかおちてたよ！\nD: なんだろうそれ" },
+                { Item.Type.capsuleB, "H: これ何かなー？\nD: これはめずらしいものだね" },
+                { Item.Type.bluekey, "H: ふしぎなことが起きてるね\nD: そうだね、青いカギかも" },
         };
 
-        // キーワードに基づくテキストの内容を初期化
         keywordTextDictionary = new Dictionary<string, string>
         {
-            { "smell1", "hallo\nYou smell something strange." },
-            { "smell2", "nioiarimasu" },
-            { "smell3", "kusakunai\naaaa" },
-            { "NoteA", "bokunonoteda!!!!!" },
-            { "Miss", "korejanaimitai..." },
-            { "BalloonStand", "nanikahasamesou" },
+                { "smell1", "H: hallo\nD: You smell something strange." },
+                { "smell2", "H: すっぱいにおいがする！\nD: そうだね、少し匂うよね" },
+                { "smell3", "H: くさくない\nふんふん\nD: これ何だろう？" },
+                { "NoteA", "H:ぼくのノートだ!!!!!\nD: これ、君のノートだったの？" },
+                { "Miss", "H: これじゃないみたい...\nD: 何か違うみたいだね" },
+                { "BalloonStand", "H: 何かはさめそうだね\nD: スタンド、何かできるかも" },
         };
 
         // Item.Typeに基づく画像の初期化
@@ -84,11 +88,11 @@ public class TextManager : MonoBehaviour
         else
         {
             TextBox.SetActive(false);
+            DTextBox.SetActive(false);
             Debug.Log("Textboxがfalse");
         }
     }
 
-    // キーワードに対応するテキストを表示する
     public void DisplayTextForKeyword(string keyword)
     {
         if (keywordTextDictionary.ContainsKey(keyword))
@@ -101,40 +105,81 @@ public class TextManager : MonoBehaviour
         else
         {
             TextBox.SetActive(false);
+            DTextBox.SetActive(false); // DTextBoxも確実に非表示にする
             Debug.Log("Textboxがfalse");
         }
     }
 
-    // 現在の行を表示する (ここは変えない)
+    // 現在の行を表示するメソッド
     public void DisplayCurrentLine()
     {
         if (currentTextLines != null)
         {
+            Debug.Log($"currentLineIndex: {currentLineIndex}, totalLines: {currentTextLines.Length}");
+
             if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
             {
-                TextBox.SetActive(true); // ここでテキストボックスを表示
-                Debug.Log("Textboxがtrue");
+                // テキストボックスの表示を開始
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, true);
-                talkText.text = currentTextLines[currentLineIndex];
+                DisplayLineWithFlag(currentTextLines[currentLineIndex]);
                 currentLineIndex++;
+                Debug.Log($"Index incremented to: {currentLineIndex}");
             }
             else
             {
                 if (currentLineIndex < currentTextLines.Length)
                 {
-                    talkText.text = currentTextLines[currentLineIndex];
+                    DisplayLineWithFlag(currentTextLines[currentLineIndex]);
                     currentLineIndex++;
+                    Debug.Log($"Index incremented to: {currentLineIndex}");
                 }
                 else
                 {
-                    TextBox.SetActive(false);
                     currentLineIndex = 0;
-                    FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
-                    Debug.Log("Textboxがfalse");
+
+                    if (currentLineIndex == currentTextLines.Length)
+                    {
+                        // 最後の行を超えたら両方のTextBoxを非表示にする
+                        TextBox.SetActive(false);
+                        DTextBox.SetActive(false);
+                      
+                        FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
+                        Debug.Log("Textboxがfalse");
+                    }
                 }
             }
         }
     }
+
+    private void DisplayLineWithFlag(string currentLine)
+    {
+        Debug.Log($"Current line: {currentLine}");
+
+        // H: か D: で表示を切り替える
+        if (currentLine.StartsWith("H:"))
+        {
+            TextBox.SetActive(true);
+            DTextBox.SetActive(false); // DTextBoxを非表示
+            talkText.text = currentLine.Substring(2).Trim(); // "H:"を除去して表示
+            Debug.Log("H: TextBox表示, DTextBox非表示");
+        }
+        else if (currentLine.StartsWith("D:"))
+        {
+            DTextBox.SetActive(true);
+            TextBox.SetActive(false); // TextBoxを非表示
+            DtalkText.text = currentLine.Substring(2).Trim(); // "D:"を除去して表示
+            Debug.Log("D: DTextBox表示, TextBox非表示");
+        }
+        else
+        {
+            // 何も H: でも D: でもない場合の処理
+            TextBox.SetActive(true);
+            DTextBox.SetActive(false);
+            talkText.text = currentLine.Trim();
+            Debug.Log("通常のテキスト表示, DTextBox非表示");
+        }
+    }
+
 
     // Item.Typeに対応する画像を表示する
     private void DisplayImageForItemType(Item.Type itemType)

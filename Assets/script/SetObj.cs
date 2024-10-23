@@ -9,6 +9,7 @@ public class SetObj : MonoBehaviour
     [SerializeField] Item.Type useItem;
     [SerializeField] Collider triggerCollider;
     [SerializeField] GameObject TextBox; // TextBoxへの参照を公開
+    [SerializeField] private GameObject DTextBox;
     [SerializeField] TextManager textManager; // TextManagerへの参照を公開
 
     private bool playerInsideCollider = false;

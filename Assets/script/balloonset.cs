@@ -8,6 +8,7 @@ public class BalloonSet : MonoBehaviour
     public float frameDuration = 0.5f; // 1枚の画像を表示する時間（秒）
 
     [SerializeField] GameObject TextBox; // TextBoxへの参照を公開
+    [SerializeField] private GameObject DTextBox;
     [SerializeField] TextManager textManager; // TextManagerへの参照を公開
     [SerializeField] Collider standCollider;
 

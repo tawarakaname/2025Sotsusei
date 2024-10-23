@@ -7,6 +7,7 @@ public class PickupObj : MonoBehaviour
     [SerializeField] Item.Type itemType;
     [SerializeField] Collider triggerCollider;
     [SerializeField] private GameObject TextBox;
+    [SerializeField] private GameObject DTextBox;
     [SerializeField] private GameObject modelobj;
     Item item;
     [SerializeField] GameObject targetImage; // 表示・非表示を制御するImage
@@ -108,6 +109,7 @@ public class PickupObj : MonoBehaviour
             else
             {
                 textManager.DisplayCurrentLine();
+                Debug.Log("unn");
                 gameObject.SetActive(false);
             }
 

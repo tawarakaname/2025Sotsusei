@@ -7,6 +7,7 @@ public class SmellGimmick : MonoBehaviour
     [SerializeField] private Collider AquariumCollider2;
     [SerializeField] private Collider AquariumCollider3;
     [SerializeField] private GameObject TextBox; // TextBoxの参照
+    [SerializeField] private GameObject DTextBox;
 
     private string currentKeyword; // 現在のコライダーに対応するキーワード
 
