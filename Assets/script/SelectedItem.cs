@@ -5,6 +5,12 @@ public class SelectedItem : MonoBehaviour
 {
     [SerializeField] private Image image; // UIのImageコンポーネント
     private Item currentItem; // 現在選択されているアイテム
+    [SerializeField] AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Awake()
     {
@@ -66,5 +72,6 @@ public class SelectedItem : MonoBehaviour
 
         // アイテムのタイプが一致しない場合
         return false;
+        
     }
 }

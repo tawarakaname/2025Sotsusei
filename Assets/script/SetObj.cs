@@ -12,8 +12,23 @@ public class SetObj : MonoBehaviour
     [SerializeField] GameObject TextBox; // TextBoxへの参照
     [SerializeField] TextManager textManager; // TextManagerへの参照
 
+    private AudioSource[] audioSources; // 複数のAudioSourceを格納
+    private AudioSource audioSource; // 使用するAudioSource
+
     private string currentKeyword;
     private bool playerInsideCollider = false;
+
+    private void Start()
+    {
+        audioSources = GetComponents<AudioSource>();
+        if (audioSources == null || audioSources.Length == 0)
+        {
+            return;
+        }
+
+        // AudioSourceが存在する場合、最初のものを使用
+        audioSource = audioSources[0];
+    }
 
     private void UpdateSetObjEnabled()
     {
@@ -80,7 +95,10 @@ public class SetObj : MonoBehaviour
         {
             // アイテムが正しく使用されなかった場合
             currentKeyword = "Miss"; // エラーキーワードを設定
-
+            if (audioSource != null)
+            {
+                audioSource.Play(); // 適切なAudioSourceを使用
+            }
             // Textboxが表示されていない場合
             if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) && currentKeyword != null)
             {
@@ -90,7 +108,6 @@ public class SetObj : MonoBehaviour
             else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
             {
                 textManager.DisplayCurrentLine(); // 次のテキストラインを表示
-                Debug.Log("b");
             }
 
             return false; // アイテムが正しく使用されなかった

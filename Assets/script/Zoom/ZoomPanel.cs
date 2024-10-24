@@ -15,6 +15,7 @@ public class ZoomPanel : MonoBehaviour
     private bool isZoomSprite = false;
     private FlagManager flagManager;
     [SerializeField] AudioSource audioSource;
+    private bool canReceiveInput = true;
 
     private void Start()
     {
@@ -32,15 +33,16 @@ public class ZoomPanel : MonoBehaviour
 
     void Update()
     {
+        if (!canReceiveInput) return; // ディレイ中は入力を無視
+
         bool isItemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
         bool isZoomPanelFlagOn = flagManager.GetFlag(FlagManager.FlagType.zoompanel);
 
-        // PS4コントローラーのまるボタンは「Fire2」として認識されます
         if (isItemboxFlagOn && Input.GetButtonDown("Fire2"))
         {
-            audioSource.Play(); // 鳴らしたいタイミングで再生
-
+            audioSource.Play();
             FlagManager.Instance.SetFlag(FlagManager.FlagType.zoompanel, true);
+
             if (panel.activeSelf && imageComponent != null)
             {
                 ToggleImage();
@@ -48,13 +50,12 @@ public class ZoomPanel : MonoBehaviour
             else
             {
                 ShowPanel();
+                StartCoroutine(InputDelay(0.2f)); // 入力の受付を一時停止
             }
         }
 
-        // PS4コントローラーのバツボタンは「Fire1」として認識されます
         if (isZoomPanelFlagOn && Input.GetButtonDown("Fire1"))
         {
-            // ZoomPanel フラグを false に設定する
             FlagManager.Instance.SetFlag(FlagManager.FlagType.zoompanel, false);
             ClosePanel();
         }
@@ -81,10 +82,13 @@ public class ZoomPanel : MonoBehaviour
             // アイテムを表示
             imageComponent.sprite = originalSprite;
             zoomObj.SetActive(true); // 非表示状態から表示状態へ変更
-
             panel.SetActive(true);
+
+            // ここでisZoomSpriteをリセット
+            isZoomSprite = false;
         }
     }
+
 
     // 画像を切り替えるメソッド
     private void ToggleImage()
@@ -92,10 +96,12 @@ public class ZoomPanel : MonoBehaviour
         if (isZoomSprite)
         {
             imageComponent.sprite = originalSprite;
+            audioSource.Play(); // 鳴らしたいタイミングで再生
         }
         else
         {
             imageComponent.sprite = zoomSprite;
+            audioSource.Play(); // 鳴らしたいタイミングで再生
         }
         isZoomSprite = !isZoomSprite;
     }
@@ -105,6 +111,13 @@ public class ZoomPanel : MonoBehaviour
     {
         panel.SetActive(false);
         zoomObj.SetActive(false); // ZoomObjectを非表示にするだけで済む
+    }
+
+    private IEnumerator InputDelay(float delay)
+    {
+        canReceiveInput = false;
+        yield return new WaitForSeconds(delay);
+        canReceiveInput = true;
     }
 }
 

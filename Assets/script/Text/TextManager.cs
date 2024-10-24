@@ -1,8 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI; // 画像のために必要
+using System.Collections;
 
 public class TextManager : MonoBehaviour
 {
@@ -17,6 +17,7 @@ public class TextManager : MonoBehaviour
     public GameObject DTextBox; // D君のTextBox
     public TextMeshProUGUI DtalkText; // D君のテキスト
     [SerializeField] private Image Dicon0; // D君のアイコン（複数ある場合は他のアイコンも追加可能）
+
 
     private Dictionary<Item.Type, string> textDictionary; // Item.Type に基づくテキスト辞書
     private Dictionary<string, string> keywordTextDictionary; // キーワードに基づくテキスト辞書
@@ -121,7 +122,7 @@ public class TextManager : MonoBehaviour
             {
                 // テキストボックスの表示を開始
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, true);
-                StartCoroutine(TypeText(currentTextLines[currentLineIndex])); // テキストを1文字ずつ表示
+                DisplayLineWithFlag(currentTextLines[currentLineIndex]);
                 currentLineIndex++;
                 Debug.Log($"Index incremented to: {currentLineIndex}");
             }
@@ -129,32 +130,50 @@ public class TextManager : MonoBehaviour
             {
                 if (currentLineIndex < currentTextLines.Length)
                 {
-                    StartCoroutine(TypeText(currentTextLines[currentLineIndex])); // テキストを1文字ずつ表示
+                    DisplayLineWithFlag(currentTextLines[currentLineIndex]);
                     currentLineIndex++;
                     Debug.Log($"Index incremented to: {currentLineIndex}");
                 }
                 else
                 {
-                    // 最後の行を超えたら両方のTextBoxを非表示にする
-                    TextBox.SetActive(false);
-                    DTextBox.SetActive(false);
-                    FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
-                    Debug.Log("Textboxがfalse");
+                        // 最後の行を超えたら両方のTextBoxを非表示にする
+                        TextBox.SetActive(false);
+                        DTextBox.SetActive(false);
+                      
+                        FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
+                        Debug.Log("Textboxがfalse");
                 }
             }
         }
     }
 
-    // テキストを1文字ずつ表示するコルーチン
-    private IEnumerator TypeText(string text)
+    private void DisplayLineWithFlag(string currentLine)
     {
-        talkText.text = ""; // テキストをクリア
-        foreach (char letter in text.ToCharArray())
+        Debug.Log($"Current line: {currentLine}");
+
+        if (currentLine.StartsWith("H:"))
         {
-            talkText.text += letter; // 1文字ずつ追加
-            yield return new WaitForSeconds(0.1f); // 0.1秒待つ
+            TextBox.SetActive(true);
+            DTextBox.SetActive(false);
+            StopAllCoroutines();
+            StartCoroutine(TypeTextCoroutine(talkText, currentLine.Substring(2).Trim()));  // "H:" を除去して表示
+        }
+        else if (currentLine.StartsWith("D:"))
+        {
+            DTextBox.SetActive(true);
+            TextBox.SetActive(false);
+            StopAllCoroutines();
+            StartCoroutine(TypeTextCoroutine(DtalkText, currentLine.Substring(2).Trim()));  // "D:" を除去して表示
+        }
+        else
+        {
+            TextBox.SetActive(true);
+            DTextBox.SetActive(false);
+            StopAllCoroutines();
+            StartCoroutine(TypeTextCoroutine(talkText, currentLine.Trim()));  // 通常のテキスト表示
         }
     }
+
 
     // Item.Typeに対応する画像を表示する
     private void DisplayImageForItemType(Item.Type itemType)
@@ -183,5 +202,15 @@ public class TextManager : MonoBehaviour
         Hicon1.gameObject.SetActive(false);
         Hicon2.gameObject.SetActive(false);
         Hicon3.gameObject.SetActive(false);
+    }
+
+    private IEnumerator TypeTextCoroutine(TextMeshProUGUI textField, string fullText)
+    {
+        textField.text = "";  // 表示をクリア
+        foreach (char c in fullText)
+        {
+            textField.text += c;  // 一文字ずつ追加
+            yield return new WaitForSeconds(0.1f);  // 0.1秒待機
+        }
     }
 }
