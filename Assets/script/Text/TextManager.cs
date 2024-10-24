@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -16,7 +17,6 @@ public class TextManager : MonoBehaviour
     public GameObject DTextBox; // D君のTextBox
     public TextMeshProUGUI DtalkText; // D君のテキスト
     [SerializeField] private Image Dicon0; // D君のアイコン（複数ある場合は他のアイコンも追加可能）
-
 
     private Dictionary<Item.Type, string> textDictionary; // Item.Type に基づくテキスト辞書
     private Dictionary<string, string> keywordTextDictionary; // キーワードに基づくテキスト辞書
@@ -121,7 +121,7 @@ public class TextManager : MonoBehaviour
             {
                 // テキストボックスの表示を開始
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, true);
-                DisplayLineWithFlag(currentTextLines[currentLineIndex]);
+                StartCoroutine(TypeText(currentTextLines[currentLineIndex])); // テキストを1文字ずつ表示
                 currentLineIndex++;
                 Debug.Log($"Index incremented to: {currentLineIndex}");
             }
@@ -129,52 +129,32 @@ public class TextManager : MonoBehaviour
             {
                 if (currentLineIndex < currentTextLines.Length)
                 {
-                    DisplayLineWithFlag(currentTextLines[currentLineIndex]);
+                    StartCoroutine(TypeText(currentTextLines[currentLineIndex])); // テキストを1文字ずつ表示
                     currentLineIndex++;
                     Debug.Log($"Index incremented to: {currentLineIndex}");
                 }
                 else
                 {
-                        // 最後の行を超えたら両方のTextBoxを非表示にする
-                        TextBox.SetActive(false);
-                        DTextBox.SetActive(false);
-                      
-                        FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
-                        Debug.Log("Textboxがfalse");
+                    // 最後の行を超えたら両方のTextBoxを非表示にする
+                    TextBox.SetActive(false);
+                    DTextBox.SetActive(false);
+                    FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
+                    Debug.Log("Textboxがfalse");
                 }
             }
         }
     }
 
-    private void DisplayLineWithFlag(string currentLine)
+    // テキストを1文字ずつ表示するコルーチン
+    private IEnumerator TypeText(string text)
     {
-        Debug.Log($"Current line: {currentLine}");
-
-        // H: か D: で表示を切り替える
-        if (currentLine.StartsWith("H:"))
+        talkText.text = ""; // テキストをクリア
+        foreach (char letter in text.ToCharArray())
         {
-            TextBox.SetActive(true);
-            DTextBox.SetActive(false); // DTextBoxを非表示
-            talkText.text = currentLine.Substring(2).Trim(); // "H:"を除去して表示
-            Debug.Log("H: TextBox表示, DTextBox非表示");
-        }
-        else if (currentLine.StartsWith("D:"))
-        {
-            DTextBox.SetActive(true);
-            TextBox.SetActive(false); // TextBoxを非表示
-            DtalkText.text = currentLine.Substring(2).Trim(); // "D:"を除去して表示
-            Debug.Log("D: DTextBox表示, TextBox非表示");
-        }
-        else
-        {
-            // 何も H: でも D: でもない場合の処理
-            TextBox.SetActive(true);
-            DTextBox.SetActive(false);
-            talkText.text = currentLine.Trim();
-            Debug.Log("通常のテキスト表示, DTextBox非表示");
+            talkText.text += letter; // 1文字ずつ追加
+            yield return new WaitForSeconds(0.1f); // 0.1秒待つ
         }
     }
-
 
     // Item.Typeに対応する画像を表示する
     private void DisplayImageForItemType(Item.Type itemType)

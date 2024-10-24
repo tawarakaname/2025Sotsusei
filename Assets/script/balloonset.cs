@@ -59,18 +59,24 @@ public class BalloonSet : MonoBehaviour
         }
         // balloon フラグが false の場合のみ、コライダーとFire2に関連した動作を行う
         else if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
-        { 
-            // Fire2ボタンとTextBoxの処理
-            if (Input.GetButtonDown("Fire2") && currentKeyword != null && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+        {
+            // IllustPasswordclear フラグが false の場合のみ Fire2 ボタンと TextBox の処理を行う
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.ColorPasswordclear))
             {
-                OnClickstandThis();
-            }
-            else if (Input.GetButtonDown("Fire2") && currentKeyword != null && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-            {
-                textManager.DisplayCurrentLine();
+                // Fire2ボタンが押され、かつ currentKeyword が null でない場合
+                if (Input.GetButtonDown("Fire2") && currentKeyword != null && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+                {
+                    OnClickstandThis();
+                }
+                else if (Input.GetButtonDown("Fire2") && currentKeyword != null && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+                {
+                    textManager.DisplayCurrentLine();
+                }
+                
             }
         }
     }
+
 
     public void OnClickstandThis()
     {

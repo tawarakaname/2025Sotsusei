@@ -2,47 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class SetObj : MonoBehaviour
 {
     [SerializeField] GameObject setObject;
     [SerializeField] Item.Type useItem;
     [SerializeField] Collider triggerCollider;
-    [SerializeField] GameObject TextBox; // TextBoxへの参照を公開
-    [SerializeField] private GameObject DTextBox;
-    [SerializeField] TextManager textManager; // TextManagerへの参照を公開
+    [SerializeField] GameObject TextBox; // TextBoxへの参照
+    [SerializeField] TextManager textManager; // TextManagerへの参照
 
+    private string currentKeyword;
     private bool playerInsideCollider = false;
-
-    void OnEnable()
-    {
-        UpdateSetObjEnabled(); // 初期化時に有効状態を設定
-    }
-
-    void Update()
-    {
-        // フラグに基づいてこのコンポーネントを有効無効に設定
-        UpdateSetObjEnabled();
-
-        // プレイヤーがコライダー内にいて、ボタンが押されたときのみ処理
-        if (playerInsideCollider && Input.GetButtonDown("Fire2") && enabled) // enabledがtrueの時のみ処理
-        {
-            OnClickThis();
-        }
-    }
 
     private void UpdateSetObjEnabled()
     {
-        // DialPasswordclearフラグも考慮
+        // DialPasswordclearフラグを基に有効無効を設定
         enabled = FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear);
+    }
+
+    private void OnEnable()
+    {
+        // 初期化時にコンポーネントの有効状態を設定
+        UpdateSetObjEnabled();
+    }
+
+    private void Update()
+    {
+        // フラグに基づいてこのコンポーネントの有効状態を更新
+        UpdateSetObjEnabled();
+
+        // プレイヤーがコライダー内にいて、ボタンが押されたときのみ処理
+        if (playerInsideCollider && Input.GetButtonDown("Fire2") && enabled)
+        {
+            OnClickThis(); // TextBoxが非表示のときはOnClickThisを呼び出す
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            playerInsideCollider = true;
-            TextBox.SetActive(false); // コライダーに入ったときにTextBoxを非表示にする
+            playerInsideCollider = true; // プレイヤーがコライダー内にいることを記録
         }
     }
 
@@ -50,36 +51,56 @@ public class SetObj : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerInsideCollider = false;
+            playerInsideCollider = false; // プレイヤーがコライダーから出たことを記録
         }
     }
 
     public bool OnClickThis()
     {
-        // アイテムを使用できるか試み、使用できたら処理を行う
+        // アイテムを使用できるか確認し、使用できたら処理を行う
         if (Itembox.instance.TryUseItem(useItem))
         {
             Item selectedItem = Itembox.instance.GetSelectedItem();
 
-            //if (selectedItem != null)
+            if (selectedItem != null)
             {
-                // アイテムのタイプに基づいてフラグをtrueに設定
-              //  FlagManager.Instance.SetFlagByType(selectedItem.type, true);
-                
+                // アイテムのタイプに基づいてフラグを設定
+                FlagManager.Instance.SetFlagByType(selectedItem.type, true);
             }
 
-            // setObjectがnullでない場合のみ処理を行う
+            // setObjectが指定されていればアクティブにする
             if (setObject != null)
             {
                 setObject.SetActive(true);
             }
-            return true; // アイテムが正しく使用された場合
+
+            return true; // アイテムが正しく使用された
         }
         else
         {
-            TextBox.SetActive(true); // TextBoxを表示
-            return false; // アイテムが正しく使用されなかった場合
+            // アイテムが正しく使用されなかった場合
+            currentKeyword = "Miss"; // エラーキーワードを設定
+
+            // Textboxが表示されていない場合
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) && currentKeyword != null)
+            {
+                OnClickMissTextThis(); // Miss用のテキストを表示
+            }
+            // Textboxが表示されている場合
+            else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+            {
+                textManager.DisplayCurrentLine(); // 次のテキストラインを表示
+                Debug.Log("b");
+            }
+
+            return false; // アイテムが正しく使用されなかった
         }
     }
+
+    public void OnClickMissTextThis()
+    {
+        // キーワードに基づいたテキストを表示
+        textManager.DisplayTextForKeyword(currentKeyword);
+        Debug.Log("a");
+    }
 }
- 
