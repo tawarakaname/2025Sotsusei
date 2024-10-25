@@ -63,6 +63,7 @@ public class FlagManager : MonoBehaviour
         Adooropen,
         StandCamera,
         Aboxopen,
+        Bboxopen,
         Itemgetpanel,
         Gasbaneropen,
     }

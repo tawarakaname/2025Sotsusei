@@ -6,6 +6,7 @@ public class ColorPassword : MonoBehaviour
 
     [SerializeField] private int[] correctNumbers; // 正解の番号
     [SerializeField] private ColorPasswordButton[] ColorpasswordButtons; // 現在のパネルの数値
+    [SerializeField] private GameObject balloon; // 最初に非表示のオブジェクト
 
     private int currentPosition = 0; // 現在選択されているスロットの位置
     private float nextMoveTime = 0f; // 次に移動できる時間を記録
@@ -21,21 +22,19 @@ public class ColorPassword : MonoBehaviour
 
     public void CheckClear()
     {
-        // フラグがすでにtrueの場合は何もしない
         if (flagManager.GetFlag(FlagManager.FlagType.ColorPasswordclear))
             return;
 
         if (IsClear())
         {
-            // フラグを設定する
             FlagManager.Instance.SetFlag(FlagManager.FlagType.ColorPasswordclear, true);
             Debug.Log("ColorPasswordclearFlagON");
+            balloon.SetActive(true);
         }
     }
 
     private void Update()
     {
-        // 必要なフラグが無効な場合は処理を終了
         if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
             !flagManager.GetFlag(FlagManager.FlagType.BoxBCamera))
             return;
@@ -67,7 +66,7 @@ public class ColorPassword : MonoBehaviour
             if (Input.GetButtonDown("Fire2") && !isFireButtonPressed)
             {
                 var currentButton = ColorpasswordButtons[currentPosition];
-                if (currentButton.BgPanel.activeSelf)
+                if (currentButton.IsButtonActive())
                 {
                     currentButton.OnClickThis(); // 現在のボタンをクリック
                     CheckClear(); // クリア条件をチェック
@@ -85,14 +84,12 @@ public class ColorPassword : MonoBehaviour
     {
         if (lastSelectedPosition == position) return; // 既に選択されている場合は何もしない
 
-        // 前の選択を解除
         if (lastSelectedPosition >= 0)
         {
-           ColorpasswordButtons[lastSelectedPosition].HideBGColorPanel();
+            ColorpasswordButtons[lastSelectedPosition].HideBGColorPanel(); // 前の選択を解除
         }
 
-        // 新たに選択されたボタンの背景パネルを表示
-        ColorpasswordButtons[position].ShowBGPanel();
+        ColorpasswordButtons[position].ShowBGPanel(); // 新たに選択されたボタンの背景パネルを表示
         lastSelectedPosition = position; // 新しい選択を記録
     }
 
@@ -102,7 +99,7 @@ public class ColorPassword : MonoBehaviour
         SelectColorButton(currentPosition); // 新たに選択を更新
     }
 
-    bool IsClear()
+    private bool IsClear()
     {
         for (int i = 0; i < correctNumbers.Length; i++)
         {
@@ -113,6 +110,4 @@ public class ColorPassword : MonoBehaviour
         }
         return true;
     }
-
-
 }
