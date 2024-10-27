@@ -5,17 +5,14 @@ public class SelectedItem : MonoBehaviour
 {
     [SerializeField] private Image image; // UIのImageコンポーネント
     private Item currentItem; // 現在選択されているアイテム
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] private AudioSource audioSource;
 
-    private void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-    }
 
     private void Awake()
     {
         // シーンが切り替わってもこのゲームオブジェクトを保持する
         DontDestroyOnLoad(gameObject);
+        audioSource = GetComponent<AudioSource>();
     }
 
     // アイテムを更新するメソッド
@@ -23,55 +20,38 @@ public class SelectedItem : MonoBehaviour
     {
         currentItem = item;
 
-        // アイテムがnullでない場合にスプライトを更新
-        if (item != null && image != null)
-        {
-            image.sprite = item.sprite;
-        }
-        else if (image != null)
-        {
-            image.sprite = null; // アイテムがnullの場合はスプライトを消去
+        // アイテムがある場合は itemmotteru フラグを true に設定
+        bool hasItem = item != null;
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.itemmotteru, hasItem);
 
+        if (image != null)
+        {
+            image.sprite = hasItem ? item.sprite : null; // item が null でない場合スプライト更新、null なら消去
+            Debug.Log("更新");
         }
     }
 
     // アイテムの使用を試みるメソッド
-    public bool TryUseItem(Item.Type type, Slot slot)
+    public bool TryUseItemm(Item.Type type, Slot slot)
     {
-        // currentItemがnullの場合は早期リターン
-        if (currentItem == null)
+        if (currentItem == null || currentItem.type != type)
         {
-            return false; // アイテムがnullの場合、使用できないためfalseを返す
+            return false; // アイテムが null、またはタイプが一致しない場合は使用不可
         }
 
-        // 現在のアイテムが正しい場合
-        if (currentItem.type == type)
+        FlagManager.Instance.SetFlagByType(currentItem.type, true);
+        currentItem = null;
+        image.sprite = null; // アイテム消去時にスプライトもクリア
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.itemmotteru, false); // アイテム消去時にフラグを false に
+
+        if (slot != null)
         {
-            // 何のアイテムを使用するのかをコンソールに表示
-            Debug.Log($"使用したアイテム: {currentItem.type}");
-
-            // フラグを立てる処理
-            FlagManager.Instance.SetFlagByType(currentItem.type, true);
-
-            // アイテムを削除する処理
-            currentItem = null;
-            if (image != null)
-            {
-                image.sprite = null; // アイテムを削除した場合はスプライトも消去
-            }
-
-            // スロットが指定されている場合
-            if (slot != null)
-            {
-                slot.HideBGPanel(); // スロットの背景パネルを非表示
-                slot.SetItem(null); // スロットからアイテムを削除
-            }
-
-            return true; // アイテムが正しく使用された場合trueを返す
+            slot.HideBGPanel();
+            slot.SetItem(null);
         }
 
-        // アイテムのタイプが一致しない場合
-        return false;
-        
+        UpdateSelectedItem(null); // アイテム使用後に選択をクリア
+
+        return true; // アイテムが使用された場合
     }
 }

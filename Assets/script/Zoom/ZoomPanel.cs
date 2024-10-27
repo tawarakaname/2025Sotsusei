@@ -38,7 +38,7 @@ public class ZoomPanel : MonoBehaviour
         bool isItemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
         bool isZoomPanelFlagOn = flagManager.GetFlag(FlagManager.FlagType.zoompanel);
 
-        if (isItemboxFlagOn && Input.GetButtonDown("Fire2"))
+        if (isItemboxFlagOn && Input.GetButtonDown("Fire3"))
         {
             audioSource.Play();
             FlagManager.Instance.SetFlag(FlagManager.FlagType.zoompanel, true);

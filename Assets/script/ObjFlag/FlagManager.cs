@@ -66,6 +66,8 @@ public class FlagManager : MonoBehaviour
         Bboxopen,
         Itemgetpanel,
         Gasbaneropen,
+        itemmotteru,
+        playballoon,
     }
 
     // シングルトンインスタンス

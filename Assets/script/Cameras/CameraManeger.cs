@@ -36,19 +36,19 @@ public class CameraManeger : MonoBehaviour
 
     private void Update()
     {
-        // ボタンが押されたら、フラグを確認
-        if (Input.GetButtonDown("Fire1"))
+        // Itemgetpanel フラグが false の場合のみ処理を実行
+        if (!flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel) &&
+            flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
         {
-            // Itemgetpanel フラグが false の場合のみ処理を実行
-            if (!flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel))
+            // Fire1 ボタンが押された場合のみカメラを戻す処理を実行
+            if (Input.GetButtonDown("Fire1"))
             {
-                if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
-                {
-                    ReturnToMainCamera();
-                    flagManager.SetFlag(FlagManager.FlagType.CameraZoomObj, false);
-                }
+                ReturnToMainCamera();
+                flagManager.SetFlag(FlagManager.FlagType.CameraZoomObj, false);
+                
             }
         }
+
     }
 
 

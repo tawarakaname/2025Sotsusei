@@ -15,6 +15,7 @@ public class PickupObj : MonoBehaviour
 
     private bool playerInsideCollider = false;
     private bool ispickup = false;
+    private bool hasDisplayedText = false;
 
     private void Start()
     {
@@ -36,6 +37,12 @@ public class PickupObj : MonoBehaviour
 
     void Update()
     {
+        // Textboxフラグがfalseになったときにアイテムを非表示にする処理
+        if (ispickup && hasDisplayedText && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+        {
+            gameObject.SetActive(false);
+        }
+
         if (playerInsideCollider)
         {
             // PS4コントローラーの⚪︎ボタンは「Fire2」として認識されます
@@ -54,7 +61,6 @@ public class PickupObj : MonoBehaviour
         }
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -65,8 +71,6 @@ public class PickupObj : MonoBehaviour
             {
                 targetImage.SetActive(true);
             }
-
-
         }
     }
 
@@ -74,14 +78,12 @@ public class PickupObj : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (ispickup) gameObject.SetActive(false);
             playerInsideCollider = false;
 
             if (targetImage != null)
             {
                 targetImage.SetActive(false); // Imageを非表示
             }
-
         }
     }
 
@@ -94,7 +96,6 @@ public class PickupObj : MonoBehaviour
             Itembox.instance.SetItem(item);
             ispickup = true;
         }
-
 
         // アイテムが設定された後の処理
         modelobj.SetActive(false);
@@ -111,7 +112,7 @@ public class PickupObj : MonoBehaviour
             {
                 textManager.DisplayCurrentLine();
             }
-
+            hasDisplayedText = true; // テキスト表示が行われたことを記録
         }
 
         // itemTypeが"key1"だった場合のみ、Flagを設定
@@ -120,6 +121,4 @@ public class PickupObj : MonoBehaviour
             FlagManager.Instance.SetFlag(FlagManager.FlagType.havekey1, true);
         }
     }
-
-
 }

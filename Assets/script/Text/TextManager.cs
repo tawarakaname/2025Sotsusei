@@ -90,7 +90,6 @@ public class TextManager : MonoBehaviour
         {
             TextBox.SetActive(false);
             DTextBox.SetActive(false);
-            Debug.Log("Textboxがfalse");
         }
     }
 
@@ -107,7 +106,6 @@ public class TextManager : MonoBehaviour
         {
             TextBox.SetActive(false);
             DTextBox.SetActive(false); // DTextBoxも確実に非表示にする
-            Debug.Log("Textboxがfalse");
         }
     }
 
@@ -116,15 +114,12 @@ public class TextManager : MonoBehaviour
     {
         if (currentTextLines != null)
         {
-            Debug.Log($"currentLineIndex: {currentLineIndex}, totalLines: {currentTextLines.Length}");
-
             if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
             {
                 // テキストボックスの表示を開始
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, true);
                 DisplayLineWithFlag(currentTextLines[currentLineIndex]);
                 currentLineIndex++;
-                Debug.Log($"Index incremented to: {currentLineIndex}");
             }
             else
             {
@@ -132,7 +127,6 @@ public class TextManager : MonoBehaviour
                 {
                     DisplayLineWithFlag(currentTextLines[currentLineIndex]);
                     currentLineIndex++;
-                    Debug.Log($"Index incremented to: {currentLineIndex}");
                 }
                 else
                 {
@@ -141,7 +135,6 @@ public class TextManager : MonoBehaviour
                         DTextBox.SetActive(false);
                       
                         FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
-                        Debug.Log("Textboxがfalse");
                 }
             }
         }
@@ -149,7 +142,6 @@ public class TextManager : MonoBehaviour
 
     private void DisplayLineWithFlag(string currentLine)
     {
-        Debug.Log($"Current line: {currentLine}");
 
         if (currentLine.StartsWith("H:"))
         {

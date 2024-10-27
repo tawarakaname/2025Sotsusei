@@ -8,7 +8,8 @@ public class Slot : MonoBehaviour
     //アイテムを受け取ったらスロットに表示するようにする
     Item item;
     [SerializeField]Image image;
-    [SerializeField] GameObject backgroundPanel; 
+    [SerializeField] GameObject backgroundPanel;
+    [SerializeField] GameObject backgroundPanel2;
 
     private void Awake()
     {
@@ -17,6 +18,7 @@ public class Slot : MonoBehaviour
     private void Start()
     {
         backgroundPanel.SetActive(false);
+        backgroundPanel2.SetActive(false);
     }
 
      // アイテムボックスが空かどうか
@@ -57,12 +59,14 @@ public class Slot : MonoBehaviour
             return false;
         }
         backgroundPanel.SetActive(true);
+        backgroundPanel2.SetActive(true);
         return true;
     }
 
     public void HideBGPanel()
     {
         backgroundPanel.SetActive(false);
+        backgroundPanel2.SetActive(false);
     }
 
     public bool HasItem()

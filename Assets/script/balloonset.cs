@@ -3,23 +3,31 @@ using UnityEngine;
 
 public class BalloonSet : MonoBehaviour
 {
-    public Renderer quadRenderer; // QuadのRendererコンポーネント
-    public Texture[] balloonTextures; // 切り替える3枚のテクスチャ（スプライトをテクスチャに変換しておく）
-    public float frameDuration = 0.5f; // 1枚の画像を表示する時間（秒）
+    public GameObject balloonanim;  //  (アニメーションがついているオブジェクト)
+    private Animator balloonAnimator;  // アニメーター
 
     [SerializeField] GameObject TextBox; // TextBoxへの参照を公開
     [SerializeField] private GameObject DTextBox;
     [SerializeField] TextManager textManager; // TextManagerへの参照を公開
     [SerializeField] Collider standCollider;
+    [SerializeField] Canvas Akeyget;
 
+    [SerializeField] private MonoBehaviour playerScript;  // Playerクラスをアタッチ
+    private bool controlsDisabled = false;  // 操作無効フラグ
+    private bool canvasEnabled = false;  // canvasDgetが有効になったかを追跡するフラグ
     private string currentKeyword; // 現在のコライダーに対応するキーワード
 
-    public Transform animationPosition; // アニメーションを表示する場所
 
-    private bool hasPlayed = false;
-    private int currentFrame = 0;
-
-    private void OnTriggerEnter(Collider other)
+    void Start()
+    {
+        Akeyget.gameObject.SetActive(false);
+        // ueとshitaのAnimatorコンポーネントを取得
+        if (balloonanim != null)
+        {
+            balloonAnimator = balloonanim.GetComponent<Animator>();
+        }
+    }
+        private void OnTriggerEnter(Collider other)
     {
         // balloon フラグが false の場合にのみ処理を実行
         if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
@@ -51,11 +59,11 @@ public class BalloonSet : MonoBehaviour
 
     private void Update()
     {
-        // balloon フラグが true ならテクスチャアニメーションを再生
-        if (FlagManager.Instance.GetFlagByType(Item.Type.balloon) && !hasPlayed)
+        // balloon フラグが true ならアニメーションを再生
+        if (FlagManager.Instance.GetFlagByType(Item.Type.balloon) && !FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon))
         {
-            StartCoroutine(PlayBalloonTextureAnimation());
-            hasPlayed = true; // 一度だけ再生するようにフラグを立てる
+            Playballoontriger();
+            DisablePlayerControls();
         }
         // balloon フラグが false の場合のみ、コライダーとFire2に関連した動作を行う
         else if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
@@ -75,6 +83,33 @@ public class BalloonSet : MonoBehaviour
                 
             }
         }
+        //  Akeygetが true で、まだ canvas が有効化されていない場合のみ処理を行う
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget) && !canvasEnabled)
+        {
+            StartCoroutine(EnableCanvasAD());
+        }
+
+        // 条件をチェック
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.balloon) &&
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon) &&
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.StandCamera) &&
+            Input.GetButtonDown("Fire2"))
+        {
+            // Fire2が押されたらCanvasをfalseに
+            Akeyget.gameObject.SetActive(false);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
+            playerScript.enabled = true;
+        }
+        if (controlsDisabled)
+        {
+            // Fire1, Fire2 の入力を無効化
+            if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
+            {
+                // 何も行わない（入力を無視）
+                return;
+            }
+        }
     }
 
 
@@ -85,27 +120,52 @@ public class BalloonSet : MonoBehaviour
 
 
     // テクスチャを順番に切り替えるコルーチン
-    IEnumerator PlayBalloonTextureAnimation()
+    private void Playballoontriger()
     {
-        // テクスチャの表示場所を指定
-        if (animationPosition != null)
+        /// playballoonopen がまだ開かれていない場合のみアニメーションを再生
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon))
         {
-            quadRenderer.transform.position = animationPosition.position;
-        }
-
-        while (currentFrame < balloonTextures.Length)
-        {
-            // 現在のフレームのテクスチャを設定
-            quadRenderer.material.mainTexture = balloonTextures[currentFrame];
-
-            // frameDuration秒待つ
-            yield return new WaitForSeconds(frameDuration);
-
-            // 次のフレームに進む
-            currentFrame++;
+            // playballoonフラグを true にして再生を一度だけにする
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.playballoon, true);
+            Playanimationballoon();
+            // Fire1, Fire2 入力を無効にするフラグを立てる
+            controlsDisabled = true;
         }
 
         // テクスチャが正常に再生されたらAkeygetフラグをtrueに設定
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Akeyget, true);
+    }
+
+    private void Playanimationballoon()
+    {
+        balloonAnimator.SetTrigger("balloonanim");
+    }
+
+    private IEnumerator EnableCanvasAD()
+    {
+        // 1秒待機
+        yield return new WaitForSeconds(1.7f);
+
+        // Akeygetをtrueにする
+        if (!canvasEnabled)  // まだcanvasが有効化されていない場合のみ実行
+        {
+            Akeyget.gameObject.SetActive(true);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
+
+            // canvas が有効化されたことを記録
+            canvasEnabled = true; // ここでフラグを設定
+        }
+    }
+
+    private void DisablePlayerControls()
+    {
+        // Playerスクリプトを無効化（操作不可にする）
+        if (playerScript != null)
+        {
+            playerScript.enabled = false;
+        }
+
+        // Fire1, Fire2 ボタンの入力を無効化する
+        controlsDisabled = true;
     }
 }

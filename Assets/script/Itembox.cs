@@ -7,7 +7,9 @@ public class Itembox : MonoBehaviour
 {
     [SerializeField] private Slot[] slots;
     [SerializeField] private Slot selectedSlot = null;
+    private string currentKeyword; // 現在のキーワード（エラーメッセージ用）
     [SerializeField] private SelectedItem selectedItemPanel;
+    [SerializeField] private TextManager textManager; // テキストを管理するクラスの参照
 
     private int currentPosition = 0;  // 現在選択されているスロットの位置
     private FlagManager flagManager;
@@ -66,7 +68,23 @@ public class Itembox : MonoBehaviour
 
             nextMoveTime = Time.time + 0.2f; // 0.2秒後に次の移動を許可
         }
+
+        // Fire2ボタンが押された瞬間にのみアイテム情報を更新
+        if (Input.GetButtonDown("Fire2")) // "押された瞬間"のみに変更
+        {
+            if (selectedSlot != null && selectedSlot.HasItem())
+            {
+                Item selectedItem = selectedSlot.GetItem();
+                selectedItemPanel.UpdateSelectedItem(selectedItem);
+            }
+            else
+            {
+                selectedItemPanel.UpdateSelectedItem(null); // アイテムがない場合はnullで更新
+            }
+        }
     }
+
+
 
     private void ShiftSlotRight()
     {
@@ -138,11 +156,10 @@ public class Itembox : MonoBehaviour
         if (slots[position].OnSelected())
         {
             selectedSlot = slots[position];
-            // 選択されたアイテムをSelectedItemクラスに通知
-            selectedItemPanel.UpdateSelectedItem(selectedSlot.GetItem());
-        }
 
+        }
     }
+
 
     public bool TryUseItem(Item.Type type)
     {
@@ -162,11 +179,30 @@ public class Itembox : MonoBehaviour
         // アイテムのタイプが一致している場合のみ使用を試みる
         if (selectedItem.type == type)
         {
-            bool result = selectedItemPanel.TryUseItem(type, selectedSlot);
+            bool result = selectedItemPanel.TryUseItemm(type, selectedSlot);
             return result;
         }
+        else
+        {
+            // タイプが一致しない場合にエラーメッセージを表示
+            currentKeyword = "Miss"; // エラーメッセージ用のキーワードを設定
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+            {
+                OnClickMissTextThis();
+            }
+            else
+            {
+                textManager.DisplayCurrentLine(); // 次のテキストラインを表示
+            }
 
-        return false; // タイプが一致しない場合
+            return false; // タイプが一致しない場合
+        }
+    }
+
+    // エラー時のキーワードに基づいてテキストを表示
+    public void OnClickMissTextThis()
+    {
+        textManager.DisplayTextForKeyword(currentKeyword);
     }
 
 
@@ -178,4 +214,3 @@ public class Itembox : MonoBehaviour
     }
 
 }
-

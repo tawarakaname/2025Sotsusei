@@ -1,61 +1,105 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using UnityEngine.UI;
 
 public class SetObj : MonoBehaviour
 {
-    [SerializeField] GameObject setObject;
-    [SerializeField] Item.Type useItem;
-    [SerializeField] Collider triggerCollider;
-    [SerializeField] GameObject TextBox; // TextBoxへの参照
-    [SerializeField] TextManager textManager; // TextManagerへの参照
+    [SerializeField] private GameObject setObject; // 表示するオブジェクト
+    [SerializeField] private Item.Type useItem; // 使用するアイテムのタイプ
+    [SerializeField] private GameObject targetUI; // 条件が揃った時に表示するUI
+    [SerializeField] private SelectedItem selectedItem; // 選択されたアイテムの参照
+    
 
-    private AudioSource[] audioSources; // 複数のAudioSourceを格納
-    private AudioSource audioSource; // 使用するAudioSource
-
-    private string currentKeyword;
-    private bool playerInsideCollider = false;
+    private AudioSource audioSource; // 音を再生するためのAudioSource
+    private bool playerInsideCollider = false; // プレイヤーがコライダー内にいるかどうか
 
     private void Start()
     {
-        audioSources = GetComponents<AudioSource>();
-        if (audioSources == null || audioSources.Length == 0)
-        {
-            return;
-        }
-
-        // AudioSourceが存在する場合、最初のものを使用
-        audioSource = audioSources[0];
-    }
-
-    private void UpdateSetObjEnabled()
-    {
-        // DialPasswordclearフラグを基に有効無効を設定
-        enabled = FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear);
-    }
-
-    private void OnEnable()
-    {
-        // 初期化時にコンポーネントの有効状態を設定
-        UpdateSetObjEnabled();
+        targetUI.SetActive(false); // 初期状態でUIを非表示に設定
+        audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
     }
 
     private void Update()
     {
-        // フラグに基づいてこのコンポーネントの有効状態を更新
-        UpdateSetObjEnabled();
+        UpdateUIVisibility(); // UIの表示状態を更新
+    }
 
-        // プレイヤーがコライダー内にいて、ボタンが押されたときのみ処理
-        if (playerInsideCollider && Input.GetButtonDown("Fire2") && enabled)
+    private void UpdateUIVisibility()
+    {
+        // 各フラグの状態を取得
+        bool isCameraZoomObj = FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj);
+        bool hasItem = FlagManager.Instance.GetFlag(FlagManager.FlagType.itemmotteru);
+        bool componentEnabled = IsComponentEnabled(); // コンポーネントが有効かどうかを確認
+
+        // 全ての条件がtrueの場合にのみUIを表示
+        if (isCameraZoomObj && hasItem && componentEnabled)
         {
-            OnClickThis(); // TextBoxが非表示のときはOnClickThisを呼び出す
+            if (!targetUI.activeSelf) // すでに表示されていない場合のみアクティブ化
+            {
+                targetUI.SetActive(true);
+                Debug.Log("true");
+                UIdasetayo();
+            }
         }
+        else
+        {
+            if (targetUI.activeSelf) // 表示されている場合のみ非アクティブ化
+            {
+                targetUI.SetActive(false);
+            }
+        }
+    }
+
+
+    private bool IsComponentEnabled()
+    {
+        // ダイアルパスワードがクリアされているかとカメラズームオブジェクトフラグの状態を取得
+        bool isDialPasswordClear = FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear);
+        bool isCameraZoomObj = FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj);
+        return isDialPasswordClear && isCameraZoomObj; // 両方がtrueの場合にのみ有効
+    }
+
+    private void UIdasetayo()
+    {
+        
+        if (targetUI.activeSelf && playerInsideCollider && Input.GetButtonDown("Fire2"))
+        {
+            OnClickThis();
+            Debug.Log("ositayo-");
+        }
+    }
+
+    public bool OnClickThis()
+    {
+        // アイテムの使用を試みる
+        if (Itembox.instance.TryUseItem(useItem))
+        {
+            targetUI.SetActive(false);
+            Debug.Log("false");
+            Item selectedItem = Itembox.instance.GetSelectedItem();
+            if (selectedItem != null)
+            {
+                // 使用したアイテムのフラグを設定
+                FlagManager.Instance.SetFlagByType(selectedItem.type, true);
+            }
+            return true; // アイテムが正しく使用された
+        }
+        else
+        {
+            HandleMiss(); // アイテムの使用に失敗した場合の処理
+            return false; // アイテムが正しく使用されなかった
+        }
+    }
+
+    private void HandleMiss()
+    {
+        audioSource?.Play(); // 音を再生
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // プレイヤーがコライダーに入ったときの処理
         if (other.CompareTag("Player"))
         {
             playerInsideCollider = true; // プレイヤーがコライダー内にいることを記録
@@ -64,60 +108,11 @@ public class SetObj : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        // プレイヤーがコライダーから出たときの処理
         if (other.CompareTag("Player"))
         {
             playerInsideCollider = false; // プレイヤーがコライダーから出たことを記録
         }
     }
 
-    public bool OnClickThis()
-    {
-        // アイテムを使用できるか確認し、使用できたら処理を行う
-        if (Itembox.instance.TryUseItem(useItem))
-        {
-            Item selectedItem = Itembox.instance.GetSelectedItem();
-
-            if (selectedItem != null)
-            {
-                // アイテムのタイプに基づいてフラグを設定
-                FlagManager.Instance.SetFlagByType(selectedItem.type, true);
-            }
-
-            // setObjectが指定されていればアクティブにする
-            if (setObject != null)
-            {
-                setObject.SetActive(true);
-            }
-
-            return true; // アイテムが正しく使用された
-        }
-        else
-        {
-            // アイテムが正しく使用されなかった場合
-            currentKeyword = "Miss"; // エラーキーワードを設定
-            if (audioSource != null)
-            {
-                audioSource.Play(); // 適切なAudioSourceを使用
-            }
-            // Textboxが表示されていない場合
-            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) && currentKeyword != null)
-            {
-                OnClickMissTextThis(); // Miss用のテキストを表示
-            }
-            // Textboxが表示されている場合
-            else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-            {
-                textManager.DisplayCurrentLine(); // 次のテキストラインを表示
-            }
-
-            return false; // アイテムが正しく使用されなかった
-        }
-    }
-
-    public void OnClickMissTextThis()
-    {
-        // キーワードに基づいたテキストを表示
-        textManager.DisplayTextForKeyword(currentKeyword);
-        Debug.Log("a");
-    }
 }

@@ -4,29 +4,44 @@ using UnityEngine;
 
 public class GasBannerAOpen : MonoBehaviour
 {
-    [SerializeField] private GameObject gasBannerDoor;      // アニメーションが付いているオブジェクト
-    [SerializeField] private Collider gasBannerACollider;   // プレイヤーが入るコライダー
-    [SerializeField] private MonoBehaviour playerScript;    // プレイヤーのスクリプト（操作を無効化するため）
+    [SerializeField] private List<GameObject> gasBannerDoors; // アニメーションが付いている複数のdoorオブジェクト
+    [SerializeField] private MonoBehaviour playerScript;      // プレイヤーのスクリプト（操作を無効化するため）
+    [SerializeField] private List<Collider> gasCameraColliders; // 管理したい各カメラのコライダー
 
-    private Animator gasBannerDoorAnimator;                 // オブジェクトのアニメーター
-    private bool playerInsideCollider = false;              // プレイヤーがコライダー内にいるかどうか
-    private bool controlsDisabled = false;                  // プレイヤー操作が無効かどうか
-    private FlagManager flagManager;                        // フラグマネージャー
-    [SerializeField] AudioSource audioSource;
+    private List<Animator> gasBannerDoorAnimators = new List<Animator>(); // 各doorオブジェクトのアニメーター
+    private bool controlsDisabled = false;                    // プレイヤー操作が無効かどうか
+    private FlagManager flagManager;                          // フラグマネージャー
 
     void Start()
     {
-        if (gasBannerDoor != null)
+        foreach (var door in gasBannerDoors)
         {
-            gasBannerDoorAnimator = gasBannerDoor.GetComponent<Animator>();  // アニメーターを取得
+            if (door != null)
+            {
+                Animator animator = door.GetComponent<Animator>();
+                if (animator != null)
+                {
+                    gasBannerDoorAnimators.Add(animator); // 各doorのアニメーターをリストに追加
+                }
+            }
         }
-        flagManager = FlagManager.Instance;  // フラグマネージャーのインスタンスを取得
-        audioSource = GetComponent<AudioSource>();
+
+        // フラグマネージャーのインスタンスを取得
+        flagManager = FlagManager.Instance;
+
+        // 初期状態でカメラのトリガーコライダーを無効化
+        foreach (var collider in gasCameraColliders)
+        {
+            if (collider != null)
+            {
+                collider.enabled = false; // コライダーを無効化
+            }
+        }
     }
 
     void Update()
     {
-        if (playerInsideCollider && flagManager.GetFlag(FlagManager.FlagType.DialPasswordclear) &&
+        if (flagManager.GetFlag(FlagManager.FlagType.DialPasswordclear) &&
             !flagManager.GetFlag(FlagManager.FlagType.Gasbaneropen))
         {
             DisablePlayerControls();  // プレイヤー操作を無効化
@@ -40,29 +55,28 @@ public class GasBannerAOpen : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInsideCollider = true;  // プレイヤーがコライダーに入った
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInsideCollider = false;  // プレイヤーがコライダーから出た
-        }
-    }
-
     private void OpenGasBanner()
     {
         if (!flagManager.GetFlag(FlagManager.FlagType.Gasbaneropen))
         {
-            gasBannerDoorAnimator.SetTrigger("GasbanerAopen");  // アニメーションを再生
-            audioSource.Play(); //鳴らしたいタイミングに追加
-            flagManager.SetFlag(FlagManager.FlagType.Gasbaneropen, true);  // フラグをセットして1度だけ開くようにする
+            foreach (var animator in gasBannerDoorAnimators)
+            {
+                animator.SetTrigger("GasbanerAopen"); // 各doorのアニメーションを再生
+            }
+
+            // フラグをセットして1度だけ開くようにする
+            flagManager.SetFlag(FlagManager.FlagType.Gasbaneropen, true);
+
+            // カメラのコライダーを有効化
+            foreach (var collider in gasCameraColliders)
+            {
+                if (collider != null)
+                {
+                    collider.enabled = true; // コライダーを有効化
+                }
+            }
+
+            // プレイヤー操作を再び有効化
             playerScript.enabled = true;
         }
     }
