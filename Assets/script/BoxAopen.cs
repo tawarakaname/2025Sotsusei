@@ -13,6 +13,9 @@ public class BoxAopen : MonoBehaviour
     [SerializeField] Canvas capsuleDget;
     private bool playerInsideCollider = false;
 
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] private AudioClip soundEffect; // 音声クリップをシリアライズ
+
     [SerializeField] private MonoBehaviour playerScript;
     private bool controlsDisabled = false;
     private bool canvasEnabled = false;
@@ -20,6 +23,7 @@ public class BoxAopen : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         capsuleDget.gameObject.SetActive(false);
         if (ue != null) ueAnimator = ue.GetComponent<Animator>();
         if (shita != null) shitaAnimator = shita.GetComponent<Animator>();
@@ -109,6 +113,8 @@ public class BoxAopen : MonoBehaviour
         {
             itemgetpanelLogged = true;
         }
+        audioSource.PlayOneShot(soundEffect); // 音声クリップを再生
+        Debug.Log("正解のSEを流します");
 
     }
 

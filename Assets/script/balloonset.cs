@@ -89,7 +89,11 @@ public class BalloonSet : MonoBehaviour
 
                 }
             }
-           
+            //  Akeygetが true で、まだ canvas が有効化されていない場合のみ処理を行う
+            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget) && !canvasEnabled)
+            {
+                StartCoroutine(EnableCanvasAD());
+            }
             // すべての条件が揃ったときの確認
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon) &&
                 FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget) &&

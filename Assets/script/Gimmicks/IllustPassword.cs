@@ -7,6 +7,7 @@ public class IllustPassword : MonoBehaviour
     [SerializeField] private IllustPasswordButton[] IllustpasswordButtons;
     [SerializeField] private GameObject capsuleD;
 
+
     private int currentPosition = 0;
     private float nextMoveTime = 0f;
     private bool isFireButtonPressed = false;
@@ -17,12 +18,15 @@ public class IllustPassword : MonoBehaviour
     {
         flagManager = FlagManager.Instance;
         SelectIllustButton(currentPosition);
-    }
+        
+    
+     }
 
     public void CheckClear()
     {
         if (IsClear())
         {
+            
             FlagManager.Instance.SetFlag(FlagManager.FlagType.IllustPasswordclear, true);
             Debug.Log("IllustPasswordclearFlagON");
             capsuleD.SetActive(true);
@@ -61,6 +65,8 @@ public class IllustPassword : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire2") && !isFireButtonPressed)
             {
+               
+
                 var currentButton = IllustpasswordButtons[currentPosition];
                 if (currentButton.BgPanel.activeSelf)
                 {
