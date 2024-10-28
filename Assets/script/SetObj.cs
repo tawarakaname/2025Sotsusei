@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -95,10 +96,18 @@ public class SetObj : MonoBehaviour
         }
     }
 
-    private void HandleMiss()
+     private void HandleMiss()
     {
-        audioSource?.Play(); // 音を再生
+        if (audioSource != null) // nullチェックを修正
+        {
+            audioSource.Play(); // 音を再生
+        }
+        else
+        {
+            return; // 何もしない場合はreturn
+        }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
