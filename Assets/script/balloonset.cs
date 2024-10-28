@@ -11,6 +11,8 @@ public class BalloonSet : MonoBehaviour
     [SerializeField] TextManager textManager; // TextManagerへの参照を公開
     [SerializeField] Collider standCollider;
     [SerializeField] Canvas Akeyget;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] private AudioClip soundEffect; // 音声クリップをシリアライズ
 
     [SerializeField] private MonoBehaviour playerScript;  // Playerクラスをアタッチ
     private bool controlsDisabled = false;  // 操作無効フラグ
@@ -21,6 +23,8 @@ public class BalloonSet : MonoBehaviour
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         Akeyget.gameObject.SetActive(false);
         // ueとshitaのAnimatorコンポーネントを取得
         if (balloonanim != null)
@@ -155,6 +159,9 @@ public class BalloonSet : MonoBehaviour
         if (!canvasEnabled)  // まだcanvasが有効化されていない場合のみ実行
         {
             Akeyget.gameObject.SetActive(true);
+            audioSource.PlayOneShot(soundEffect); // 音声クリップを再生
+            Debug.Log("正解のSEを流します");
+
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
 
             // canvas が有効化されたことを記録

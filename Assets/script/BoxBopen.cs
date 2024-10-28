@@ -13,6 +13,8 @@ public class BoxBopen : MonoBehaviour
     [SerializeField] GameObject Colorpasswordobj;
     [SerializeField] Canvas balloonget;
     private bool playerInsideCollider = false;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] private AudioClip soundEffect; // 音声クリップをシリアライズ
 
     // Playerクラスの参照（プレイヤーの操作を無効化するため）
     [SerializeField] private MonoBehaviour playerScript;  // Playerクラスをアタッチ
@@ -31,7 +33,11 @@ public class BoxBopen : MonoBehaviour
         {
             BshitaAnimator = Bshita.GetComponent<Animator>();
         }
+
+        audioSource = GetComponent<AudioSource>();
+
     }
+
 
     void Update()
     {
@@ -143,11 +149,16 @@ public class BoxBopen : MonoBehaviour
         if (!canvasEnabled)  // まだcanvasが有効化されていない場合のみ実行
         {
             balloonget.gameObject.SetActive(true);
+            audioSource.PlayOneShot(soundEffect); // 音声クリップを再生
+            Debug.Log("正解のSEを流します");
+
+
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
 
             // canvas が有効化されたことを記録
             canvasEnabled = true; // ここでフラグを設定
         }
+
     }
 
 
