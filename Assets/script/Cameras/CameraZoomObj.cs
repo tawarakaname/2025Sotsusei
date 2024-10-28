@@ -130,6 +130,8 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.Aquariumcamera2;
             case "NoteCamera":
                 return FlagManager.FlagType.NoteCamera;
+            case "StandCamera":
+                return FlagManager.FlagType.StandCamera;
             default:
                 return null;
         }

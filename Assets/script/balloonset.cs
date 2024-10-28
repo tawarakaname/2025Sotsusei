@@ -16,6 +16,7 @@ public class BalloonSet : MonoBehaviour
     private bool controlsDisabled = false;  // 操作無効フラグ
     private bool canvasEnabled = false;  // canvasDgetが有効になったかを追跡するフラグ
     private string currentKeyword; // 現在のコライダーに対応するキーワード
+    private bool playerInsideCollider = false;
 
 
     void Start()
@@ -38,6 +39,7 @@ public class BalloonSet : MonoBehaviour
                 if (standCollider.bounds.Intersects(other.bounds))
                 {
                     currentKeyword = "BalloonStand";
+                    playerInsideCollider = true;
                 }
             }
         }
@@ -53,61 +55,62 @@ public class BalloonSet : MonoBehaviour
             {
                 currentKeyword = null;
                 TextBox.SetActive(false); // コライダーを出た時にTextBoxを非表示にする
+                playerInsideCollider = false;
             }
         }
     }
 
     private void Update()
     {
-        // balloon フラグが true ならアニメーションを再生
-        if (FlagManager.Instance.GetFlagByType(Item.Type.balloon) && !FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon))
-        {
-            Playballoontriger();
-            DisablePlayerControls();
-        }
-        // balloon フラグが false の場合のみ、コライダーとFire2に関連した動作を行う
-        else if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
-        {
-            // IllustPasswordclear フラグが false の場合のみ Fire2 ボタンと TextBox の処理を行う
-            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.ColorPasswordclear))
-            {
-                // Fire2ボタンが押され、かつ currentKeyword が null でない場合
-                if (Input.GetButtonDown("Fire2") && currentKeyword != null && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-                {
-                    OnClickstandThis();
-                }
-                else if (Input.GetButtonDown("Fire2") && currentKeyword != null && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-                {
-                    textManager.DisplayCurrentLine();
-                }
-                
-            }
-        }
-        //  Akeygetが true で、まだ canvas が有効化されていない場合のみ処理を行う
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget) && !canvasEnabled)
-        {
-            StartCoroutine(EnableCanvasAD());
-        }
 
-        // 条件をチェック
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.balloon) &&
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon) &&
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.StandCamera) &&
-            Input.GetButtonDown("Fire2"))
+        if (playerInsideCollider)
         {
-            // Fire2が押されたらCanvasをfalseに
-            Akeyget.gameObject.SetActive(false);
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
-            playerScript.enabled = true;
-        }
-        if (controlsDisabled)
-        {
-            // Fire1, Fire2 の入力を無効化
-            if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2"))
+            // balloon フラグが true ならアニメーションを再生
+            if (FlagManager.Instance.GetFlagByType(Item.Type.balloon) && !FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon))
             {
-                // 何も行わない（入力を無視）
-                return;
+                Playballoontriger();
+                DisablePlayerControls();
+            }
+            // balloon フラグが false の場合のみ、コライダーとFire2に関連した動作を行う
+            else if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
+            {
+                // IllustPasswordclear フラグが false の場合のみ Fire2 ボタンと TextBox の処理を行う
+                if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.ColorPasswordclear))
+                {
+                    // Fire2ボタンが押され、かつ currentKeyword が null でない場合
+                    if (Input.GetButtonDown("Fire2") && currentKeyword != null && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+                    {
+                        OnClickstandThis();
+                    }
+                    else if (Input.GetButtonDown("Fire2") && currentKeyword != null && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+                    {
+                        textManager.DisplayCurrentLine();
+                    }
+
+                }
+            }
+           
+            // すべての条件が揃ったときの確認
+            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon) &&
+                FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget) &&
+                playerInsideCollider &&
+                Input.GetButtonDown("Fire2"))
+            {
+
+                // Fire2が押されたらCanvasをfalseに
+                Akeyget.gameObject.SetActive(false);
+                FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
+                playerScript.enabled = true;
+            }
+
+            if (controlsDisabled)
+            {
+                // Fire1の入力を無効化
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    // 何も行わない（入力を無視）
+                    return;
+                }
             }
         }
     }
@@ -119,7 +122,6 @@ public class BalloonSet : MonoBehaviour
     }
 
 
-    // テクスチャを順番に切り替えるコルーチン
     private void Playballoontriger()
     {
         /// playballoonopen がまだ開かれていない場合のみアニメーションを再生
@@ -128,11 +130,10 @@ public class BalloonSet : MonoBehaviour
             // playballoonフラグを true にして再生を一度だけにする
             FlagManager.Instance.SetFlag(FlagManager.FlagType.playballoon, true);
             Playanimationballoon();
-            // Fire1, Fire2 入力を無効にするフラグを立てる
+            // Fire1 入力を無効にするフラグを立てる
             controlsDisabled = true;
         }
 
-        // テクスチャが正常に再生されたらAkeygetフラグをtrueに設定
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Akeyget, true);
     }
 
@@ -144,7 +145,7 @@ public class BalloonSet : MonoBehaviour
     private IEnumerator EnableCanvasAD()
     {
         // 1秒待機
-        yield return new WaitForSeconds(1.7f);
+        yield return new WaitForSeconds(3.5f);
 
         // Akeygetをtrueにする
         if (!canvasEnabled)  // まだcanvasが有効化されていない場合のみ実行
@@ -165,7 +166,7 @@ public class BalloonSet : MonoBehaviour
             playerScript.enabled = false;
         }
 
-        // Fire1, Fire2 ボタンの入力を無効化する
+        // Fire1ボタンの入力を無効化する
         controlsDisabled = true;
     }
 }

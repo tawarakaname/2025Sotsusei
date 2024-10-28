@@ -66,7 +66,6 @@ public class SetObj : MonoBehaviour
         if (targetUI.activeSelf && playerInsideCollider && Input.GetButtonDown("Fire2"))
         {
             OnClickThis();
-            Debug.Log("ositayo-");
         }
     }
 
@@ -76,12 +75,16 @@ public class SetObj : MonoBehaviour
         if (Itembox.instance.TryUseItem(useItem))
         {
             targetUI.SetActive(false);
-            Debug.Log("false");
             Item selectedItem = Itembox.instance.GetSelectedItem();
             if (selectedItem != null)
             {
                 // 使用したアイテムのフラグを設定
                 FlagManager.Instance.SetFlagByType(selectedItem.type, true);
+            }
+            // setObjectが指定されていればアクティブにする
+            if (setObject != null)
+            {
+                setObject.SetActive(true);
             }
             return true; // アイテムが正しく使用された
         }
