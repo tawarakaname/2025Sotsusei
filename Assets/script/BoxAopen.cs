@@ -20,6 +20,8 @@ public class BoxAopen : MonoBehaviour
     private bool controlsDisabled = false;
     private bool canvasEnabled = false;
     private bool itemgetpanelLogged = false;
+    [SerializeField] private float animatedTime;
+    private Coroutine boxAOpenCoroutine;
 
     void Start()
     {
@@ -34,10 +36,11 @@ public class BoxAopen : MonoBehaviour
         if (playerInsideCollider)
         {
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.IllustPasswordclear) &&
-                !FlagManager.Instance.GetFlag(FlagManager.FlagType.Aboxopen))
+                boxAOpenCoroutine == null)
             {
                 DisablePlayerControls();
                 OnClickAbox();
+                boxAOpenCoroutine = StartCoroutine(BoxAAnimCompleted());
             }
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.IllustPasswordclear) && !canvasEnabled)
             {
@@ -85,13 +88,18 @@ public class BoxAopen : MonoBehaviour
         }
     }
 
+    private IEnumerator BoxAAnimCompleted()
+    {
+        yield return new WaitForSeconds(animatedTime);
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Aboxopen, true);
+    }
+
     public void OnClickAbox()
     {
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Aboxopen))
         {
             Illustpasswordobj.SetActive(false);
             StartCoroutine(PlayAnimationsSimultaneously());
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.Aboxopen, true);
             controlsDisabled = true;
         }
     }
@@ -105,9 +113,9 @@ public class BoxAopen : MonoBehaviour
 
     private IEnumerator EnableCanvasAfterDelay()
     {
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         yield return new WaitForSeconds(1f);
         capsuleDget.gameObject.SetActive(true);
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
 
         if (!itemgetpanelLogged)
         {

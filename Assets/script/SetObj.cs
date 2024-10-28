@@ -10,7 +10,7 @@ public class SetObj : MonoBehaviour
     [SerializeField] private Item.Type useItem; // 使用するアイテムのタイプ
     [SerializeField] private GameObject targetUI; // 条件が揃った時に表示するUI
     [SerializeField] private SelectedItem selectedItem; // 選択されたアイテムの参照
-    
+
 
     private AudioSource audioSource; // 音を再生するためのAudioSource
     private bool playerInsideCollider = false; // プレイヤーがコライダー内にいるかどうか
@@ -36,11 +36,14 @@ public class SetObj : MonoBehaviour
         // 全ての条件がtrueの場合にのみUIを表示
         if (isCameraZoomObj && hasItem && componentEnabled)
         {
-            if (!targetUI.activeSelf) // すでに表示されていない場合のみアクティブ化
+            if (targetUI.activeSelf)
+            {
+                UIdasetayo();
+            }
+            else
             {
                 targetUI.SetActive(true);
                 Debug.Log("true");
-                UIdasetayo();
             }
         }
         else
@@ -63,7 +66,6 @@ public class SetObj : MonoBehaviour
 
     private void UIdasetayo()
     {
-        
         if (targetUI.activeSelf && playerInsideCollider && Input.GetButtonDown("Fire2"))
         {
             OnClickThis();
@@ -96,7 +98,7 @@ public class SetObj : MonoBehaviour
         }
     }
 
-     private void HandleMiss()
+    private void HandleMiss()
     {
         if (audioSource != null) // nullチェックを修正
         {
