@@ -72,18 +72,24 @@ public class SetObj : MonoBehaviour
         }
     }
 
+    // SetObj.cs の OnClickThis メソッド修正
     public bool OnClickThis()
     {
         // アイテムの使用を試みる
         if (Itembox.instance.TryUseItem(useItem))
         {
             targetUI.SetActive(false);
-            Item selectedItem = Itembox.instance.GetSelectedItem();
-            if (selectedItem != null)
+
+            // selectedItem オブジェクトから現在選択されているアイテムを取得
+            Item currentSelectedItem = selectedItem.GetSelectedItem();
+
+            // 現在選択されているアイテムが使用アイテムと一致する場合、フラグを設定
+            if (currentSelectedItem != null && currentSelectedItem.type == useItem)
             {
-                // 使用したアイテムのフラグを設定
-                FlagManager.Instance.SetFlagByType(selectedItem.type, true);
+                FlagManager.Instance.SetFlagByType(currentSelectedItem.type, true); // 使用されたアイテムタイプのフラグをtrueに設定
+                selectedItem.UpdateSelectedItem(null); // 使用後に選択をクリア
             }
+
             // setObjectが指定されていればアクティブにする
             if (setObject != null)
             {
@@ -97,6 +103,7 @@ public class SetObj : MonoBehaviour
             return false; // アイテムが正しく使用されなかった
         }
     }
+
 
     private void HandleMiss()
     {

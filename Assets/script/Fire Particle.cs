@@ -8,22 +8,26 @@ public class FireParticle : MonoBehaviour
     [SerializeField] private GameObject FireparticleB;
     [SerializeField] private GameObject FireparticleC;
     [SerializeField] private GameObject FireparticleD;
+    [SerializeField] private GameObject FireparticleAmain;
+    [SerializeField] private GameObject FireparticleBmain;
+    [SerializeField] private GameObject FireparticleCmain;
+    [SerializeField] private GameObject FireparticleDmain;
     private FlagManager flagManager;
 
-    private ParticleSystem particleSystemA;
-    private ParticleSystem particleSystemB;
-    private ParticleSystem particleSystemC;
-    private ParticleSystem particleSystemD;
+    private ParticleSystem particleSystemAmain;
+    private ParticleSystem particleSystemBmain;
+    private ParticleSystem particleSystemCmain;
+    private ParticleSystem particleSystemDmain;
 
     void Start()
     {
         flagManager = FlagManager.Instance; // FlagManagerのインスタンスを取得
 
-        // ParticleSystem コンポーネントを取得
-        if (FireparticleA != null) particleSystemA = FireparticleA.GetComponent<ParticleSystem>();
-        if (FireparticleB != null) particleSystemB = FireparticleB.GetComponent<ParticleSystem>();
-        if (FireparticleC != null) particleSystemC = FireparticleC.GetComponent<ParticleSystem>();
-        if (FireparticleD != null) particleSystemD = FireparticleD.GetComponent<ParticleSystem>();
+        // ParticleSystem コンポーネントを取得 (mainの方)
+        if (FireparticleAmain != null) particleSystemAmain = FireparticleAmain.GetComponent<ParticleSystem>();
+        if (FireparticleBmain != null) particleSystemBmain = FireparticleBmain.GetComponent<ParticleSystem>();
+        if (FireparticleCmain != null) particleSystemCmain = FireparticleCmain.GetComponent<ParticleSystem>();
+        if (FireparticleDmain != null) particleSystemDmain = FireparticleDmain.GetComponent<ParticleSystem>();
 
         // 初期状態でFireparticleを非表示に設定
         SetParticleActive(FireparticleA, false);
@@ -50,6 +54,7 @@ public class FireParticle : MonoBehaviour
             flagManager.SetFlag(FlagManager.FlagType.capsuleclear, true);
         }
 
+        // ダイヤルパスワードフラグがオンの場合、通常のFireparticleを表示
         SetParticleActive(FireparticleA, isDialPasswordclearFlagOn);
         SetParticleActive(FireparticleB, isDialPasswordclearFlagOn);
         SetParticleActive(FireparticleC, isDialPasswordclearFlagOn);
@@ -57,21 +62,19 @@ public class FireParticle : MonoBehaviour
 
         if (isDialPasswordclearFlagOn && !isFireParticleONFlagOn)
         {
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.FireParticleON, true);
+            flagManager.SetFlag(FlagManager.FlagType.FireParticleON, true);
             Debug.Log("FireParticleFlagON");
         }
 
-        // capsuleclear フラグがオンになったら色を変更
+        // capsuleclear フラグがオンになったら色を変更 (mainの方)
         if (isCapsuleclearFlagOn)
         {
-            ChangeParticleColor(particleSystemA, Color.yellow);              // Aは黄色
-            ChangeParticleColor(particleSystemB, new Color(0.3f, 1f, 0.5f));  // Bはライムグリーン
-            ChangeParticleColor(particleSystemC, new Color(1f, 0.4f, 0.7f)); // Cはピンク
-            ChangeParticleColor(particleSystemD, new Color(1f, 0.5f, 0f));   // Dはオレンジ
+            ChangeParticleColor(particleSystemAmain, Color.yellow);              // Aは黄色
+            ChangeParticleColor(particleSystemBmain, new Color(0.3f, 1f, 0.5f));  // Bはライムグリーン
+            ChangeParticleColor(particleSystemCmain, new Color(1f, 0.4f, 0.7f)); // Cはピンク
+            ChangeParticleColor(particleSystemDmain, new Color(1f, 0.5f, 0f));   // Dはオレンジ
         }
     }
-
-
 
     private void SetParticleActive(GameObject particle, bool isActive)
     {
@@ -87,3 +90,4 @@ public class FireParticle : MonoBehaviour
         mainModule.startColor = newColor;
     }
 }
+

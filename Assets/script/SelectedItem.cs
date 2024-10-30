@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class SelectedItem : MonoBehaviour
 {
     [SerializeField] private Image image; // UIのImageコンポーネント
-    private Item currentItem; // 現在選択されているアイテム
+    private Item selectedItem; // 現在選択されているアイテム
     [SerializeField] private AudioSource audioSource;
 
 
@@ -18,7 +18,7 @@ public class SelectedItem : MonoBehaviour
     // アイテムを更新するメソッド
     public void UpdateSelectedItem(Item item)
     {
-        currentItem = item;
+        selectedItem = item;
 
         // アイテムがある場合は itemmotteru フラグを true に設定
         bool hasItem = item != null;
@@ -30,17 +30,21 @@ public class SelectedItem : MonoBehaviour
             Debug.Log("更新");
         }
     }
-
+    public Item GetSelectedItem()
+    {
+        return selectedItem;
+    }
     // アイテムの使用を試みるメソッド
+    // SelectedItem.cs の TryUseItemm メソッド修正
     public bool TryUseItemm(Item.Type type, Slot slot)
     {
-        if (currentItem == null || currentItem.type != type)
+        if (selectedItem == null || selectedItem.type != type)
         {
             return false; // アイテムが null、またはタイプが一致しない場合は使用不可
         }
 
-        FlagManager.Instance.SetFlagByType(currentItem.type, true);
-        currentItem = null;
+        FlagManager.Instance.SetFlagByType(selectedItem.type, true); // アイテムのフラグを設定
+        selectedItem = null; // 使用後にnullを設定
         image.sprite = null; // アイテム消去時にスプライトもクリア
         FlagManager.Instance.SetFlag(FlagManager.FlagType.itemmotteru, false); // アイテム消去時にフラグを false に
 
@@ -54,4 +58,5 @@ public class SelectedItem : MonoBehaviour
 
         return true; // アイテムが使用された場合
     }
+
 }

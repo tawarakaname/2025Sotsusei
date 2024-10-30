@@ -163,41 +163,46 @@ public class Itembox : MonoBehaviour
 
     public bool TryUseItem(Item.Type type)
     {
-        // selectedSlotがnullでないか確認
-        if (selectedSlot == null)
+        // selectedItemPanelのアイテムを取得
+        Item selectedPanelItem = selectedItemPanel?.GetSelectedItem();
+
+        // selectedItemPanelのアイテムがnull、またはタイプが一致しない場合は使用不可
+        if (selectedPanelItem == null || selectedPanelItem.type != type)
         {
-            return false; // スロットが選択されていない場合は早期リターン
+            return false;
         }
 
-        // 選択されたスロットのアイテムがnullでないか確認
-        Item selectedItem = selectedSlot.GetItem();
-        if (selectedItem == null)
+        // すべてのスロットから指定のタイプのアイテムを持つスロットを検索し、該当スロットのアイテムを削除
+        foreach (Slot slot in slots)
         {
-            return false; // アイテムがnullの場合は早期リターン
+            Item slotItem = slot.GetItem();
+            if (slotItem != null && slotItem.type == type)
+            {
+                bool result = selectedItemPanel.TryUseItemm(type, slot);
+                if (result)
+                {
+                    slot.SetItem(null); // スロットのアイテムを削除
+                    selectedItemPanel.UpdateSelectedItem(null); // selectedItemPanel内のアイテムも削除
+                    slot.HideBGPanel(); // スロットの選択パネルを非表示
+                }
+                return result; // アイテムが正しく使用された場合に成功を返す
+            }
         }
 
-        // アイテムのタイプが一致している場合のみ使用を試みる
-        if (selectedItem.type == type)
+        // 一致するアイテムが見つからない場合はエラーメッセージを表示
+        currentKeyword = "Miss";
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
         {
-            bool result = selectedItemPanel.TryUseItemm(type, selectedSlot);
-            return result;
+            OnClickMissTextThis();
         }
         else
         {
-            // タイプが一致しない場合にエラーメッセージを表示
-            currentKeyword = "Miss"; // エラーメッセージ用のキーワードを設定
-            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-            {
-                OnClickMissTextThis();
-            }
-            else
-            {
-                textManager.DisplayCurrentLine(); // 次のテキストラインを表示
-            }
-
-            return false; // タイプが一致しない場合
+            textManager.DisplayCurrentLine();
         }
+
+        return false; // アイテムが正しく使用されなかった場合に失敗を返す
     }
+
 
     // エラー時のキーワードに基づいてテキストを表示
     public void OnClickMissTextThis()
