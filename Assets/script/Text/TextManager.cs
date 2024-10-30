@@ -35,8 +35,8 @@ public class TextManager : MonoBehaviour
 
         textDictionary = new Dictionary<Item.Type, string>
         {
-                { Item.Type.capsuleA, "H: なんかおちてたよ！\nD: なんだろうそれ" },
-                { Item.Type.capsuleB, "H: これ何かなー？\nD: これはめずらしいものだね" },
+                { Item.Type.capsuleA, "H: なんかおちてたよ！\nD: なんだろうそれ！" },
+                { Item.Type.capsuleB, "H: これ何かなー？\nD: これは…！" },
                 { Item.Type.bluekey, "H: ふしぎなことが起きてるね\nD: そうだね、青いカギかも" },
         };
 
@@ -45,9 +45,17 @@ public class TextManager : MonoBehaviour
                 { "smell1", "H: hallo\nD: You smell something strange." },
                 { "smell2", "H: すっぱいにおいがする！\nD: そうだね、少し匂うよね" },
                 { "smell3", "H: くさくない\nふんふん\nD: これ何だろう？" },
-                { "NoteA", "H:ぼくのノートだ!!!!!\nD: これ、君のノートだったの？" },
-                { "Miss", "H: これじゃないみたい...\nD: 何か違うみたいだね" },
-                { "BalloonStand", "H: 何かはさめそうだね\nD: スタンド、何かできるかも" },
+                { "NoteA", "H:ぼくのノートだ!!!!!\nD: これ、キミのノートだったの？" },
+                { "Miss", "H: これじゃないみたい...\nD: 何かちがうみたいだね" },
+                { "BalloonStand", "H: 何かはさめそうだね\nD: このマーク…" },
+                { "Hint1", "D:おいらはドンドン！\nD: このへやのオトモだよ！\nD: ヒントがほしくなったら\nD: はなしかけてね！\nD: どんどーん！"},
+                { "Hint2", "D: このへやくらい！\nD: 火がつけれないかな…。\nD: あっ！\nD:こくばんに何か書いてあるよ！\nD: どんどーん！"},
+                { "Hint3", "D: メモがあったんだね！ \nD:メモのマークと同じボタンが \nD:あった気がする！"},
+                { "Hint4", "D: その赤い箱のボタン\nD:もしかして火の大きさに\nD:かんけいあるのかな…。\nD:どんどーん！"},
+                { "Hint5", "D: さっきからこげくさいな〜？\nD:あっ！！かべこげてるよ！！\nD:あれって、あそこの\nD:たくさんのカードとにてない！？\nD:どんどん！\nH:アルファベットとすうじ…？\nH:すうじだったら\nH:ぼくひろったよ！"},
+                { "Hint6", "D: へやの火たち \nD:カラフルになった！\nD:きれい！どんどん…！"},
+                { "Hint7", "D: このノート\nD:ふうせんがかいてある！\nD:ふうせんのマーク\nD:どこかで見なかった？\nD:どんどーん！"},
+                { "Hint8", "D: カギがあったんだ！！\nD:これで外にでれるね！\nD:どんどん！"},
         };
 
         // Item.Typeに基づく画像の初期化
@@ -67,6 +75,7 @@ public class TextManager : MonoBehaviour
             { "NoteA", Hicon3 },
             { "Miss", Hicon3 },
             { "BalloonStand", Hicon1},
+            { "Hint5", Hicon2},
         };
 
         // 最初は画像を全て非表示にする

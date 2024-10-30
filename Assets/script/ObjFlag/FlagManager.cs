@@ -68,6 +68,8 @@ public class FlagManager : MonoBehaviour
         Gasbaneropen,
         itemmotteru,
         playballoon,
+        Dondon,
+        Dondon1kaiwa,
     }
 
     // シングルトンインスタンス

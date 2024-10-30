@@ -71,8 +71,8 @@ public class FireParticle : MonoBehaviour
         {
             ChangeParticleColor(particleSystemAmain, Color.yellow);              // Aは黄色
             ChangeParticleColor(particleSystemBmain, new Color(0.3f, 1f, 0.5f));  // Bはライムグリーン
-            ChangeParticleColor(particleSystemCmain, new Color(1f, 0.4f, 0.7f)); // Cはピンク
-            ChangeParticleColor(particleSystemDmain, new Color(1f, 0.5f, 0f));   // Dはオレンジ
+            ChangeParticleColor(particleSystemCmain, new Color(1f, 0.176f, 0.761f)); // Cはピンク
+            ChangeParticleColor(particleSystemDmain, new Color(0.698f, 0.259f, 0f));  // Dはオレンジ
         }
     }
 
