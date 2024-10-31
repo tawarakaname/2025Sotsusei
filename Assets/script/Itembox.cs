@@ -169,6 +169,16 @@ public class Itembox : MonoBehaviour
         // selectedItemPanelのアイテムがnull、またはタイプが一致しない場合は使用不可
         if (selectedPanelItem == null || selectedPanelItem.type != type)
         {
+            // タイプが一致しない場合のみエラーメッセージを表示
+            currentKeyword = "Miss";
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+            {
+                OnClickMissTextThis();
+            }
+            else
+            {
+                textManager.DisplayCurrentLine();
+            }
             return false;
         }
 
@@ -184,24 +194,15 @@ public class Itembox : MonoBehaviour
                     slot.SetItem(null); // スロットのアイテムを削除
                     selectedItemPanel.UpdateSelectedItem(null); // selectedItemPanel内のアイテムも削除
                     slot.HideBGPanel(); // スロットの選択パネルを非表示
+                    return true; // アイテムが正しく使用された場合に成功を返す
                 }
-                return result; // アイテムが正しく使用された場合に成功を返す
             }
-        }
-
-        // 一致するアイテムが見つからない場合はエラーメッセージを表示
-        currentKeyword = "Miss";
-        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-        {
-            OnClickMissTextThis();
-        }
-        else
-        {
-            textManager.DisplayCurrentLine();
         }
 
         return false; // アイテムが正しく使用されなかった場合に失敗を返す
     }
+
+
 
 
     // エラー時のキーワードに基づいてテキストを表示

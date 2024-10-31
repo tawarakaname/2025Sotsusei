@@ -23,6 +23,7 @@ public class ItemCanvas : MonoBehaviour
         bool isAllFlagsOff =
             !flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
             !flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
+            !flagManager.GetFlag(FlagManager.FlagType.Nowanim) &&
             !flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel);
 
         // PS4コントローラーの ▫︎ ボタンは「Fire0」として認識されます

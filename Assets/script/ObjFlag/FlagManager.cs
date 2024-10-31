@@ -70,6 +70,8 @@ public class FlagManager : MonoBehaviour
         playballoon,
         Dondon,
         Dondon1kaiwa,
+        slotbg,
+        Nowanim,
     }
 
     // シングルトンインスタンス

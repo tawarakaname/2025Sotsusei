@@ -43,7 +43,6 @@ public class SetObj : MonoBehaviour
             else
             {
                 targetUI.SetActive(true);
-                Debug.Log("true");
             }
         }
         else

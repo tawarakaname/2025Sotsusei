@@ -19,20 +19,19 @@ public class BalloonSet : MonoBehaviour
     private bool canvasEnabled = false;  // canvasDgetが有効になったかを追跡するフラグ
     private string currentKeyword; // 現在のコライダーに対応するキーワード
     private bool playerInsideCollider = false;
+    private bool itemgetpanelLogged = false;
+    [SerializeField] private float animatedTime;
+    private Coroutine balloonCoroutine;
 
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-
         Akeyget.gameObject.SetActive(false);
         // ueとshitaのAnimatorコンポーネントを取得
-        if (balloonanim != null)
-        {
-            balloonAnimator = balloonanim.GetComponent<Animator>();
-        }
+        if (balloonanim != null) balloonAnimator = balloonanim.GetComponent<Animator>();
     }
-        private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         // balloon フラグが false の場合にのみ処理を実行
         if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
@@ -70,10 +69,11 @@ public class BalloonSet : MonoBehaviour
         if (playerInsideCollider)
         {
             // balloon フラグが true ならアニメーションを再生
-            if (FlagManager.Instance.GetFlagByType(Item.Type.balloon) && !FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon))
+            if (FlagManager.Instance.GetFlagByType(Item.Type.balloon) && balloonCoroutine == null)
             {
                 Playballoontriger();
                 DisablePlayerControls();
+                balloonCoroutine = StartCoroutine(balloonAnimCompleted());
             }
             // balloon フラグが false の場合のみ、コライダーとFire2に関連した動作を行う
             else if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
@@ -93,10 +93,11 @@ public class BalloonSet : MonoBehaviour
 
                 }
             }
-            //  Akeygetが true で、まだ canvas が有効化されていない場合のみ処理を行う
+            
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget) && !canvasEnabled)
             {
                 StartCoroutine(EnableCanvasAD());
+                canvasEnabled = true;  // コルーチンが一度だけ呼ばれるように設定
             }
             // すべての条件が揃ったときの確認
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon) &&
@@ -123,7 +124,11 @@ public class BalloonSet : MonoBehaviour
         }
     }
 
-
+    private IEnumerator balloonAnimCompleted()
+    {
+        yield return new WaitForSeconds(animatedTime);
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.playballoon, true);
+    }
     public void OnClickstandThis()
     {
         textManager.DisplayTextForKeyword(currentKeyword);
@@ -135,8 +140,6 @@ public class BalloonSet : MonoBehaviour
         /// playballoonopen がまだ開かれていない場合のみアニメーションを再生
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon))
         {
-            // playballoonフラグを true にして再生を一度だけにする
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.playballoon, true);
             Playanimationballoon();
             // Fire1 入力を無効にするフラグを立てる
             controlsDisabled = true;
@@ -152,32 +155,23 @@ public class BalloonSet : MonoBehaviour
 
     private IEnumerator EnableCanvasAD()
     {
-        // 1秒待機
-        yield return new WaitForSeconds(3.5f);
-
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
+        // 6秒待機
+        yield return new WaitForSeconds(6f);
+        Akeyget.gameObject.SetActive(true);
         // Akeygetをtrueにする
-        if (!canvasEnabled)  // まだcanvasが有効化されていない場合のみ実行
+
+        if (!itemgetpanelLogged)
         {
-            Akeyget.gameObject.SetActive(true);
-            audioSource.PlayOneShot(soundEffect); // 音声クリップを再生
-            Debug.Log("正解のSEを流します");
-
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
-
-            // canvas が有効化されたことを記録
-            canvasEnabled = true; // ここでフラグを設定
+            itemgetpanelLogged = true;
         }
+        audioSource.PlayOneShot(soundEffect); // 音声クリップを再生
+        Debug.Log("正解のSEを流します");
     }
 
     private void DisablePlayerControls()
     {
-        // Playerスクリプトを無効化（操作不可にする）
-        if (playerScript != null)
-        {
-            playerScript.enabled = false;
-        }
-
-        // Fire1ボタンの入力を無効化する
+        if (playerScript != null) playerScript.enabled = false;
         controlsDisabled = true;
     }
 }

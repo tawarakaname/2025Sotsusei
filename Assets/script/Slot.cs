@@ -60,6 +60,7 @@ public class Slot : MonoBehaviour
         }
         backgroundPanel.SetActive(true);
         backgroundPanel2.SetActive(true);
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.slotbg, true);
         return true;
     }
 
@@ -67,6 +68,7 @@ public class Slot : MonoBehaviour
     {
         backgroundPanel.SetActive(false);
         backgroundPanel2.SetActive(false);
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.slotbg, false);
     }
 
     public bool HasItem()

@@ -38,7 +38,9 @@ public class CameraManeger : MonoBehaviour
     {
         // Itemgetpanel フラグが false の場合のみ処理を実行
         if (!flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel) &&
-            flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
+           (!flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
+           (!flagManager.GetFlag(FlagManager.FlagType.Nowanim) &&
+            flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))))
         {
             // Fire1 ボタンが押された場合のみカメラを戻す処理を実行
             if (Input.GetButtonDown("Fire1"))

@@ -19,6 +19,8 @@ public class FireParticle : MonoBehaviour
     private ParticleSystem particleSystemCmain;
     private ParticleSystem particleSystemDmain;
 
+    private bool lastCapsuleClearFlagState = false;
+
     void Start()
     {
         flagManager = FlagManager.Instance; // FlagManagerのインスタンスを取得
@@ -66,14 +68,15 @@ public class FireParticle : MonoBehaviour
             Debug.Log("FireParticleFlagON");
         }
 
-        // capsuleclear フラグがオンになったら色を変更 (mainの方)
-        if (isCapsuleclearFlagOn)
+        if (isCapsuleclearFlagOn && !lastCapsuleClearFlagState)
         {
             ChangeParticleColor(particleSystemAmain, Color.yellow);              // Aは黄色
             ChangeParticleColor(particleSystemBmain, new Color(0.3f, 1f, 0.5f));  // Bはライムグリーン
             ChangeParticleColor(particleSystemCmain, new Color(1f, 0.176f, 0.761f)); // Cはピンク
             ChangeParticleColor(particleSystemDmain, new Color(0.698f, 0.259f, 0f));  // Dはオレンジ
         }
+
+        lastCapsuleClearFlagState = isCapsuleclearFlagOn; // フラグの状態を保存
     }
 
     private void SetParticleActive(GameObject particle, bool isActive)

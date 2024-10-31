@@ -1,31 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class GasBannerAOpen : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> gasBannerDoors; // アニメーションが付いている複数のdoorオブジェクト
-    [SerializeField] private MonoBehaviour playerScript;      // プレイヤーのスクリプト（操作を無効化するため）
-    [SerializeField] private List<Collider> gasCameraColliders; // 管理したい各カメラのコライダー
+    [SerializeField] private List<GameObject> gasBannerDoors;      // アニメーションが付いている複数のdoorオブジェクト
+    [SerializeField] private MonoBehaviour playerScript;           // プレイヤーのスクリプト（操作を無効化するため）
+    [SerializeField] private List<Collider> gasCameraColliders;    // 管理したい各カメラのコライダー
+    [SerializeField] private GameObject targetCamera;              // アニメーション後に無効化するカメラ
 
-    private List<Animator> gasBannerDoorAnimators = new List<Animator>(); // 各doorオブジェクトのアニメーター
-    private bool controlsDisabled = false;                    // プレイヤー操作が無効かどうか
-    private FlagManager flagManager;                          // フラグマネージャー
+    private bool controlsDisabled = false;                         // プレイヤー操作が無効かどうか
+    private FlagManager flagManager;                               // フラグマネージャー
+    public PlayableDirector director;
+
+    private bool animationCompleted = false;                       // アニメーションの完了フラグ
 
     void Start()
     {
-        foreach (var door in gasBannerDoors)
-        {
-            if (door != null)
-            {
-                Animator animator = door.GetComponent<Animator>();
-                if (animator != null)
-                {
-                    gasBannerDoorAnimators.Add(animator); // 各doorのアニメーターをリストに追加
-                }
-            }
-        }
-
         // フラグマネージャーのインスタンスを取得
         flagManager = FlagManager.Instance;
 
@@ -37,10 +29,17 @@ public class GasBannerAOpen : MonoBehaviour
                 collider.enabled = false; // コライダーを無効化
             }
         }
+
+        // タイムラインの終了時にカメラを無効化
+        if (director != null)
+        {
+            director.stopped += OnPlayableDirectorStopped;
+        }
     }
 
     void Update()
     {
+        // 条件が成立した場合にのみ再生処理を実行
         if (flagManager.GetFlag(FlagManager.FlagType.DialPasswordclear) &&
             !flagManager.GetFlag(FlagManager.FlagType.Gasbaneropen))
         {
@@ -53,19 +52,28 @@ public class GasBannerAOpen : MonoBehaviour
         {
             return;  // 入力を無効化
         }
+
+        // アニメーション完了後にフラグを確認してカメラを無効化
+        if (animationCompleted)
+        {
+            if (targetCamera != null)
+            {
+                targetCamera.SetActive(false);  // カメラを無効化
+            }
+            animationCompleted = false;  // 一度だけ無効化するようにフラグをリセット
+        }
     }
 
     private void OpenGasBanner()
     {
-        if (!flagManager.GetFlag(FlagManager.FlagType.Gasbaneropen))
+        // フラグチェックを再度行い、再生が1回のみ行われるようにする
+        if (!flagManager.GetFlag(FlagManager.FlagType.Gasbaneropen) &&
+            !flagManager.GetFlag(FlagManager.FlagType.Nowanim))  // 既にNowanimがtrueなら設定しない
         {
-            foreach (var animator in gasBannerDoorAnimators)
-            {
-                animator.SetTrigger("GasbanerAopen"); // 各doorのアニメーションを再生
-            }
+            director.Play(); // Timelineの再生をここで実行
 
-            // フラグをセットして1度だけ開くようにする
-            flagManager.SetFlag(FlagManager.FlagType.Gasbaneropen, true);
+            // Nowanim フラグを true に設定
+            flagManager.SetFlag(FlagManager.FlagType.Nowanim, true);
 
             // カメラのコライダーを有効化
             foreach (var collider in gasCameraColliders)
@@ -81,6 +89,7 @@ public class GasBannerAOpen : MonoBehaviour
         }
     }
 
+
     private void DisablePlayerControls()
     {
         if (playerScript != null)
@@ -88,5 +97,25 @@ public class GasBannerAOpen : MonoBehaviour
             playerScript.enabled = false;  // プレイヤーのスクリプトを無効化
         }
         controlsDisabled = true;  // Fire1, Fire2の入力を無効化
+    }
+
+    // タイムラインが停止したときに呼ばれる
+    private void OnPlayableDirectorStopped(PlayableDirector director)
+    {
+        // アニメーション終了後にフラグを設定
+        animationCompleted = true;
+        flagManager.SetFlag(FlagManager.FlagType.Gasbaneropen, true); // 再生フラグを設定して再生は一度だけにする
+
+        // Nowanim フラグを false に設定
+        flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
+    }
+
+    private void OnDestroy()
+    {
+        // イベントの登録解除
+        if (director != null)
+        {
+            director.stopped -= OnPlayableDirectorStopped;
+        }
     }
 }
