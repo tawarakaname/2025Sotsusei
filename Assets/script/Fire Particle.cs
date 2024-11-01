@@ -4,39 +4,36 @@ using UnityEngine;
 
 public class FireParticle : MonoBehaviour
 {
-    [SerializeField] private GameObject FireparticleA;
-    [SerializeField] private GameObject FireparticleB;
-    [SerializeField] private GameObject FireparticleC;
-    [SerializeField] private GameObject FireparticleD;
-    [SerializeField] private GameObject FireparticleAmain;
-    [SerializeField] private GameObject FireparticleBmain;
-    [SerializeField] private GameObject FireparticleCmain;
-    [SerializeField] private GameObject FireparticleDmain;
     private FlagManager flagManager;
-
-    private ParticleSystem particleSystemAmain;
-    private ParticleSystem particleSystemBmain;
-    private ParticleSystem particleSystemCmain;
-    private ParticleSystem particleSystemDmain;
 
     private bool lastCapsuleClearFlagState = false;
     private bool lastDialPasswordclearFlagState = false;
+    [SerializeField] private GameObject[] fireparticles;
+    [SerializeField] private GameObject[] fireParticleMains;
+    private ParticleSystem[] particleSystems;
+    private Color[] particleColors =
+        {
+            Color.yellow,
+            new (0.3f, 1f, 0.5f),
+            new (1f, 0.176f, 0.761f),
+            new (0.698f, 0.259f, 0f)
+        };
 
     void Start()
     {
         flagManager = FlagManager.Instance;
-
-        // ParticleSystem コンポーネントを取得 (mainの方)
-        if (FireparticleAmain != null) particleSystemAmain = FireparticleAmain.GetComponent<ParticleSystem>();
-        if (FireparticleBmain != null) particleSystemBmain = FireparticleBmain.GetComponent<ParticleSystem>();
-        if (FireparticleCmain != null) particleSystemCmain = FireparticleCmain.GetComponent<ParticleSystem>();
-        if (FireparticleDmain != null) particleSystemDmain = FireparticleDmain.GetComponent<ParticleSystem>();
+        particleSystems = new ParticleSystem[fireParticleMains.Length];
+        for (var i = 0; i < fireParticleMains.Length; i++)
+        {
+            if (fireParticleMains[i] == null) continue;
+            particleSystems[i] = fireParticleMains[i].GetComponent<ParticleSystem>();
+        }
 
         // 初期状態でFireparticleを非表示に設定
-        SetParticleActive(FireparticleA, false);
-        SetParticleActive(FireparticleB, false);
-        SetParticleActive(FireparticleC, false);
-        SetParticleActive(FireparticleD, false);
+        foreach (var fire in fireparticles)
+        {
+            SetParticleActive(fire, false);
+        }
     }
 
     void Update()
@@ -47,10 +44,10 @@ public class FireParticle : MonoBehaviour
         // DialPasswordclear フラグの変化を検知してパーティクルのアクティブ化を制御
         if (isDialPasswordclearFlagOn != lastDialPasswordclearFlagState)
         {
-            SetParticleActive(FireparticleA, isDialPasswordclearFlagOn);
-            SetParticleActive(FireparticleB, isDialPasswordclearFlagOn);
-            SetParticleActive(FireparticleC, isDialPasswordclearFlagOn);
-            SetParticleActive(FireparticleD, isDialPasswordclearFlagOn);
+            foreach (var fire in fireparticles)
+            {
+                SetParticleActive(fire, isDialPasswordclearFlagOn);
+            }
 
             if (isDialPasswordclearFlagOn)
             {
@@ -62,10 +59,12 @@ public class FireParticle : MonoBehaviour
         // capsuleclear フラグが変わった場合のみ色を変更
         if (isCapsuleclearFlagOn && !lastCapsuleClearFlagState)
         {
-            ChangeParticleColor(particleSystemAmain, Color.yellow);                  // Aは黄色
-            ChangeParticleColor(particleSystemBmain, new Color(0.3f, 1f, 0.5f));    // Bはライムグリーン
-            ChangeParticleColor(particleSystemCmain, new Color(1f, 0.176f, 0.761f)); // Cはピンク
-            ChangeParticleColor(particleSystemDmain, new Color(0.698f, 0.259f, 0f)); // Dはオレンジ
+            for (var i = 0; i < particleSystems.Length; i++)
+            {
+                if (i >= particleColors.Length) continue;
+                ChangeParticleColor(particleSystems[i], particleColors[i]);
+            }
+
             lastCapsuleClearFlagState = true;
         }
 
@@ -100,6 +99,8 @@ public class FireParticle : MonoBehaviour
         if (particleSystem == null) return;
         var mainModule = particleSystem.main;
         mainModule.startColor = newColor;
+        particleSystem.Stop();
+        particleSystem.Clear();
+        particleSystem.Play();
     }
 }
-

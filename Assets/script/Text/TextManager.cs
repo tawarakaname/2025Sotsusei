@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -18,7 +19,6 @@ public class TextManager : MonoBehaviour
     public TextMeshProUGUI DtalkText; // D君のテキスト
     [SerializeField] private Image Dicon0; // D君のアイコン（複数ある場合は他のアイコンも追加可能）
 
-
     private Dictionary<Item.Type, string> textDictionary; // Item.Type に基づくテキスト辞書
     private Dictionary<string, string> keywordTextDictionary; // キーワードに基づくテキスト辞書
     private Dictionary<Item.Type, Image> imageDictionary; // Item.Type に基づく画像辞書
@@ -28,6 +28,9 @@ public class TextManager : MonoBehaviour
     private string[] currentTextLines;
     private int currentLineIndex = 0;
 
+    [Header("入力無効時間")] [SerializeField] private float buttonOsemasen;
+    private float currentTime;
+    [SerializeField] private Image inputPredictImage;
     private void Start()
     {
         TextBox.SetActive(false);
@@ -118,11 +121,24 @@ public class TextManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        var inputEnabled = currentTime <= 0;
+        inputPredictImage.enabled = inputEnabled;
+
+        var isTalking = FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox);
+        if (!isTalking) return;
+        if (inputEnabled) return;
+        currentTime -= Time.deltaTime;
+    }
+
     // 現在の行を表示するメソッド
     public void DisplayCurrentLine()
     {
         if (currentTextLines != null)
         {
+            if (currentTime > 0) return;
+            currentTime = buttonOsemasen;
             if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
             {
                 // テキストボックスの表示を開始
@@ -139,11 +155,12 @@ public class TextManager : MonoBehaviour
                 }
                 else
                 {
-                        // 最後の行を超えたら両方のTextBoxを非表示にする
-                        TextBox.SetActive(false);
-                        DTextBox.SetActive(false);
-                      
-                        FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
+                    // 最後の行を超えたら両方のTextBoxを非表示にする
+                    TextBox.SetActive(false);
+                    DTextBox.SetActive(false);
+                    currentTime = 0;
+
+                    FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
                 }
             }
         }

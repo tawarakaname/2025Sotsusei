@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraZoomObj : MonoBehaviour
 {
-    [SerializeField] Camera zoomCamera;
+    [SerializeField] public Camera zoomCamera;
     [SerializeField] Collider triggerCollider; // ここでコライダーを公開
     [SerializeField] GameObject targetImage; // 表示・非表示を制御するImage
 

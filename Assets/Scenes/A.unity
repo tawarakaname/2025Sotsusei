@@ -9174,7 +9174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &184283877
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9216,7 +9216,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 72ed86901f12b484c97e6f826a9f351d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3594ddba71726d241950d36501188d92, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10894,7 +10894,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &283684202
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13504,6 +13504,7 @@ GameObject:
   - component: {fileID: 409631397}
   - component: {fileID: 409631396}
   - component: {fileID: 409631400}
+  - component: {fileID: 409631401}
   m_Layer: 0
   m_Name: GasbanerA
   m_TagString: Untagged
@@ -13787,6 +13788,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &409631401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 409631391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ffc6d8076c24837808bb7aed11d66b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gascamera0: {fileID: 374570206}
+  gascamera0_1: {fileID: 1699813544}
+  cameraZoomObj: {fileID: 409631399}
 --- !u!1 &420838056
 GameObject:
   m_ObjectHideFlags: 0
@@ -19518,8 +19534,8 @@ Transform:
   m_GameObject: {fileID: 759496813}
   serializedVersion: 2
   m_LocalRotation: {x: 0.043998763, y: -0.68899584, z: 0.045409713, w: 0.72200197}
-  m_LocalPosition: {x: -0.038, y: -0.102, z: 0.123}
-  m_LocalScale: {x: 1.4999999, y: 1.5, z: 1.4999999}
+  m_LocalPosition: {x: -0.037, y: -0.107, z: 0.123}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1073472866}
@@ -19565,7 +19581,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 00229134334ade54592dace298bd39e4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 22672b2b9bbe64cb0adec780cddb4d05, type: 3}
   m_Color: {r: 0.93962264, g: 0.9201211, b: 0.9201211, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -23655,7 +23671,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1028529181
 Transform:
   m_ObjectHideFlags: 0
@@ -23692,6 +23708,8 @@ MonoBehaviour:
   DTextBox: {fileID: 184283876}
   DtalkText: {fileID: 1888039243}
   Dicon0: {fileID: 156204235}
+  buttonOsemasen: 1.3
+  inputPredictImage: {fileID: 472418258}
 --- !u!1 &1030602257
 GameObject:
   m_ObjectHideFlags: 0
@@ -30127,7 +30145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5905831020955021710, guid: a1dae84253444b243a11653ce62fef27, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5991454717992982474, guid: a1dae84253444b243a11653ce62fef27, type: 3}
       propertyPath: m_Pivot.x
@@ -51127,7 +51145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &3995940413417913739
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -52648,14 +52666,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48d82cc3ebe9b46c093b9a467f869208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireparticleA: {fileID: 1853050427}
-  FireparticleB: {fileID: 481806631}
-  FireparticleC: {fileID: 1245316531}
-  FireparticleD: {fileID: 1622146914}
-  FireparticleAmain: {fileID: 676780921}
-  FireparticleBmain: {fileID: 586356253}
-  FireparticleCmain: {fileID: 1687800445}
-  FireparticleDmain: {fileID: 2075254968}
+  fireparticles:
+  - {fileID: 1853050427}
+  - {fileID: 481806631}
+  - {fileID: 1245316531}
+  - {fileID: 1622146914}
+  fireParticleMains:
+  - {fileID: 676780921}
+  - {fileID: 586356253}
+  - {fileID: 1687800445}
+  - {fileID: 2075254968}
 --- !u!33 &5127193960567586672
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -53999,7 +54019,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &6235156425821117897
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -56455,7 +56475,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!222 &7741122753873731131
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -57851,7 +57871,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!23 &8577943293786650604
 MeshRenderer:
   m_ObjectHideFlags: 0
