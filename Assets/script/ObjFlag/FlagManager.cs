@@ -72,6 +72,7 @@ public class FlagManager : MonoBehaviour
         Dondon1kaiwa,
         slotbg,
         Nowanim,
+        FireColorchange,
     }
 
     // シングルトンインスタンス

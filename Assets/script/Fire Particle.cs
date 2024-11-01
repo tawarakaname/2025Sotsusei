@@ -20,10 +20,11 @@ public class FireParticle : MonoBehaviour
     private ParticleSystem particleSystemDmain;
 
     private bool lastCapsuleClearFlagState = false;
+    private bool lastDialPasswordclearFlagState = false;
 
     void Start()
     {
-        flagManager = FlagManager.Instance; // FlagManagerのインスタンスを取得
+        flagManager = FlagManager.Instance;
 
         // ParticleSystem コンポーネントを取得 (mainの方)
         if (FireparticleAmain != null) particleSystemAmain = FireparticleAmain.GetComponent<ParticleSystem>();
@@ -41,54 +42,62 @@ public class FireParticle : MonoBehaviour
     void Update()
     {
         bool isDialPasswordclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.DialPasswordclear);
-        bool isFireParticleONFlagOn = flagManager.GetFlag(FlagManager.FlagType.FireParticleON);
         bool isCapsuleclearFlagOn = flagManager.GetFlag(FlagManager.FlagType.capsuleclear);
 
-        // アイテムタイプに基づくフラグの取得
-        bool isCapsuleAOn = flagManager.GetFlagByType(Item.Type.capsuleA);
-        bool isCapsuleBOn = flagManager.GetFlagByType(Item.Type.capsuleB);
-        bool isCapsuleCOn = flagManager.GetFlagByType(Item.Type.capsuleC);
-        bool isCapsuleDOn = flagManager.GetFlagByType(Item.Type.capsuleD);
-
-        // すべてのcapsuleフラグがtrueの場合、capsuleclearフラグをtrueに設定
-        if (!isCapsuleclearFlagOn && isCapsuleAOn && isCapsuleBOn && isCapsuleCOn && isCapsuleDOn)
+        // DialPasswordclear フラグの変化を検知してパーティクルのアクティブ化を制御
+        if (isDialPasswordclearFlagOn != lastDialPasswordclearFlagState)
         {
-            flagManager.SetFlag(FlagManager.FlagType.capsuleclear, true);
+            SetParticleActive(FireparticleA, isDialPasswordclearFlagOn);
+            SetParticleActive(FireparticleB, isDialPasswordclearFlagOn);
+            SetParticleActive(FireparticleC, isDialPasswordclearFlagOn);
+            SetParticleActive(FireparticleD, isDialPasswordclearFlagOn);
+
+            if (isDialPasswordclearFlagOn)
+            {
+                flagManager.SetFlag(FlagManager.FlagType.FireParticleON, true);
+            }
+            lastDialPasswordclearFlagState = isDialPasswordclearFlagOn;
         }
 
-        // ダイヤルパスワードフラグがオンの場合、通常のFireparticleを表示
-        SetParticleActive(FireparticleA, isDialPasswordclearFlagOn);
-        SetParticleActive(FireparticleB, isDialPasswordclearFlagOn);
-        SetParticleActive(FireparticleC, isDialPasswordclearFlagOn);
-        SetParticleActive(FireparticleD, isDialPasswordclearFlagOn);
-
-        if (isDialPasswordclearFlagOn && !isFireParticleONFlagOn)
-        {
-            flagManager.SetFlag(FlagManager.FlagType.FireParticleON, true);
-            Debug.Log("FireParticleFlagON");
-        }
-
+        // capsuleclear フラグが変わった場合のみ色を変更
         if (isCapsuleclearFlagOn && !lastCapsuleClearFlagState)
         {
-            ChangeParticleColor(particleSystemAmain, Color.yellow);              // Aは黄色
-            ChangeParticleColor(particleSystemBmain, new Color(0.3f, 1f, 0.5f));  // Bはライムグリーン
+            ChangeParticleColor(particleSystemAmain, Color.yellow);                  // Aは黄色
+            ChangeParticleColor(particleSystemBmain, new Color(0.3f, 1f, 0.5f));    // Bはライムグリーン
             ChangeParticleColor(particleSystemCmain, new Color(1f, 0.176f, 0.761f)); // Cはピンク
-            ChangeParticleColor(particleSystemDmain, new Color(0.698f, 0.259f, 0f));  // Dはオレンジ
+            ChangeParticleColor(particleSystemDmain, new Color(0.698f, 0.259f, 0f)); // Dはオレンジ
+            lastCapsuleClearFlagState = true;
         }
 
-        lastCapsuleClearFlagState = isCapsuleclearFlagOn; // フラグの状態を保存
+        // すべての capsule フラグが true の場合に capsuleclear を true に設定
+        CheckAndSetCapsuleClear();
+    }
+
+    private void CheckAndSetCapsuleClear()
+    {
+        if (!flagManager.GetFlag(FlagManager.FlagType.capsuleclear))
+        {
+            bool isCapsuleAOn = flagManager.GetFlagByType(Item.Type.capsuleA);
+            bool isCapsuleBOn = flagManager.GetFlagByType(Item.Type.capsuleB);
+            bool isCapsuleCOn = flagManager.GetFlagByType(Item.Type.capsuleC);
+            bool isCapsuleDOn = flagManager.GetFlagByType(Item.Type.capsuleD);
+
+            if (isCapsuleAOn && isCapsuleBOn && isCapsuleCOn && isCapsuleDOn)
+            {
+                flagManager.SetFlag(FlagManager.FlagType.capsuleclear, true);
+            }
+        }
     }
 
     private void SetParticleActive(GameObject particle, bool isActive)
     {
-        if (particle == null) return;
+        if (particle == null || particle.activeSelf == isActive) return;
         particle.SetActive(isActive);
     }
 
     private void ChangeParticleColor(ParticleSystem particleSystem, Color newColor)
     {
         if (particleSystem == null) return;
-
         var mainModule = particleSystem.main;
         mainModule.startColor = newColor;
     }
