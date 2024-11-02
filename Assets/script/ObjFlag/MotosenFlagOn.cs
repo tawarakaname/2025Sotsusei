@@ -4,27 +4,23 @@ using UnityEngine;
 
 public class MotosenFlagOn : MonoBehaviour
 {
-    [SerializeField] Collider triggerCollider; // 追加したコライダーのフィールド
-    [SerializeField] GameObject maruUI; // 追加したコライダーのフィールド
+    [SerializeField] Collider triggerCollider;
+    [SerializeField] GameObject maruUI;
     private bool playerInsideCollider = false;
-    private bool isFireButtonPressed = false; // 丸ボタンの押下を管理
-    private bool maruUIDisplayed = false; // maruUIの表示状態を管理
-    private FlagManager flagManager; // フラグマネージャーのインスタンスをキャッシュ
-    public GameObject hutamawasu;  // 上のオブジェクト (アニメーションがついているオブジェクト)
-    private Animator hutamawasuAnimator;  // 上のオブジェクトのアニメーター
-
-    public GameObject huta; // motosenhuta を指定するためのフィールド
-    private bool isRotating = false; // 一度だけ回転させるためのフラグ
+    private bool isFireButtonPressed = false;
+    private FlagManager flagManager;
+    public GameObject hutamawasu;
+    private Animator hutamawasuAnimator;
+    public GameObject huta;
+    private bool isRotating = false;
 
     [SerializeField] AudioSource audioSource;
 
     private void Start()
     {
-        flagManager = FlagManager.Instance; // FlagManagerのインスタンスを取得
+        flagManager = FlagManager.Instance;
         maruUI.SetActive(false);
-
         hutamawasuAnimator = hutamawasu.GetComponent<Animator>();
-
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -33,33 +29,30 @@ public class MotosenFlagOn : MonoBehaviour
         // CameraZoomObjFlagがfalseなら早めに処理を終了
         if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj)) return;
 
-        if (playerInsideCollider && !maruUIDisplayed) // maruUIがまだ表示されていない場合のみ表示
+        // MotosenフラグがtrueならmaruUIを非表示にする
+        if (flagManager.GetFlag(FlagManager.FlagType.Motosen))
         {
-            maruUI.SetActive(true); // 一度だけmaruUIを表示
-            maruUIDisplayed = false; // 表示したことを記録
+            maruUI.SetActive(false);
+            return; // これ以上の処理をスキップ
         }
 
         if (playerInsideCollider)
         {
-            HandleFireButtonInput(); // プレイヤーがコライダー内にいる間はボタン入力を受け付ける
+            maruUI.SetActive(true); // プレイヤーがコライダー内にいる場合maruUIを表示
+            HandleFireButtonInput(); // ボタン入力を受け付ける
         }
     }
 
     // 丸ボタンの入力処理
     private void HandleFireButtonInput()
     {
-        // 丸ボタンが押された時の処理
         if (Input.GetButtonDown("Fire2") && !isFireButtonPressed && !isRotating)
         {
-            maruUI.SetActive(false); // ボタンが押された瞬間にmaruUIを消す
-            maruUIDisplayed = true; // UIを非表示にしたことを記録
-
-            OnClickhutaopen ();
-            isFireButtonPressed = true; // ボタンが押されたらフラグをセット
+            OnClickhutaopen();
+            isFireButtonPressed = true;
         }
         else if (!Input.GetButton("Fire2"))
         {
-            // ボタンが離されたらフラグをリセット
             isFireButtonPressed = false;
         }
     }
@@ -78,18 +71,16 @@ public class MotosenFlagOn : MonoBehaviour
         {
             playerInsideCollider = false;
             maruUI.SetActive(false); // コライダーから出たらUIを非表示にする
-            maruUIDisplayed = false; // 表示状態もリセット
         }
     }
 
     public void OnClickhutaopen()
     {
-
-        audioSource.Play(); //鳴らしたいタイミングに追加
-        // フラグを設定する
+        audioSource.Play(); // 鳴らしたいタイミングに追加
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Motosen, true);
 
         hutamawasuAnimator.SetTrigger("Motosenopen");
+        maruUI.SetActive(false); // フラグ設定後にmaruUIを非表示にする
         isRotating = true;
     }
 }

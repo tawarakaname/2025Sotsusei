@@ -25,6 +25,7 @@ public class CameraChange : MonoBehaviour
         // CameraZoomObjのzoomCameraにgascamera0_1を代入
         if (cameraZoomObj != null)
         {
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.GasCamera0, false);
             cameraZoomObj.zoomCamera = gascamera0_1;
         }
         else

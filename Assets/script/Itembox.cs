@@ -11,6 +11,7 @@ public class Itembox : MonoBehaviour
     [SerializeField] private SelectedItem selectedItemPanel;
     [SerializeField] private TextManager textManager; // テキストを管理するクラスの参照
 
+
     private int currentPosition = 0;  // 現在選択されているスロットの位置
     private FlagManager flagManager;
     private float nextMoveTime = 0f; // 次に移動できる時間を記録

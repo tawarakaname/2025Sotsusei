@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DialPass : MonoBehaviour
@@ -20,8 +18,9 @@ public class DialPass : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var isMovie = FlagManager.Instance.GetFlag(FlagManager.FlagType.Nowanim);
         // GasCamera0 が true かつズームがまだ有効でない場合
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.GasCamera0) && !iszoom)
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.GasCamera0) && !iszoom && !isMovie)
         {
             iszoom = true;  // ズームフラグを true に設定
             Dialpassword.SetActive(true);  // ダイヤルパスワードのオブジェクトを表示
@@ -32,7 +31,7 @@ public class DialPass : MonoBehaviour
             }
         }
         // GasCamera0 が false かつズームが有効な場合
-        else if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.GasCamera0) && iszoom)
+        else if (isMovie || (!FlagManager.Instance.GetFlag(FlagManager.FlagType.GasCamera0) && iszoom))
         {
             iszoom = false;  // ズームフラグを false に設定
             Dialpassword.SetActive(false); // ダイヤルパスワードのオブジェクトを非表示

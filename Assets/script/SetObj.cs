@@ -11,14 +11,15 @@ public class SetObj : MonoBehaviour
     [SerializeField] private GameObject targetUI; // 条件が揃った時に表示するUI
     [SerializeField] private SelectedItem selectedItem; // 選択されたアイテムの参照
 
-
-    private AudioSource audioSource; // 音を再生するためのAudioSource
+    private AudioSource audioSource; // 通常音再生用のAudioSource
+    private AudioSource audioSource2; // 追加音再生用のAudioSource
     private bool playerInsideCollider = false; // プレイヤーがコライダー内にいるかどうか
 
     private void Start()
     {
         targetUI.SetActive(false); // 初期状態でUIを非表示に設定
         audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
+        audioSource2 = GetComponents<AudioSource>()[1]; // 2つ目のAudioSourceコンポーネントを取得
     }
 
     private void Update()
@@ -28,13 +29,12 @@ public class SetObj : MonoBehaviour
 
     private void UpdateUIVisibility()
     {
-        // 各フラグの状態を取得
         bool isCameraZoomObj = FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj);
         bool hasItem = FlagManager.Instance.GetFlag(FlagManager.FlagType.itemmotteru);
         bool componentEnabled = IsComponentEnabled(); // コンポーネントが有効かどうかを確認
+        var isMovie = FlagManager.Instance.GetFlag(FlagManager.FlagType.Nowanim);
 
-        // 全ての条件がtrueの場合にのみUIを表示
-        if (isCameraZoomObj && hasItem && componentEnabled)
+        if (!isMovie && isCameraZoomObj && hasItem && componentEnabled)
         {
             if (targetUI.activeSelf)
             {
@@ -47,20 +47,18 @@ public class SetObj : MonoBehaviour
         }
         else
         {
-            if (targetUI.activeSelf) // 表示されている場合のみ非アクティブ化
+            if (targetUI.activeSelf)
             {
                 targetUI.SetActive(false);
             }
         }
     }
 
-
     private bool IsComponentEnabled()
     {
-        // ダイアルパスワードがクリアされているかとカメラズームオブジェクトフラグの状態を取得
         bool isDialPasswordClear = FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear);
         bool isCameraZoomObj = FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj);
-        return isDialPasswordClear && isCameraZoomObj; // 両方がtrueの場合にのみ有効
+        return isDialPasswordClear && isCameraZoomObj;
     }
 
     private void UIdasetayo()
@@ -71,68 +69,55 @@ public class SetObj : MonoBehaviour
         }
     }
 
-    // SetObj.cs の OnClickThis メソッド修正
     public bool OnClickThis()
     {
-        // アイテムの使用を試みる
         if (Itembox.instance.TryUseItem(useItem))
         {
             targetUI.SetActive(false);
 
-            // selectedItem オブジェクトから現在選択されているアイテムを取得
             Item currentSelectedItem = selectedItem.GetSelectedItem();
 
-            // 現在選択されているアイテムが使用アイテムと一致する場合、フラグを設定
             if (currentSelectedItem != null && currentSelectedItem.type == useItem)
             {
-                FlagManager.Instance.SetFlagByType(currentSelectedItem.type, true); // 使用されたアイテムタイプのフラグをtrueに設定
-                selectedItem.UpdateSelectedItem(null); // 使用後に選択をクリア
+                FlagManager.Instance.SetFlagByType(currentSelectedItem.type, true);
+                selectedItem.UpdateSelectedItem(null);
             }
 
-            // setObjectが指定されていればアクティブにする
             if (setObject != null)
             {
                 setObject.SetActive(true);
+                audioSource2?.Play(); // 条件に応じてaudioSource2を再生
             }
-            return true; // アイテムが正しく使用された
+            return true;
         }
         else
         {
-            HandleMiss(); // アイテムの使用に失敗した場合の処理
-            return false; // アイテムが正しく使用されなかった
+            HandleMiss();
+            return false;
         }
     }
-
 
     private void HandleMiss()
     {
-        if (audioSource != null) // nullチェックを修正
+        if (audioSource != null)
         {
-            audioSource.Play(); // 音を再生
-        }
-        else
-        {
-            return; // 何もしない場合はreturn
+            audioSource.Play(); // アイテム使用失敗時に通常の音を再生
         }
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
-        // プレイヤーがコライダーに入ったときの処理
         if (other.CompareTag("Player"))
         {
-            playerInsideCollider = true; // プレイヤーがコライダー内にいることを記録
+            playerInsideCollider = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // プレイヤーがコライダーから出たときの処理
         if (other.CompareTag("Player"))
         {
-            playerInsideCollider = false; // プレイヤーがコライダーから出たことを記録
+            playerInsideCollider = false;
         }
     }
-
 }

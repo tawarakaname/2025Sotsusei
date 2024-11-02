@@ -40,6 +40,7 @@ public class TextManager : MonoBehaviour
         {
                 { Item.Type.capsuleA, "H: なんかおちてたよ！\nD: なんだろうそれ！" },
                 { Item.Type.capsuleB, "H: これ何かなー？\nD: これは…！" },
+                { Item.Type.capsuleC, "H: またあった！\nD: どんどん！" },
                 { Item.Type.bluekey, "H: ふしぎなことが起きてるね\nD: そうだね、青いカギかも" },
         };
 
@@ -66,6 +67,7 @@ public class TextManager : MonoBehaviour
         {
             { Item.Type.capsuleA, Hicon0 },
             { Item.Type.capsuleB, Hicon1 },
+            { Item.Type.capsuleC, Hicon0 },
             { Item.Type.bluekey, Hicon2 },
         };
 

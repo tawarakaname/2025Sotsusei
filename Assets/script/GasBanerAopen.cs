@@ -6,7 +6,7 @@ using UnityEngine.Playables;
 public class GasBannerAOpen : MonoBehaviour
 {
     [SerializeField] private List<GameObject> gasBannerDoors;
-    [SerializeField] private MonoBehaviour playerScript;
+    // [SerializeField] private MonoBehaviour playerScript;
     [SerializeField] private List<Collider> gasCameraColliders;
     [SerializeField] private GameObject targetCamera;
 
@@ -41,7 +41,6 @@ public class GasBannerAOpen : MonoBehaviour
             !flagManager.GetFlag(FlagManager.FlagType.Gasbaneropen) &&
             !playerControlDisabledOnce) // 一度だけ無効化を実行
         {
-            DisablePlayerControls();
             OpenGasBanner();
             playerControlDisabledOnce = true; // 一度実行後フラグを立てる
         }
@@ -80,34 +79,12 @@ public class GasBannerAOpen : MonoBehaviour
         }
     }
 
-    private void DisablePlayerControls()
-    {
-        if (playerScript != null)
-        {
-            playerScript.enabled = false;
-            controlsDisabled = true;
-            Debug.Log("プレイヤー操作無効化");
-        }
-    }
-
-    private void EnablePlayerControls()
-    {
-        if (playerScript != null)
-        {
-            playerScript.enabled = true;
-            controlsDisabled = false;
-            Debug.Log("プレイヤー操作有効化");
-        }
-    }
-
     private void OnPlayableDirectorStopped(PlayableDirector director)
     {
         animationCompleted = true;
         flagManager.SetFlag(FlagManager.FlagType.Gasbaneropen, true);
 
         flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
-
-        EnablePlayerControls();  // アニメーション終了後に一度だけプレイヤー操作を有効化
     }
 
     private void OnDestroy()

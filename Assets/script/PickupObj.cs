@@ -45,6 +45,11 @@ public class PickupObj : MonoBehaviour
 
         if (playerInsideCollider)
         {
+            var isAllRequiredFlagsOff =
+                !FlagManager.Instance.GetFlag(FlagManager.FlagType.itembox) &&
+                !FlagManager.Instance.GetFlag(FlagManager.FlagType.Itemgetpanel);
+
+            if (!isAllRequiredFlagsOff) return;
             // PS4コントローラーの⚪︎ボタンは「Fire2」として認識されます
             if (Input.GetButtonDown("Fire2"))
             {

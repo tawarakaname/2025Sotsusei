@@ -12,7 +12,7 @@ public class DondonHInt : MonoBehaviour
 
     private void Start()
     {
-            targetImage.SetActive(false);
+        targetImage.SetActive(false);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -88,8 +88,12 @@ public class DondonHInt : MonoBehaviour
 
     void Update()
     {
+        bool isAllRequiredFlagsOff =
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.itembox) &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Itemgetpanel);
+
         // FlagManagerのフラグ状態を考慮したテキスト表示ロジック
-        if (Input.GetButtonDown("Fire2") && currentKeyword != null)
+        if (isAllRequiredFlagsOff && Input.GetButtonDown("Fire2") && currentKeyword != null)
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Dondon, true);
 
