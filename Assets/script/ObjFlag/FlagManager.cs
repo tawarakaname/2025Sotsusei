@@ -73,6 +73,9 @@ public class FlagManager : MonoBehaviour
         slotbg,
         Nowanim,
         FireColorchange,
+        OdoguCamera,
+        SmellPasswordclear,
+        Blueoriopen,
     }
 
     // シングルトンインスタンス

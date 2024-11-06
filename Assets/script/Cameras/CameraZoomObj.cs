@@ -132,6 +132,8 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.NoteCamera;
             case "StandCamera":
                 return FlagManager.FlagType.StandCamera;
+            case "OdoguCamera":
+                return FlagManager.FlagType.OdoguCamera;
             default:
                 return null;
         }
