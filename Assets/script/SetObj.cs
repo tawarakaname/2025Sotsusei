@@ -56,9 +56,10 @@ public class SetObj : MonoBehaviour
 
     private bool IsComponentEnabled()
     {
-        bool isDialPasswordClear = FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear);
+        //stageBのテストプレイのためにコメントアウトしてるけど、Aから通しでplayする場合dialpasswordを戻す
+        //bool isDialPasswordClear = FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear);
         bool isCameraZoomObj = FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj);
-        return isDialPasswordClear && isCameraZoomObj;
+        return  isCameraZoomObj;//&& isDialPasswordClear
     }
 
     private void UIdasetayo()
