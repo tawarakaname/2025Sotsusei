@@ -60,6 +60,7 @@ public class TextManager : MonoBehaviour
                 { "Hint6", "D: へやの火たち \nD:カラフルになった！\nD:きれい！どんどん…！"},
                 { "Hint7", "D: このノート\nD:ふうせんがかいてある！\nD:ふうせんのマーク\nD:どこかで見なかった？\nD:どんどーん！"},
                 { "Hint8", "D: カギがあったんだ！！\nD:これで外にでれるね！\nD:どんどん！"},
+                { "BlueBox", "D: カギがかかってる！\nH:青いかぎ、もってないね\nD:いまは開けられない…\nD:どんどん…"},
         };
 
         // Item.Typeに基づく画像の初期化
@@ -80,6 +81,7 @@ public class TextManager : MonoBehaviour
             { "NoteA", Hicon3 },
             { "Miss", Hicon3 },
             { "BalloonStand", Hicon1},
+            { "BlueBox", Hicon3},
             { "Hint5", Hicon2},
         };
 
@@ -109,8 +111,10 @@ public class TextManager : MonoBehaviour
 
     public void DisplayTextForKeyword(string keyword)
     {
+        Debug.Log("none");
         if (keywordTextDictionary.ContainsKey(keyword))
         {
+            Debug.Log("e");
             currentTextLines = keywordTextDictionary[keyword].Split('\n');
             currentLineIndex = 0;
             DisplayCurrentLine();
@@ -174,6 +178,7 @@ public class TextManager : MonoBehaviour
         if (currentLine.StartsWith("H:"))
         {
             TextBox.SetActive(true);
+            Debug.Log("ka");
             DTextBox.SetActive(false);
             StopAllCoroutines();
             StartCoroutine(TypeTextCoroutine(talkText, currentLine.Substring(2).Trim()));  // "H:" を除去して表示
@@ -181,6 +186,7 @@ public class TextManager : MonoBehaviour
         else if (currentLine.StartsWith("D:"))
         {
             DTextBox.SetActive(true);
+            Debug.Log("na");
             TextBox.SetActive(false);
             StopAllCoroutines();
             StartCoroutine(TypeTextCoroutine(DtalkText, currentLine.Substring(2).Trim()));  // "D:" を除去して表示
@@ -188,6 +194,7 @@ public class TextManager : MonoBehaviour
         else
         {
             TextBox.SetActive(true);
+            Debug.Log("me");
             DTextBox.SetActive(false);
             StopAllCoroutines();
             StartCoroutine(TypeTextCoroutine(talkText, currentLine.Trim()));  // 通常のテキスト表示

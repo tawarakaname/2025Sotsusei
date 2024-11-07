@@ -76,6 +76,9 @@ public class FlagManager : MonoBehaviour
         OdoguCamera,
         SmellPasswordclear,
         Blueoriopen,
+        BlueBoxCamera,
+        Bluekeyget,
+        playBlueBox,
     }
 
     // シングルトンインスタンス
