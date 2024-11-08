@@ -79,6 +79,7 @@ public class FlagManager : MonoBehaviour
         BlueBoxCamera,
         Bluekeyget,
         playBlueBox,
+        Diacup2get
     }
 
     // シングルトンインスタンス

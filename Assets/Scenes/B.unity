@@ -24945,13 +24945,14 @@ GameObject:
   - component: {fileID: 2127161684}
   - component: {fileID: 2127161683}
   - component: {fileID: 2127161682}
+  - component: {fileID: 2127161685}
   m_Layer: 0
   m_Name: SetDia
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2127161681
 Transform:
   m_ObjectHideFlags: 0
@@ -24961,7 +24962,7 @@ Transform:
   m_GameObject: {fileID: 2127161680}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00055984413, y: 0.043534975, z: 0.004016663, w: 0.9990437}
-  m_LocalPosition: {x: 0.031, y: -0.251, z: -0.29}
+  m_LocalPosition: {x: 0.03, y: -0.1822, z: -0.289}
   m_LocalScale: {x: 0.28845435, y: 0.120319664, z: 0.79679525}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25039,6 +25040,27 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127161680}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &2127161685
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127161680}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2ca7ba58c48654cee91eabf0fbb62015, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2132311644
 GameObject:
   m_ObjectHideFlags: 0
