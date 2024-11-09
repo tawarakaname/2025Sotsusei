@@ -251,13 +251,19 @@ public class TextManager : MonoBehaviour
     // Item.Typeに対応する画像を表示する
     private void DisplayImageForItemType(Item.Type itemType)
     {
-        HIcon.sprite = spriteDictionary[itemType];
+        if (spriteDictionary.TryGetValue(itemType, out var value))
+        {
+            HIcon.sprite = value;
+        }
     }
 
     // キーワードに対応する画像を表示する
     private void DisplayImageForKeyword(string keyword)
     {
-        HIcon.sprite = keywordSpriteDictionary[keyword];
+        if (keywordSpriteDictionary.TryGetValue(keyword, out var value))
+        {
+            HIcon.sprite = value;
+        }
     }
 
     private IEnumerator TypeTextCoroutine(TextMeshProUGUI textField, string fullText)

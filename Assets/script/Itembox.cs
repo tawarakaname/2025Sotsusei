@@ -9,7 +9,7 @@ public class Itembox : MonoBehaviour
     [SerializeField] private Slot selectedSlot = null;
     private string currentKeyword; // 現在のキーワード（エラーメッセージ用）
     [SerializeField] private SelectedItem selectedItemPanel;
-    [SerializeField] private TextManager textManager; // テキストを管理するクラスの参照
+    private TextManager textManager; // テキストを管理するクラスの参照
 
 
     private int currentPosition = 0;  // 現在選択されているスロットの位置
@@ -35,6 +35,7 @@ public class Itembox : MonoBehaviour
 
     private void Start()
     {
+        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         if (slots == null || slots.Length == 0)
         {
             slots = GetComponentsInChildren<Slot>();

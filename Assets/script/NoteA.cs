@@ -5,10 +5,14 @@ using UnityEngine;
 public class NoteA : MonoBehaviour
 {
     private string currentKeyword;
-    public TextManager textManager; // TextManagerへの参照
+    private TextManager textManager; // TextManagerへの参照
     [SerializeField] private GameObject TextBox;
     [SerializeField] private Collider Notecollider;
 
+    private void Start()
+    {
+        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         // プレイヤーがコライダーに接触した場合

@@ -5,7 +5,7 @@ using UnityEngine;
 public class DondonHInt : MonoBehaviour
 {
     private string currentKeyword;
-    public TextManager textManager; // TextManagerへの参照
+    private TextManager textManager; // TextManagerへの参照
     [SerializeField] private GameObject TextBox;
     [SerializeField] private Collider Dondoncollider;
     [SerializeField] GameObject targetImage; // 表示・非表示を制御するImage
@@ -13,6 +13,7 @@ public class DondonHInt : MonoBehaviour
     private void Start()
     {
         targetImage.SetActive(false);
+        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
     }
     private void OnTriggerEnter(Collider other)
     {

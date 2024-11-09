@@ -8,7 +8,7 @@ public class BalloonSet : MonoBehaviour
 
     [SerializeField] GameObject TextBox; // TextBoxへの参照を公開
     [SerializeField] private GameObject DTextBox;
-    [SerializeField] TextManager textManager; // TextManagerへの参照を公開
+    private TextManager textManager; // TextManagerへの参照を公開
     [SerializeField] Collider standCollider;
     [SerializeField] Canvas Akeyget;
     [SerializeField] AudioSource audioSource;
@@ -30,6 +30,7 @@ public class BalloonSet : MonoBehaviour
         Akeyget.gameObject.SetActive(false);
         // ueとshitaのAnimatorコンポーネントを取得
         if (balloonanim != null) balloonAnimator = balloonanim.GetComponent<Animator>();
+        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
     }
     private void OnTriggerEnter(Collider other)
     {

@@ -12,6 +12,7 @@ public class PickupObj : MonoBehaviour
     Item item;
     [SerializeField] GameObject targetImage; // 表示・非表示を制御するImage
     [SerializeField] AudioSource audioSource;
+    private TextManager textManager;
 
     private bool playerInsideCollider = false;
     private bool ispickup = false;
@@ -19,6 +20,7 @@ public class PickupObj : MonoBehaviour
 
     private void Start()
     {
+        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         // itemタイプに応じてitemを作成する
         item = ItemGenerater.instance.Spawn(itemType);
 

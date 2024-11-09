@@ -12,20 +12,9 @@ public class ItemCanvas : MonoBehaviour
     [SerializeField] private Image inventryImage;
     private TextManager textManager;
 
-    private void OnEnable()
-    {
-        // シーンがロードされるたびに OnSceneLoaded を呼び出す
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        // イベントの登録解除
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
     void Start()
     {
+        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         Canvas.SetActive(false);
         flagManager = FlagManager.Instance;
     }
@@ -47,17 +36,6 @@ public class ItemCanvas : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // 新しいシーンがロードされたときに TextManager の参照を再取得
-        textManager = FindObjectOfType<TextManager>();
-
-        // Itembox インスタンスが存在する場合に TextManager をセット
-        if (Itembox.instance != null)
-        {
-            Itembox.instance.SetTextManager(textManager);
-        }
-    }
     // Update is called once per frame
     void Update()
     {

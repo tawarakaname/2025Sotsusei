@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SmellGimmick : MonoBehaviour
 {
-    public TextManager textManager; // TextManagerへの参照
+    private TextManager textManager; // TextManagerへの参照
     [SerializeField] private Collider AquariumCollider1;
     [SerializeField] private Collider AquariumCollider2;
     [SerializeField] private Collider AquariumCollider3;
@@ -10,6 +10,11 @@ public class SmellGimmick : MonoBehaviour
     [SerializeField] private GameObject DTextBox;
 
     private string currentKeyword; // 現在のコライダーに対応するキーワード
+
+    private void Start()
+    {
+        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {

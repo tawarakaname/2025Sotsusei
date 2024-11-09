@@ -9,7 +9,6 @@ public class BluekeySet : MonoBehaviour
 
     [SerializeField] GameObject TextBox; // TextBoxへの参照を公開
     [SerializeField] private GameObject DTextBox;
-    [SerializeField] TextManager textManager; // TextManagerへの参照を公開
     [SerializeField] Collider BlueBoxCollider;
     [SerializeField] Canvas Bluekeyget;
     [SerializeField] AudioSource audioSource;
@@ -23,10 +22,12 @@ public class BluekeySet : MonoBehaviour
     private bool itemgetpanelLogged = false;
     [SerializeField] private float animatedTime;
     private Coroutine BlueBoxCoroutine;
+    private TextManager textManager;
 
 
     void Start()
     {
+        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         audioSource = GetComponent<AudioSource>();
         Bluekeyget.gameObject.SetActive(false);
         // ueとshitaのAnimatorコンポーネントを取得
