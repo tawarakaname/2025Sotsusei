@@ -27,8 +27,24 @@ public class ItemCanvas : MonoBehaviour
     void Start()
     {
         Canvas.SetActive(false);
-        DontDestroyOnLoad(gameObject); // シーンを切り替えても削除しない
         flagManager = FlagManager.Instance;
+    }
+    private void Awake()
+    {
+        CheckSingleton();
+    }
+
+    private void CheckSingleton()
+    {
+        var target = GameObject.FindGameObjectWithTag(gameObject.tag);
+        var checkResult = target != null && target != gameObject;
+
+        if (checkResult)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -77,4 +93,5 @@ public class ItemCanvas : MonoBehaviour
         Canvas.SetActive(false);
         FlagManager.Instance.SetFlag(FlagManager.FlagType.itembox, false);
     }
+
 }

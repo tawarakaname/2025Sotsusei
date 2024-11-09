@@ -25827,7 +25827,7 @@ GameObject:
   - component: {fileID: 1028529182}
   m_Layer: 0
   m_Name: TextManager
-  m_TagString: Untagged
+  m_TagString: TextManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25844,7 +25844,8 @@ Transform:
   m_LocalPosition: {x: 1, y: 1, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 895990771402916943}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1028529182
@@ -25861,13 +25862,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   talkText: {fileID: 1152196992394359655}
   TextBox: {fileID: 8573304856268882693}
-  Hicon0: {fileID: 7305804099137268140}
-  Hicon1: {fileID: 746700227}
-  Hicon2: {fileID: 761050328}
-  Hicon3: {fileID: 727619920}
-  DTextBox: {fileID: 184283876}
-  DtalkText: {fileID: 1888039243}
-  Dicon0: {fileID: 156204235}
+  HIcon: {fileID: 7305804099137268140}
+  HSprite:
+  - {fileID: 21300000, guid: eede6aff612654934843b8289b92172e, type: 3}
+  - {fileID: 21300000, guid: ba51331f91eeb40b0afff0fc71f27d22, type: 3}
+  - {fileID: 21300000, guid: ae73ee84175364b4697752a53bd9e996, type: 3}
+  - {fileID: 21300000, guid: 1822af1d8480f4fb3a01d86a53354df6, type: 3}
+  OtherTextBox: {fileID: 184283876}
+  OtherTalkText: {fileID: 1888039243}
+  OtherIcon: {fileID: 156204235}
+  otomoTextFlame:
+  - {fileID: 21300000, guid: 2eb5967b5701af94db8c17bb5a5f1647, type: 3}
+  - {fileID: 21300000, guid: 8ebabc6e8bd124f738deba2d89f1c90b, type: 3}
+  - {fileID: 21300000, guid: d3da533c127b14974b46d4ad49b736a6, type: 3}
+  - {fileID: 0}
+  otomo0Sprite:
+  - {fileID: 21300000, guid: e1e2b3def70e88b4ba7bfc24a3193fd3, type: 3}
+  otomo1Sprite:
+  - {fileID: 21300000, guid: 73d447c51fe0f49c6a6aeafcf1b86a8a, type: 3}
+  otomo2Sprite:
+  - {fileID: 21300000, guid: f9d834373971e4cb6aca039127b6626b, type: 3}
+  otomo3Sprite:
+  - {fileID: 21300000, guid: 279c31d219d511f41a02219cf2b7664d, type: 3}
   buttonOsemasen: 1
   inputPredictImage: {fileID: 1870713419}
 --- !u!1 &1030602257
@@ -50622,7 +50638,7 @@ RectTransform:
   m_Children:
   - {fileID: 2542567783742125289}
   - {fileID: 184283877}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1028529181}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -54370,7 +54386,7 @@ GameObject:
   - component: {fileID: 8214929095701397887}
   m_Layer: 5
   m_Name: ZoomCanvas
-  m_TagString: Untagged
+  m_TagString: ZoomCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58783,7 +58799,7 @@ GameObject:
   - component: {fileID: 5217888986725444951}
   m_Layer: 0
   m_Name: FlagManager
-  m_TagString: Untagged
+  m_TagString: FlagManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61042,7 +61058,6 @@ SceneRoots:
   - {fileID: 1066580158}
   - {fileID: 1340421807}
   - {fileID: 1028529181}
-  - {fileID: 895990771402916943}
   - {fileID: 670607787803187090}
   - {fileID: 283684202}
   - {fileID: 1356712593}

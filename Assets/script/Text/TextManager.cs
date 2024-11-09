@@ -1,28 +1,37 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI; // 画像のために必要
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TextManager : MonoBehaviour
 {
     public TextMeshProUGUI talkText; // TMPのテキストフィールド
+
     public GameObject TextBox; // TextBoxへの参照を公開
+    [SerializeField] private Image HIcon;
+    [SerializeField] private Sprite[] HSprite;
 
-    [SerializeField] private Image Hicon0; // Hicon0 の画像
-    [SerializeField] private Image Hicon1; // Hicon1 の画像
-    [SerializeField] private Image Hicon2; // Hicon2 の画像
-    [SerializeField] private Image Hicon3; // Hicon3 の画像
+    public GameObject OtherTextBox; // D君のTextBox
+    private Image OtherTextBoxImage;
+    public TextMeshProUGUI OtherTalkText; // D君のテキスト
+    [SerializeField] private Image OtherIcon; // D君のアイコン（複数ある場合は他のアイコンも追加可能）
+    private Dictionary<string, Sprite> targetOtomoDictionary;
 
-    public GameObject DTextBox; // D君のTextBox
-    public TextMeshProUGUI DtalkText; // D君のテキスト
-    [SerializeField] private Image Dicon0; // D君のアイコン（複数ある場合は他のアイコンも追加可能）
+    [SerializeField] private Sprite[] otomoTextFlame;
+    [SerializeField] private Sprite[] otomo0Sprite;
+    [SerializeField] private Sprite[] otomo1Sprite;
+    [SerializeField] private Sprite[] otomo2Sprite;
+    [SerializeField] private Sprite[] otomo3Sprite;
 
-    private Dictionary<Item.Type, string> textDictionary; // Item.Type に基づくテキスト辞書
-    private Dictionary<string, string> keywordTextDictionary; // キーワードに基づくテキスト辞書
-    private Dictionary<Item.Type, Image> imageDictionary; // Item.Type に基づく画像辞書
-    private Dictionary<string, Image> keywordImageDictionary; // キーワードに基づく画像辞書
+    private Dictionary<string, Sprite> otomo0SpriteDictionary;
+    private Dictionary<string, Sprite> otomo1SpriteDictionary;
+    private Dictionary<string, Sprite> otomo2SpriteDictionary;
+    private Dictionary<string, Sprite> otomo3SpriteDictionary;
+
+    private Dictionary<Item.Type, Sprite> spriteDictionary; // Item.Type に基づく画像辞書
+    private Dictionary<string, Sprite> keywordSpriteDictionary; // キーワードに基づく画像辞書
 
     // 現在表示中のテキストとその行インデックス
     private string[] currentTextLines;
@@ -31,73 +40,110 @@ public class TextManager : MonoBehaviour
     [Header("入力無効時間")] [SerializeField] private float buttonOsemasen;
     private float currentTime;
     [SerializeField] private Image inputPredictImage;
+    private MessageStrage messageStrage = new();
+
+    private void Awake()
+    {
+        CheckSingleton();
+    }
+
+    private void CheckSingleton()
+    {
+        var target = GameObject.FindGameObjectWithTag(gameObject.tag);
+        var checkResult = target != null && target != gameObject;
+
+        if (checkResult)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
     private void Start()
     {
         TextBox.SetActive(false);
-        DTextBox.SetActive(false);
+        OtherTextBox.SetActive(false);
 
-        textDictionary = new Dictionary<Item.Type, string>
-        {
-                { Item.Type.capsuleA, "H: なんかおちてたよ！\nD: なんだろうそれ！" },
-                { Item.Type.capsuleB, "H: これ何かなー？\nD: これは…！" },
-                { Item.Type.capsuleC, "H: またあった！\nD: どんどん！" },
-                { Item.Type.bluekey, "H: ふしぎなことが起きてるね\nD: そうだね、青いカギかも" },
-        };
-
-        keywordTextDictionary = new Dictionary<string, string>
-        {
-                { "smell1", "H: hallo\nD: You smell something strange." },
-                { "smell2", "H: すっぱいにおいがする！\nD: そうだね、少し匂うよね" },
-                { "smell3", "H: くさくない\nふんふん\nD: これ何だろう？" },
-                { "NoteA", "H:ぼくのノートだ!!!!!\nD: これ、キミのノートだったの？" },
-                { "Miss", "H: これじゃないみたい...\nD: 何かちがうみたいだね" },
-                { "BalloonStand", "H: 何かはさめそうだね\nD: このマーク…" },
-                { "Hint1", "D:おいらはドンドン！\nD: このへやのオトモだよ！\nD: ヒントがほしくなったら\nD: はなしかけてね！\nD: どんどーん！"},
-                { "Hint2", "D: このへやくらい！\nD: 火がつけれないかな…。\nD: あっ！\nD:こくばんに何か書いてあるよ！\nD: どんどーん！"},
-                { "Hint3", "D: メモがあったんだね！ \nD:メモのマークと同じボタンが \nD:あった気がする！"},
-                { "Hint4", "D: その赤い箱のボタン\nD:もしかして火の大きさに\nD:かんけいあるのかな…。\nD:どんどーん！"},
-                { "Hint5", "D: さっきからこげくさいな〜？\nD:あっ！！かべこげてるよ！！\nD:あれって、あそこの\nD:たくさんのカードとにてない！？\nD:どんどん！\nH:アルファベットとすうじ…？\nH:すうじだったら\nH:ぼくひろったよ！"},
-                { "Hint6", "D: へやの火たち \nD:カラフルになった！\nD:きれい！どんどん…！"},
-                { "Hint7", "D: このノート\nD:ふうせんがかいてある！\nD:ふうせんのマーク\nD:どこかで見なかった？\nD:どんどーん！"},
-                { "Hint8", "D: カギがあったんだ！！\nD:これで外にでれるね！\nD:どんどん！"},
-                { "BlueBox", "D: カギがかかってる！\nH:青いかぎ、もってないね\nD:いまは開けられない…\nD:どんどん…"},
-        };
+        OtherTextBoxImage = OtherTextBox.GetComponent<Image>();
 
         // Item.Typeに基づく画像の初期化
-        imageDictionary = new Dictionary<Item.Type, Image>
+        spriteDictionary = new Dictionary<Item.Type, Sprite>
         {
-            { Item.Type.capsuleA, Hicon0 },
-            { Item.Type.capsuleB, Hicon1 },
-            { Item.Type.capsuleC, Hicon0 },
-            { Item.Type.bluekey, Hicon2 },
+            { Item.Type.capsuleA, HSprite[0] },
+            { Item.Type.capsuleB, HSprite[1] },
+            { Item.Type.capsuleC, HSprite[0] },
+            { Item.Type.bluekey, HSprite[2] }
         };
 
         // キーワードに基づく画像の初期化
-        keywordImageDictionary = new Dictionary<string, Image>
+        keywordSpriteDictionary = new Dictionary<string, Sprite>
         {
-            { "smell1", Hicon0 },
-            { "smell2", Hicon1 },
-            { "smell3", Hicon2 },
-            { "NoteA", Hicon3 },
-            { "Miss", Hicon3 },
-            { "BalloonStand", Hicon1},
-            { "BlueBox", Hicon3},
-            { "Hint5", Hicon2},
+            { "smell1", HSprite[0] },
+            { "smell2", HSprite[1] },
+            { "smell3", HSprite[2] },
+            { "NoteA", HSprite[3] },
+            { "Miss", HSprite[3] },
+            { "BalloonStand", HSprite[1]},
+            { "BlueBox", HSprite[3]},
+            { "Hint5", HSprite[2]}
         };
+        // 使用例
+        otomo0SpriteDictionary = new Dictionary<string, Sprite>
+        {
+            { "smile", otomo0Sprite[0] },
+        };
+        otomo1SpriteDictionary = new Dictionary<string, Sprite>
+        {
+            { "smile", otomo1Sprite[0] },
+        };
+        otomo2SpriteDictionary = new Dictionary<string, Sprite>
+        {
+            { "smile", otomo2Sprite[0] },
+        };
+        otomo3SpriteDictionary = new Dictionary<string, Sprite>
+        {
+            { "smile", otomo3Sprite[0] },
+        };
+        // 
 
-        // 最初は画像を全て非表示にする
-        Hicon0.gameObject.SetActive(false);
-        Hicon1.gameObject.SetActive(false);
-        Hicon2.gameObject.SetActive(false);
-        Hicon3.gameObject.SetActive(false);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        switch (scene.name)
+        {
+            case "A":
+                targetOtomoDictionary = otomo0SpriteDictionary;
+                OtherTextBoxImage.sprite = otomoTextFlame[0];
+                break;
+            case "B":
+                targetOtomoDictionary = otomo1SpriteDictionary;
+                OtherTextBoxImage.sprite = otomoTextFlame[1];
+                break;
+            case "C":
+                targetOtomoDictionary = otomo2SpriteDictionary;
+                OtherTextBoxImage.sprite = otomoTextFlame[2];
+                break;
+            case "D":
+                targetOtomoDictionary = otomo3SpriteDictionary;
+                OtherTextBoxImage.sprite = otomoTextFlame[3];
+                break;
+        }
     }
 
     // Item.Typeに対応するテキストを表示する
     public void DisplayTextForItemType(Item.Type itemType)
     {
-        if (textDictionary.ContainsKey(itemType))
+        if (messageStrage.TextDictionary.ContainsKey(itemType))
         {
-            currentTextLines = textDictionary[itemType].Split('\n');
+            currentTextLines = messageStrage.TextDictionary[itemType].Split('\n');
             currentLineIndex = 0;
             DisplayCurrentLine();
             DisplayImageForItemType(itemType); // 画像も表示
@@ -105,17 +151,17 @@ public class TextManager : MonoBehaviour
         else
         {
             TextBox.SetActive(false);
-            DTextBox.SetActive(false);
+            OtherTextBox.SetActive(false);
         }
     }
 
     public void DisplayTextForKeyword(string keyword)
     {
         Debug.Log("none");
-        if (keywordTextDictionary.ContainsKey(keyword))
+        if (messageStrage.KeywordTextDictionary.ContainsKey(keyword))
         {
             Debug.Log("e");
-            currentTextLines = keywordTextDictionary[keyword].Split('\n');
+            currentTextLines = messageStrage.KeywordTextDictionary[keyword].Split('\n');
             currentLineIndex = 0;
             DisplayCurrentLine();
             DisplayImageForKeyword(keyword); // 画像も表示
@@ -123,7 +169,7 @@ public class TextManager : MonoBehaviour
         else
         {
             TextBox.SetActive(false);
-            DTextBox.SetActive(false); // DTextBoxも確実に非表示にする
+            OtherTextBox.SetActive(false); // DTextBoxも確実に非表示にする
         }
     }
 
@@ -163,7 +209,7 @@ public class TextManager : MonoBehaviour
                 {
                     // 最後の行を超えたら両方のTextBoxを非表示にする
                     TextBox.SetActive(false);
-                    DTextBox.SetActive(false);
+                    OtherTextBox.SetActive(false);
                     currentTime = 0;
 
                     FlagManager.Instance.SetFlag(FlagManager.FlagType.Textbox, false);
@@ -179,23 +225,23 @@ public class TextManager : MonoBehaviour
         {
             TextBox.SetActive(true);
             Debug.Log("ka");
-            DTextBox.SetActive(false);
+            OtherTextBox.SetActive(false);
             StopAllCoroutines();
             StartCoroutine(TypeTextCoroutine(talkText, currentLine.Substring(2).Trim()));  // "H:" を除去して表示
         }
         else if (currentLine.StartsWith("D:"))
         {
-            DTextBox.SetActive(true);
+            OtherTextBox.SetActive(true);
             Debug.Log("na");
             TextBox.SetActive(false);
             StopAllCoroutines();
-            StartCoroutine(TypeTextCoroutine(DtalkText, currentLine.Substring(2).Trim()));  // "D:" を除去して表示
+            StartCoroutine(TypeTextCoroutine(OtherTalkText, currentLine.Substring(2).Trim()));  // "D:" を除去して表示
         }
         else
         {
             TextBox.SetActive(true);
             Debug.Log("me");
-            DTextBox.SetActive(false);
+            OtherTextBox.SetActive(false);
             StopAllCoroutines();
             StartCoroutine(TypeTextCoroutine(talkText, currentLine.Trim()));  // 通常のテキスト表示
         }
@@ -205,30 +251,13 @@ public class TextManager : MonoBehaviour
     // Item.Typeに対応する画像を表示する
     private void DisplayImageForItemType(Item.Type itemType)
     {
-        HideAllImages(); // まずは全ての画像を非表示にする
-        if (imageDictionary.ContainsKey(itemType))
-        {
-            imageDictionary[itemType].gameObject.SetActive(true); // 対応する画像を表示
-        }
+        HIcon.sprite = spriteDictionary[itemType];
     }
 
     // キーワードに対応する画像を表示する
     private void DisplayImageForKeyword(string keyword)
     {
-        HideAllImages(); // まずは全ての画像を非表示にする
-        if (keywordImageDictionary.ContainsKey(keyword))
-        {
-            keywordImageDictionary[keyword].gameObject.SetActive(true); // 対応する画像を表示
-        }
-    }
-
-    // 全ての画像を非表示にする
-    private void HideAllImages()
-    {
-        Hicon0.gameObject.SetActive(false);
-        Hicon1.gameObject.SetActive(false);
-        Hicon2.gameObject.SetActive(false);
-        Hicon3.gameObject.SetActive(false);
+        HIcon.sprite = keywordSpriteDictionary[keyword];
     }
 
     private IEnumerator TypeTextCoroutine(TextMeshProUGUI textField, string fullText)

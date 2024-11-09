@@ -10,12 +10,11 @@ public class ItemGenerater : MonoBehaviour
     public static ItemGenerater instance;
     private void Awake()
     {
+        CheckSingleton();
         // シングルトンパターンを適用
         if (instance == null)
         {
             instance = this;
-            // このオブジェクトをシーンが移動しても破棄しないようにする
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -49,5 +48,18 @@ public class ItemGenerater : MonoBehaviour
         }
         return null;
     }
+
+    private void CheckSingleton()
+    {
+        var target = GameObject.FindGameObjectWithTag(gameObject.tag);
+        var checkResult = target != null && target != gameObject;
+
+        if (checkResult)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
 }
-  

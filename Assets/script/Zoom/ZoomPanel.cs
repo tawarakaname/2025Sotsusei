@@ -20,7 +20,6 @@ public class ZoomPanel : MonoBehaviour
     private void Start()
     {
         panel.SetActive(false);
-        DontDestroyOnLoad(gameObject);
         flagManager = FlagManager.Instance;
 
         // ZoomObjectの初期化
@@ -31,6 +30,10 @@ public class ZoomPanel : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+    private void Awake()
+    {
+        CheckSingleton();
+    }
     void Update()
     {
         if (!canReceiveInput) return; // ディレイ中は入力を無視
@@ -119,6 +122,19 @@ public class ZoomPanel : MonoBehaviour
         canReceiveInput = false;
         yield return new WaitForSeconds(delay);
         canReceiveInput = true;
+    }
+
+    private void CheckSingleton()
+    {
+        var target = GameObject.FindGameObjectWithTag(gameObject.tag);
+        var checkResult = target != null && target != gameObject;
+
+        if (checkResult)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 }
 

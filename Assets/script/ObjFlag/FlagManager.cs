@@ -97,7 +97,6 @@ public class FlagManager : MonoBehaviour
                 // シーンに存在しない場合、新たにオブジェクトを作成する
                 GameObject obj = new GameObject("FlagManager");
                 _instance = obj.AddComponent<FlagManager>();
-                DontDestroyOnLoad(obj);
             }
             return _instance;
         }
@@ -122,11 +121,11 @@ public class FlagManager : MonoBehaviour
 
     private void Awake()
     {
+        CheckSingleton();
         // シングルトンのインスタンスが重複しないようにする
         if (_instance == null)
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -180,5 +179,18 @@ public class FlagManager : MonoBehaviour
         {
            // Debug.LogWarning("フラグが見つかりません: " + itemType);
         }
+    }
+
+    private void CheckSingleton()
+    {
+        var target = GameObject.FindGameObjectWithTag(gameObject.tag);
+        var checkResult = target != null && target != gameObject;
+
+        if (checkResult)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
     }
 }

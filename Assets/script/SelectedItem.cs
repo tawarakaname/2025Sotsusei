@@ -10,9 +10,8 @@ public class SelectedItem : MonoBehaviour
 
     private void Awake()
     {
-        // シーンが切り替わってもこのゲームオブジェクトを保持する
-        DontDestroyOnLoad(gameObject);
         audioSource = GetComponent<AudioSource>();
+        CheckSingleton();
     }
 
     // アイテムを更新するメソッド
@@ -58,5 +57,16 @@ public class SelectedItem : MonoBehaviour
 
         return true; // アイテムが使用された場合
     }
+    private void CheckSingleton()
+    {
+        var target = GameObject.FindGameObjectWithTag(gameObject.tag);
+        var checkResult = target != null && target != gameObject;
 
+        if (checkResult)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
 }

@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class VirtualCamera : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        // このオブジェクトをシーンが切り替わっても消えないようにする
-        DontDestroyOnLoad(gameObject);
+        CheckSingleton();
     }
 
+    private void CheckSingleton()
+    {
+        var target = GameObject.FindGameObjectWithTag(gameObject.tag);
+        var checkResult = target != null && target != gameObject;
+
+        if (checkResult)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+    }
 }
