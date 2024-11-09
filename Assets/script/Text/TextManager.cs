@@ -121,18 +121,23 @@ public class TextManager : MonoBehaviour
         {
             case "A":
                 targetOtomoDictionary = otomo0SpriteDictionary;
+                OtherIcon.sprite = otomo0Sprite[0];
                 OtherTextBoxImage.sprite = otomoTextFlame[0];
                 break;
             case "B":
                 targetOtomoDictionary = otomo1SpriteDictionary;
+                OtherIcon.sprite = otomo1Sprite[0];
                 OtherTextBoxImage.sprite = otomoTextFlame[1];
+                Debug.Log("aaa");
                 break;
             case "C":
                 targetOtomoDictionary = otomo2SpriteDictionary;
+                OtherIcon.sprite = otomo2Sprite[0];
                 OtherTextBoxImage.sprite = otomoTextFlame[2];
                 break;
             case "D":
                 targetOtomoDictionary = otomo3SpriteDictionary;
+                OtherIcon.sprite = otomo3Sprite[0];
                 OtherTextBoxImage.sprite = otomoTextFlame[3];
                 break;
         }

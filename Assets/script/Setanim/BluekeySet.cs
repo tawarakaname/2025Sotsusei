@@ -24,7 +24,8 @@ public class BluekeySet : MonoBehaviour
     private Coroutine BlueBoxCoroutine;
     private TextManager textManager;
 
-
+    [SerializeField] private SetObj setObj;
+    private bool isFreeInteract = true;
     void Start()
     {
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
@@ -32,6 +33,7 @@ public class BluekeySet : MonoBehaviour
         Bluekeyget.gameObject.SetActive(false);
         // ueとshitaのAnimatorコンポーネントを取得
         if (BlueBoxanim != null) BlueBoxAnimator = BlueBoxanim.GetComponent<Animator>();
+        setObj.IsFreeInteract = false;
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -67,18 +69,48 @@ public class BluekeySet : MonoBehaviour
 
     private void Update()
     {
+        isFreeInteract = !FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen);
+        setObj.IsFreeInteract = FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen);
+
+        //  Bluekey フラグが true ならアニメーションを再生
+        if (FlagManager.Instance.GetFlagByType(Item.Type.bluekey) && BlueBoxCoroutine == null)
+        {
+            PlayBlueBoxtriger();
+            DisablePlayerControls();
+            BlueBoxCoroutine = StartCoroutine(BlueBoxAnimCompleted());
+        }
+
+        //  Bluekey フラグが true ならアニメーションを再生
+        if (FlagManager.Instance.GetFlagByType(Item.Type.bluekey) && BlueBoxCoroutine == null)
+        {
+            PlayBlueBoxtriger();
+            DisablePlayerControls();
+            BlueBoxCoroutine = StartCoroutine(BlueBoxAnimCompleted());
+        }
+
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Bluekeyget) && !canvasEnabled)
+        {
+            StartCoroutine(EnableCanvasAD());
+            canvasEnabled = true;  // コルーチンが一度だけ呼ばれるように設定
+        }
+
+        // すべての条件が揃ったときの確認
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.playBlueBox) &&
+            playerInsideCollider &&
+            Input.GetButtonDown("Fire2"))
+        {
+            // Fire2が押されたらCanvasをfalseに
+            Bluekeyget.gameObject.SetActive(false);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
+            playerScript.enabled = true;
+        }
+
+        if (!isFreeInteract) return;
 
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.BlueBoxCamera))
         {
-            //  Bluekey フラグが true ならアニメーションを再生
-            if (FlagManager.Instance.GetFlagByType(Item.Type.bluekey) && BlueBoxCoroutine == null)
-            {
-                PlayBlueBoxtriger();
-                DisablePlayerControls();
-                BlueBoxCoroutine = StartCoroutine(BlueBoxAnimCompleted());
-            }
             //  BlueBox フラグが false の場合のみ、コライダーとFire2に関連した動作を行う
-            else if (!FlagManager.Instance.GetFlagByType(Item.Type.bluekey))
+            if (!FlagManager.Instance.GetFlagByType(Item.Type.bluekey))
             {
                 // SmellPasswordclear フラグが false の場合のみ Fire2 ボタンと TextBox の処理を行う
                 if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.SmellPasswordclear))
@@ -94,34 +126,6 @@ public class BluekeySet : MonoBehaviour
                         textManager.DisplayCurrentLine();
                     }
 
-                }
-            }
-
-            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Bluekeyget) && !canvasEnabled)
-            {
-                StartCoroutine(EnableCanvasAD());
-                canvasEnabled = true;  // コルーチンが一度だけ呼ばれるように設定
-            }
-            // すべての条件が揃ったときの確認
-            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.playBlueBox) &&
-                FlagManager.Instance.GetFlag(FlagManager.FlagType.Bluekeyget) &&
-                playerInsideCollider &&
-                Input.GetButtonDown("Fire2"))
-            {
-
-                // Fire2が押されたらCanvasをfalseに
-                Bluekeyget.gameObject.SetActive(false);
-                FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
-                playerScript.enabled = true;
-            }
-
-            if (controlsDisabled)
-            {
-                // Fire1の入力を無効化
-                if (Input.GetButtonDown("Fire1"))
-                {
-                    // 何も行わない（入力を無視）
-                    return;
                 }
             }
         }

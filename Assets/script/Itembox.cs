@@ -218,10 +218,6 @@ public class Itembox : MonoBehaviour
         return selectedSlot?.GetItem();
     }
 
-    public void SetTextManager(TextManager newTextManager)
-    {
-        textManager = newTextManager;
-    }
 
 
 }

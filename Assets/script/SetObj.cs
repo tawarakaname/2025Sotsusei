@@ -14,6 +14,7 @@ public class SetObj : MonoBehaviour
     private AudioSource audioSource; // 通常音再生用のAudioSource
     private AudioSource audioSource2; // 追加音再生用のAudioSource
     private bool playerInsideCollider = false; // プレイヤーがコライダー内にいるかどうか
+    public bool IsFreeInteract = true;
 
     private void Start()
     {
@@ -24,6 +25,7 @@ public class SetObj : MonoBehaviour
 
     private void Update()
     {
+        if (!IsFreeInteract) return;
         UpdateUIVisibility(); // UIの表示状態を更新
     }
 
@@ -59,7 +61,7 @@ public class SetObj : MonoBehaviour
         //stageBのテストプレイのためにコメントアウトしてるけど、Aから通しでplayする場合dialpasswordを戻す
         //bool isDialPasswordClear = FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear);
         bool isCameraZoomObj = FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj);
-        return  isCameraZoomObj;//&& isDialPasswordClear
+        return isCameraZoomObj;//&& isDialPasswordClear
     }
 
     private void UIdasetayo()

@@ -6,7 +6,6 @@ public class PlayAnimationOnFlag : MonoBehaviour
 
     public GameObject objWithAnimation; // アニメーションがついているオブジェクト
     private Animator animator;
-    private FlagManager flagManager;
     [SerializeField] private Collider Adoorcollider;
     private bool playerInsideCollider = false;
 
