@@ -86,7 +86,6 @@ public class BluekeySet : MonoBehaviour
                     // Fire2ボタンが押され、かつ currentKeyword が null でない場合
                     if (Input.GetButtonDown("Fire2") && currentKeyword != null && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
                     {
-                        Debug.Log("texttttt");
                         OnClickBlueBox();
                     }
                     else if (Input.GetButtonDown("Fire2") && currentKeyword != null && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
