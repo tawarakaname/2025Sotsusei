@@ -212,12 +212,15 @@ public class Itembox : MonoBehaviour
         textManager.DisplayTextForKeyword(currentKeyword);
     }
 
-
-
-
-    public Item GetSelectedItem()
+ public Item GetSelectedItem()
     {
         return selectedSlot?.GetItem();
     }
+
+    public void SetTextManager(TextManager newTextManager)
+    {
+        textManager = newTextManager;
+    }
+
 
 }

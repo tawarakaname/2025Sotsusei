@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class SphereMove : MonoBehaviour
 {
-    void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
+    //void Start()
+    //{
+    //    DontDestroyOnLoad(gameObject);
+    //}
 
     void OnCollisionEnter(Collision collision)
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; // シーン遷移させる場合に必要
+using UnityEngine.SceneManagement;
 
 public class ItemCanvas : MonoBehaviour
 {
@@ -10,8 +10,20 @@ public class ItemCanvas : MonoBehaviour
     private FlagManager flagManager;
     private bool currentZoomPanelFlag;
     [SerializeField] private Image inventryImage;
+    private TextManager textManager;
 
-    // Start is called before the first frame update
+    private void OnEnable()
+    {
+        // シーンがロードされるたびに OnSceneLoaded を呼び出す
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // イベントの登録解除
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     void Start()
     {
         Canvas.SetActive(false);
@@ -19,6 +31,17 @@ public class ItemCanvas : MonoBehaviour
         flagManager = FlagManager.Instance;
     }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 新しいシーンがロードされたときに TextManager の参照を再取得
+        textManager = FindObjectOfType<TextManager>();
+
+        // Itembox インスタンスが存在する場合に TextManager をセット
+        if (Itembox.instance != null)
+        {
+            Itembox.instance.SetTextManager(textManager);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -26,6 +49,7 @@ public class ItemCanvas : MonoBehaviour
         bool isAllFlagsOff =
             !flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
             !flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
+            !flagManager.GetFlag(FlagManager.FlagType.Telop) &&
             !flagManager.GetFlag(FlagManager.FlagType.Nowanim) &&
             !flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel);
 
