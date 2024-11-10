@@ -25,6 +25,8 @@ public class SmellPassword : MonoBehaviour
     private GameObject rotatingObject = null; // 現在回転中のオブジェクト
     private float rotationProgress = 0f; // 回転の進捗
 
+    private bool isUpScaleCam;
+
     private void Start()
     {
         flagManager = FlagManager.Instance; // FlagManagerのインスタンスをキャッシュ
@@ -47,13 +49,15 @@ public class SmellPassword : MonoBehaviour
 
     private void Update()
     {
-        if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
-            !flagManager.GetFlag(FlagManager.FlagType.OdoguCamera))
-            return;
+        if (isUpScaleCam)
+        {
+            HandleHorizontalInput(); // 水平方向の入力を処理
+            HandleFireButtonInput(); // 丸ボタンの入力を処理
+            RotateObjectOverTime(); // 回転アニメーションの更新
+        }
 
-        HandleHorizontalInput(); // 水平方向の入力を処理
-        HandleFireButtonInput(); // 丸ボタンの入力を処理
-        RotateObjectOverTime(); // 回転アニメーションの更新
+        isUpScaleCam = flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
+                       flagManager.GetFlag(FlagManager.FlagType.OdoguCamera);
     }
 
     private void HandleHorizontalInput()
@@ -69,6 +73,7 @@ public class SmellPassword : MonoBehaviour
                 nextMoveTime = Time.time + MoveCooldown; // 次の移動時間を設定
             }
         }
+
     }
 
     private void HandleFireButtonInput()
