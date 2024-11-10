@@ -15,7 +15,6 @@ public class BalloonSet : MonoBehaviour
     [SerializeField] private AudioClip soundEffect; // 音声クリップをシリアライズ
 
     [SerializeField] private MonoBehaviour playerScript;  // Playerクラスをアタッチ
-    private bool controlsDisabled = false;  // 操作無効フラグ
     private bool canvasEnabled = false;  // canvasDgetが有効になったかを追跡するフラグ
     private string currentKeyword; // 現在のコライダーに対応するキーワード
     private bool playerInsideCollider = false;
@@ -146,8 +145,6 @@ public class BalloonSet : MonoBehaviour
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon))
         {
             Playanimationballoon();
-            // Fire1 入力を無効にするフラグを立てる
-            controlsDisabled = true;
         }
 
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Akeyget, true);
@@ -177,6 +174,5 @@ public class BalloonSet : MonoBehaviour
     private void DisablePlayerControls()
     {
         if (playerScript != null) playerScript.enabled = false;
-        controlsDisabled = true;
     }
 }

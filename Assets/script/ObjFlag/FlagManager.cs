@@ -82,7 +82,9 @@ public class FlagManager : MonoBehaviour
         Diacup2get,
         Heartcup2get,
         Starcup2get,
-        Telop
+        Telop,
+        JugCamera,
+        MonitorPasswordclear
     }
 
     // シングルトンインスタンス
@@ -148,12 +150,12 @@ public class FlagManager : MonoBehaviour
     {
         if (flagDictionary.ContainsKey(flagType))
         {
-           // Debug.Log($"フラグ: {flagType}, 新しい値: {value}");
+            Debug.Log($"フラグ: {flagType}, 新しい値: {value}");
             flagDictionary[flagType] = value;
         }
         else
         {
-           // Debug.LogWarning("フラグが見つかりません: " + flagType);
+            Debug.LogWarning("フラグが見つかりません: " + flagType);
         }
     }
 
@@ -172,12 +174,12 @@ public class FlagManager : MonoBehaviour
     {
         if (flagDictionary.ContainsKey(itemType))
         {
-           // Debug.Log($"フラグ: {itemType}, 新しい値: {value}");
+            Debug.Log($"フラグ: {itemType}, 新しい値: {value}");
             flagDictionary[itemType] = value;
         }
         else
         {
-           // Debug.LogWarning("フラグが見つかりません: " + itemType);
+            Debug.LogWarning("フラグが見つかりません: " + itemType);
         }
     }
 

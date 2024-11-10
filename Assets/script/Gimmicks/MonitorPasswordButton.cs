@@ -1,9 +1,12 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class SmellPasswordButton : MonoBehaviour
+public class MonitorPasswordButton : MonoBehaviour
 {
     [SerializeField] private TMP_Text numberText; // ボタンの数値を表示するテキスト
+    [SerializeField] Sprite[] sprites;
     [SerializeField] private SpriteRenderer spriteRenderer; // ボタンのスプライトを表示するSpriteRenderer
     [SerializeField] private SpriteRenderer bgPanel; // 背景パネルとしてのSpriteRenderer
 
@@ -33,16 +36,17 @@ public class SmellPasswordButton : MonoBehaviour
     {
         // カメラズームと選択状態のフラグが有効な場合にのみ実行
         if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
-            flagManager.GetFlag(FlagManager.FlagType.OdoguCamera) &&
+            flagManager.GetFlag(FlagManager.FlagType.JugCamera) &&
             isSelected)
         {
             number++;
-            if (number > 4)  // スプライトと数値が5択であることを反映
+            if (number > 3)  // スプライトと数値が4択であることを反映
             {
                 number = 0;
             }
 
             UpdateNumberDisplay();  // 数値表示を更新
+            UpdateSprite();
         }
     }
 
@@ -67,11 +71,21 @@ public class SmellPasswordButton : MonoBehaviour
     private void SetSelectedState(bool state)
     {
         isSelected = state;
-    
+
     }
     public bool IsButtonActive()
     {
         return spriteRenderer != null && spriteRenderer.enabled; // スプライトが有効かどうかを確認
+    }
+
+    private void UpdateSprite()
+    {
+        if (spriteRenderer != null && sprites != null && sprites.Length > 0)
+        {
+            // 現在の数値に対応するスプライトを適用
+            int spriteIndex = Mathf.Clamp(number, 0, sprites.Length - 1);
+            spriteRenderer.sprite = sprites[spriteIndex];
+        }
     }
 
 }
