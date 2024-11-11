@@ -8,7 +8,7 @@ public class MessageStrage
         { Item.Type.capsuleA, "H: なんかおちてたよ！\nD: なんだろうそれ！" },
         { Item.Type.capsuleB, "H: これ何かなー？\nD: これは…！" },
         { Item.Type.capsuleC, "H: またあった！\nD: どんどん！" },
-        { Item.Type.bluekey, "H: ふしぎなことが起きてるね\nD: そうだね、青いカギかも" },
+        { Item.Type.bluekey, "H: 青いカギだ！！\nD: キミなら必ず出来ると\nD:思っていたさ、ふんふん" },
     };
 
     // Item.Type に基づくテキスト辞書
@@ -17,7 +17,7 @@ public class MessageStrage
     public Dictionary<string, string> KeywordTextDictionary { get; } = new()
     {
         { "smell1", "H: hallo\nD: You smell something strange." },
-        { "smell2", "H: すっぱいにおいがする！\nD: そうだね、少し匂うよね" },
+        { "smell2", "H: すっぱいにおいがする！\nD: そうだね、少し匂におうよね" },
         { "smell3", "H: くさくない\nふんふん\nD: これ何だろう？" },
         { "NoteA", "H:ぼくのノートだ!!!!!\nD: これ、キミのノートだったの？" },
         { "Miss", "H: これじゃないみたい...\nD: 何かちがうみたいだね" },

@@ -37,7 +37,7 @@ public class SmellPasswordButton : MonoBehaviour
             isSelected)
         {
             number++;
-            if (number > 4)  // スプライトと数値が5択であることを反映
+            if (number > 3)  // スプライトと数値が4択であることを反映
             {
                 number = 0;
             }

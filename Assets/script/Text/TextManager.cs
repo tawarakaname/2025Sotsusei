@@ -128,7 +128,6 @@ public class TextManager : MonoBehaviour
                 targetOtomoDictionary = otomo1SpriteDictionary;
                 OtherIcon.sprite = otomo1Sprite[0];
                 OtherTextBoxImage.sprite = otomoTextFlame[1];
-                Debug.Log("aaa");
                 break;
             case "C":
                 targetOtomoDictionary = otomo2SpriteDictionary;
@@ -162,10 +161,8 @@ public class TextManager : MonoBehaviour
 
     public void DisplayTextForKeyword(string keyword)
     {
-        Debug.Log("none");
         if (messageStrage.KeywordTextDictionary.ContainsKey(keyword))
         {
-            Debug.Log("e");
             currentTextLines = messageStrage.KeywordTextDictionary[keyword].Split('\n');
             currentLineIndex = 0;
             DisplayCurrentLine();
@@ -229,7 +226,6 @@ public class TextManager : MonoBehaviour
         if (currentLine.StartsWith("H:"))
         {
             TextBox.SetActive(true);
-            Debug.Log("ka");
             OtherTextBox.SetActive(false);
             StopAllCoroutines();
             StartCoroutine(TypeTextCoroutine(talkText, currentLine.Substring(2).Trim()));  // "H:" を除去して表示
@@ -237,7 +233,6 @@ public class TextManager : MonoBehaviour
         else if (currentLine.StartsWith("D:"))
         {
             OtherTextBox.SetActive(true);
-            Debug.Log("na");
             TextBox.SetActive(false);
             StopAllCoroutines();
             StartCoroutine(TypeTextCoroutine(OtherTalkText, currentLine.Substring(2).Trim()));  // "D:" を除去して表示
@@ -245,7 +240,6 @@ public class TextManager : MonoBehaviour
         else
         {
             TextBox.SetActive(true);
-            Debug.Log("me");
             OtherTextBox.SetActive(false);
             StopAllCoroutines();
             StartCoroutine(TypeTextCoroutine(talkText, currentLine.Trim()));  // 通常のテキスト表示

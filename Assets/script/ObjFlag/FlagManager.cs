@@ -84,7 +84,9 @@ public class FlagManager : MonoBehaviour
         Starcup2get,
         Telop,
         JugCamera,
-        MonitorPasswordclear
+        MonitorPasswordclear,
+        AquariumColorchange,
+        SmellTextbox,
     }
 
     // シングルトンインスタンス
