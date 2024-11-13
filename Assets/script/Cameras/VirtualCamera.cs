@@ -19,6 +19,5 @@ public class VirtualCamera : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
     }
 }

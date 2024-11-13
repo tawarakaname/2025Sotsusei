@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class PlayAnimationOnFlag : MonoBehaviour
+public class Adooropen : MonoBehaviour
 {
-    // FlagManagerを仮定。ここではシンプルなboolで説明。
-
     public GameObject objWithAnimation; // アニメーションがついているオブジェクト
     private Animator animator;
     [SerializeField] private Collider Adoorcollider;
     private bool playerInsideCollider = false;
 
     [SerializeField] Item.Type useItem;
+
+    private bool isDoorOpened = false; // ドアが開いたかどうかのフラグ
 
     void Start()
     {
@@ -22,7 +22,7 @@ public class PlayAnimationOnFlag : MonoBehaviour
 
     void Update()
     {
-        if (playerInsideCollider)
+        if (playerInsideCollider && !isDoorOpened) // ドアが開いていない場合のみ処理
         {
             // PS4コントローラーの⚪︎ボタンは「Fire2」として認識されます
             if (Input.GetButtonDown("Fire2"))
@@ -50,6 +50,8 @@ public class PlayAnimationOnFlag : MonoBehaviour
 
     public void OnClickAdoor()
     {
+        if (isDoorOpened) return; // ドアが開いていれば処理をスキップ
+
         // アイテムを使用できるか試み、使用できたら処理を行う
         if (Itembox.instance.TryUseItem(useItem))
         {
@@ -61,11 +63,10 @@ public class PlayAnimationOnFlag : MonoBehaviour
             }
             if (FlagManager.Instance.GetFlagByType(Item.Type.key1))
             {
-                animator.SetTrigger("Adooropen"); // トリガーを設定してアニメーション再
+                animator.SetTrigger("Adooropen"); // トリガーを設定してアニメーション再生
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Adooropen, true);
-
+                isDoorOpened = true; // ドアが開いたことを記録
             }
-
         }
     }
 }

@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
         }
 
         // itemboxフラグ、Camerazoomobjフラグ、または UICanvas フラグが true の場合、プレイヤーの移動とアニメーションを無効化
-        if (flagManager.GetFlag(FlagManager.FlagType.itembox) || flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) || flagManager.GetFlag(FlagManager.FlagType.UICanvas) || flagManager.GetFlag(FlagManager.FlagType.Textbox ))
+        if (flagManager.GetFlag(FlagManager.FlagType.itembox) || flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) || flagManager.GetFlag(FlagManager.FlagType.UICanvas) || flagManager.GetFlag(FlagManager.FlagType.Textbox)|| flagManager.GetFlag(FlagManager.FlagType.Nowanim))
         {
             movement = Vector3.zero; // 移動量を0に設定
             animator.SetFloat("Speed", 0f); // アニメーションを停止
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         // itemboxフラグまたはCamerazoomobjフラグがtrueの場合、移動処理を無効化
-        if (flagManager.GetFlag(FlagManager.FlagType.itembox) || flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) || flagManager.GetFlag(FlagManager.FlagType.UICanvas) || flagManager.GetFlag(FlagManager.FlagType.Textbox))
+        if (flagManager.GetFlag(FlagManager.FlagType.itembox) || flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) || flagManager.GetFlag(FlagManager.FlagType.UICanvas) || flagManager.GetFlag(FlagManager.FlagType.Textbox) || flagManager.GetFlag(FlagManager.FlagType.Nowanim))
         {
             return; // ここでFixedUpdateの処理を終了
         }

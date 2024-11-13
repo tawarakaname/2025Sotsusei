@@ -87,6 +87,10 @@ public class FlagManager : MonoBehaviour
         MonitorPasswordclear,
         AquariumColorchange,
         SmellTextbox,
+        BTBCamera,
+        NoteBCamera,
+        comebackA,
+        comebackAanim
     }
 
     // シングルトンインスタンス

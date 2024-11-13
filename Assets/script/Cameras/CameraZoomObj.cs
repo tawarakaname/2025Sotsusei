@@ -138,14 +138,13 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.BlueBoxCamera;
             case "JugCamera":
                 return FlagManager.FlagType.JugCamera;
+            case "BTBCamera":
+                return FlagManager.FlagType.BTBCamera;
+            case "NoteBCamera":
+                return FlagManager.FlagType.BTBCamera;
             default:
                 return null;
         }
-    }
-
-    private void OnDestroy()
-    {
-        Debug.Log("Camera has been destroyed.");
     }
 
     private IEnumerator InputCooldown()

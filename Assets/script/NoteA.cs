@@ -6,7 +6,6 @@ public class NoteA : MonoBehaviour
 {
     private string currentKeyword;
     private TextManager textManager; // TextManagerへの参照
-    [SerializeField] private GameObject TextBox;
     [SerializeField] private Collider Notecollider;
 
     private void Start()
@@ -31,7 +30,6 @@ public class NoteA : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             currentKeyword = null;
-            TextBox.SetActive(false); // コライダーを出た時にTextBoxを非表示にする
         }
     }
 

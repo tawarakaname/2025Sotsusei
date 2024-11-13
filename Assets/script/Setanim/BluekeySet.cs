@@ -7,8 +7,6 @@ public class BluekeySet : MonoBehaviour
     public GameObject BlueBoxanim;  //  (アニメーションがついているオブジェクト)
     private Animator BlueBoxAnimator;  // アニメーター
 
-    [SerializeField] GameObject TextBox; // TextBoxへの参照を公開
-    [SerializeField] private GameObject DTextBox;
     [SerializeField] Collider BlueBoxCollider;
     [SerializeField] Canvas Bluekeyget;
     [SerializeField] AudioSource audioSource;
@@ -60,7 +58,6 @@ public class BluekeySet : MonoBehaviour
             if (other.CompareTag("Player"))
             {
                 currentKeyword = null;
-                TextBox.SetActive(false); // コライダーを出た時にTextBoxを非表示にする
                 playerInsideCollider = false;
             }
         }

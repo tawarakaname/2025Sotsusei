@@ -6,7 +6,7 @@ public class DondonHInt : MonoBehaviour
 {
     private string currentKeyword;
     private TextManager textManager; // TextManagerへの参照
-    [SerializeField] private GameObject TextBox;
+    //[SerializeField] private GameObject TextBox;
     [SerializeField] private Collider Dondoncollider;
     [SerializeField] GameObject targetImage; // 表示・非表示を制御するImage
 
@@ -24,44 +24,50 @@ public class DondonHInt : MonoBehaviour
             if (Dondoncollider.bounds.Intersects(other.bounds))
             {
                 // FlagManagerのフラグ状態に基づいてcurrentKeywordを設定
-                if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Dondon1kaiwa))
+                //if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Dondon1kaiwa))
+                //{
+                //    currentKeyword = "Hint1";
+                //}
+                //else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Dondon1kaiwa) &&
+                //    !FlagManager.Instance.GetFlag(FlagManager.FlagType.Motosen))
+                //{
+                //    currentKeyword = "Hint2";
+                //}
+                //else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Motosen) &&
+                //    !FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear))
+                //{
+                //    currentKeyword = "Hint3";
+                //}
+                //else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear) &&
+                //    !FlagManager.Instance.GetFlag(FlagManager.FlagType.IllustPasswordclear))
+                //{
+                //    currentKeyword = "Hint4";
+                //}
+                //else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.IllustPasswordclear) &&
+                //    !FlagManager.Instance.GetFlag(FlagManager.FlagType.capsuleclear))
+                //{
+                //    currentKeyword = "Hint5";
+                //}
+                //else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.capsuleclear) &&
+                //    !FlagManager.Instance.GetFlag(FlagManager.FlagType.ColorPasswordclear))
+                //{
+                //    currentKeyword = "Hint6";
+                //}
+                //else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.ColorPasswordclear) &&
+                //    !FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget))
+                //{
+                //    currentKeyword = "Hint7";
+                //}
+                //else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget) &&
+                //    !FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen))
+                //{
+                //    currentKeyword = "Hint8";
+                //}
+                //else
+                if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) &&
+                    !FlagManager.Instance.GetFlag(FlagManager.FlagType.ThreePasswordclear))//仮置き
                 {
-                    currentKeyword = "Hint1";
-                }
-                else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Dondon1kaiwa) &&
-                    !FlagManager.Instance.GetFlag(FlagManager.FlagType.Motosen))
-                {
-                    currentKeyword = "Hint2";
-                }
-                else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Motosen) &&
-                    !FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear))
-                {
-                    currentKeyword = "Hint3";
-                }
-                else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear) &&
-                    !FlagManager.Instance.GetFlag(FlagManager.FlagType.IllustPasswordclear))
-                {
-                    currentKeyword = "Hint4";
-                }
-                else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.IllustPasswordclear) &&
-                    !FlagManager.Instance.GetFlag(FlagManager.FlagType.capsuleclear))
-                {
-                    currentKeyword = "Hint5";
-                }
-                else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.capsuleclear) &&
-                    !FlagManager.Instance.GetFlag(FlagManager.FlagType.ColorPasswordclear))
-                {
-                    currentKeyword = "Hint6";
-                }
-                else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.ColorPasswordclear) &&
-                    !FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget))
-                {
-                    currentKeyword = "Hint7";
-                }
-                else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget) &&
-                    !FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen))
-                {
-                    currentKeyword = "Hint8";
+                    currentKeyword = "Hint9";
                 }
             }
             if (targetImage != null)
@@ -77,7 +83,7 @@ public class DondonHInt : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             currentKeyword = null;
-            TextBox.SetActive(false); // コライダーを出た時にTextBoxを非表示にする
+            //TextBox.SetActive(false); // コライダーを出た時にTextBoxを非表示にする
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Dondon, false);
 
             if (targetImage != null)

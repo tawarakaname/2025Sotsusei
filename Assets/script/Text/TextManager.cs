@@ -73,7 +73,10 @@ public class TextManager : MonoBehaviour
             { Item.Type.capsuleA, HSprite[0] },
             { Item.Type.capsuleB, HSprite[1] },
             { Item.Type.capsuleC, HSprite[0] },
-            { Item.Type.bluekey, HSprite[2] }
+            { Item.Type.bluekey, HSprite[3] },
+            { Item.Type.heartcup2, HSprite[3] },
+            { Item.Type.diacup2, HSprite[1] },
+            { Item.Type.starcup2, HSprite[0] }
         };
 
         // キーワードに基づく画像の初期化

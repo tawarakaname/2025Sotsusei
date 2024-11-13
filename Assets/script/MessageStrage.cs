@@ -9,6 +9,13 @@ public class MessageStrage
         { Item.Type.capsuleB, "H: これ何かなー？\nD: これは…！" },
         { Item.Type.capsuleC, "H: またあった！\nD: どんどん！" },
         { Item.Type.bluekey, "H: 青いカギだ！！\nD: キミなら必ず出来ると\nD:思っていたさ、ふんふん" },
+        { Item.Type.heartcup, "H: コップだね\nD: なにかマークが…" },
+        { Item.Type.diacup, "D: なにか見つけたかい？\nH: うん！" },
+        { Item.Type.starcup, "D: ふんふん\nH:このマークだいすき！" },
+        { Item.Type.heartcup2, "H: 水だー！\nD: のんじゃダメだよ\nD:ふんふん" },
+        { Item.Type.diacup2, "D: ん？このにおいは…\nH: すっぱいにおいがする！\nD:ふんふん?" },
+        { Item.Type.starcup2, "D: いい調子さ\nD:ふんふーん" },
+
     };
 
     // Item.Type に基づくテキスト辞書
@@ -31,5 +38,6 @@ public class MessageStrage
         { "Hint7", "D: このノート\nD:ふうせんがかいてある！\nD:ふうせんのマーク\nD:どこかで見なかった？\nD:どんどーん！" },
         { "Hint8", "D: カギがあったんだ！！\nD:これで外にでれるね！\nD:どんどん！" },
         { "BlueBox", "D: カギがかかってる！\nH:青いかぎ、もってないね\nD:いまは開けられない…\nD:どんどん…" },
+        { "Hint9", "D: 今ね、ここのそうじを\nD:してたんだけど…\nD:中のようすがさっきと\nD:ちがうんだよー！\nD:なにか知ってるー？\nD:どんどん！" },
     };
 }

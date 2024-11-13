@@ -28,13 +28,20 @@ public class BalloonSet : MonoBehaviour
 
     void Start()
     {
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen))
+        {
+            enabled = false;
+            return;
+        }
+
         audioSource = GetComponent<AudioSource>();
         Akeyget.gameObject.SetActive(false);
-        // ueとshitaのAnimatorコンポーネントを取得
+
         if (balloonanim != null) balloonAnimator = balloonanim.GetComponent<Animator>();
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         setObj.IsFreeInteract = false;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         // balloon フラグが false の場合にのみ処理を実行
@@ -69,10 +76,16 @@ public class BalloonSet : MonoBehaviour
 
     private void Update()
     {
+        // Adooropen フラグが true の場合、このスクリプトを無効化
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen))
+        {
+            enabled = false;
+            return;
+        }
+
         isFreeInteract = !FlagManager.Instance.GetFlag(FlagManager.FlagType.ColorPasswordclear);
         setObj.IsFreeInteract = FlagManager.Instance.GetFlag(FlagManager.FlagType.ColorPasswordclear);
 
-        // balloon フラグが true ならアニメーションを再生
         if (FlagManager.Instance.GetFlagByType(Item.Type.balloon) && balloonCoroutine == null)
         {
             Playballoontriger();
@@ -83,16 +96,14 @@ public class BalloonSet : MonoBehaviour
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget) && !canvasEnabled)
         {
             StartCoroutine(EnableCanvasAD());
-            canvasEnabled = true;  // コルーチンが一度だけ呼ばれるように設定
+            canvasEnabled = true;
         }
-        // すべての条件が揃ったときの確認
+
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.playballoon) &&
             FlagManager.Instance.GetFlag(FlagManager.FlagType.Akeyget) &&
             playerInsideCollider &&
             Input.GetButtonDown("Fire2"))
         {
-
-            // Fire2が押されたらCanvasをfalseに
             Akeyget.gameObject.SetActive(false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
             playerScript.enabled = true;
@@ -108,13 +119,10 @@ public class BalloonSet : MonoBehaviour
 
         if (playerInsideCollider)
         {
-            // balloon フラグが false の場合のみ、コライダーとFire2に関連した動作を行う
             if (!FlagManager.Instance.GetFlagByType(Item.Type.balloon))
             {
-                // IllustPasswordclear フラグが false の場合のみ Fire2 ボタンと TextBox の処理を行う
                 if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.ColorPasswordclear))
                 {
-                    // Fire2ボタンが押され、かつ currentKeyword が null でない場合
                     if (Input.GetButtonDown("Fire2") && currentKeyword != null && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
                     {
                         firstInteract = true;
