@@ -5,19 +5,32 @@ using UnityEngine.Playables;
 
 public class ComebackA : MonoBehaviour
 {
+    public GameObject objWithAnimation; // アニメーションがついているオブジェクト
+    private Animator animator;
     [SerializeField] private GameObject targetObject;   // 位置を移動させたいオブジェクト
     [SerializeField] private Vector3 targetPosition;    // 移動先の位置
     [SerializeField] private PlayableDirector director; // 再生させるDirector
 
     private bool hasPlayedDirector = false; // Directorが再生されたかを追跡
+    private bool isDoorOpened = false; // ドアが開いたかどうかのフラグ
+
+    void Start()
+    {
+        // Animatorコンポーネントを取得
+        if (objWithAnimation != null)
+        {
+            animator = objWithAnimation.GetComponent<Animator>();
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
         // comebackA フラグが true になったらオブジェクトの位置を移動
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA))
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) && !isDoorOpened　)
         {
             MoveTargetObject();
+            cdooropen();
         }
 
         // Adooropen と comebackA フラグが true かつ、初回再生時のみDirectorを再生
@@ -47,6 +60,11 @@ public class ComebackA : MonoBehaviour
         {
             targetObject.transform.position = targetPosition;
         }
+    }
+    private void cdooropen()
+    {
+        animator.SetTrigger("Cdooropen"); // トリガーを設定してアニメーション再生
+        isDoorOpened = true; // ドアが開いたことを記録
     }
 }
 

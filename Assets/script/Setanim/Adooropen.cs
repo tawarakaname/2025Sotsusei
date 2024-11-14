@@ -63,9 +63,10 @@ public class Adooropen : MonoBehaviour
             }
             if (FlagManager.Instance.GetFlagByType(Item.Type.key1))
             {
+                isDoorOpened = true; // ドアが開いたことを記録
                 animator.SetTrigger("Adooropen"); // トリガーを設定してアニメーション再生
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Adooropen, true);
-                isDoorOpened = true; // ドアが開いたことを記録
+               
             }
         }
     }

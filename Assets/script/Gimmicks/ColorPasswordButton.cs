@@ -43,7 +43,6 @@ public class ColorPasswordButton : MonoBehaviour
             {
                 number = 0;
             }
-            Debug.Log($"Button clicked, new number: {number}");
 
             UpdateNumberDisplay();  // 数値表示を更新
             UpdateSprite();  // スプライトを更新
