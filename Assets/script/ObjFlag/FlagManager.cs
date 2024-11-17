@@ -55,6 +55,7 @@ public class FlagManager : MonoBehaviour
         capsuleclear,
         Akeyget,
         havekey1,
+        havekey2,
         Aquariumcamera0,
         Aquariumcamera1,
         Aquariumcamera2,
@@ -90,7 +91,16 @@ public class FlagManager : MonoBehaviour
         BTBCamera,
         NoteBCamera,
         comebackA,
-        comebackAanim
+        comebackAanim,
+        MixPasswordclear,
+        Pillaropen,
+        potopen,
+        Bdooropen,
+        BatteryCamera1,
+        BatteryCamera2,
+        BatteryCamera3,
+        NoteCCamera,
+        ElectronicCamera,
     }
 
     // シングルトンインスタンス

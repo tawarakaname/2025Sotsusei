@@ -141,7 +141,17 @@ public class CameraZoomObj : MonoBehaviour
             case "BTBCamera":
                 return FlagManager.FlagType.BTBCamera;
             case "NoteBCamera":
-                return FlagManager.FlagType.BTBCamera;
+                return FlagManager.FlagType.NoteBCamera;
+            case "NoteCCamera":
+                return FlagManager.FlagType.NoteCCamera;
+            case " BatteryCamera1":
+                return FlagManager.FlagType.BatteryCamera1;
+            case " BatteryCamera2":
+                return FlagManager.FlagType.BatteryCamera2;
+            case " BatteryCamera3":
+                return FlagManager.FlagType.BatteryCamera3;
+            case "ElectronicCamera":
+                return FlagManager.FlagType.ElectronicCamera;
             default:
                 return null;
         }

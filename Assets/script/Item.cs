@@ -35,6 +35,7 @@ public class Item
         Dkey,
         Dkeys,
         dryber,
+        key2
     }
 
     public Type type;          // 種類

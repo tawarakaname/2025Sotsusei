@@ -127,5 +127,9 @@ public class PickupObj : MonoBehaviour
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.havekey1, true);
         }
+        if (itemType == Item.Type.key2)
+        {
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.havekey2, true);
+        }
     }
 }

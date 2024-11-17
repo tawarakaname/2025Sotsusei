@@ -67,6 +67,5 @@ public class SelectedItem : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
     }
 }

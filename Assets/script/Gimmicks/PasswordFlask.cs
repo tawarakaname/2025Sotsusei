@@ -20,7 +20,7 @@ public class PasswordFlask : MonoBehaviour
         Blue,
         Green
     }
-
+    [SerializeField] private GameObject jouro; // 最初に非表示のオブジェクト
     [SerializeField] private GameObject _beakerSelected;
     [SerializeField] private GameObject[] _beakers;
     private int _currentBeakerNum;
@@ -86,6 +86,8 @@ public class PasswordFlask : MonoBehaviour
         }
         // 正解の処理
         _isCorrect = true;
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.MixPasswordclear,true);
+        jouro.SetActive(true);
         Debug.Log("やるじゃん。");
     }
     
