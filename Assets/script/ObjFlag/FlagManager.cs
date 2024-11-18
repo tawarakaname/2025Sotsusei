@@ -101,6 +101,9 @@ public class FlagManager : MonoBehaviour
         BatteryCamera3,
         NoteCCamera,
         ElectronicCamera,
+        Bstartsceneok,
+        PushRedButton,
+        RedButtonHutaopen
     }
 
     // シングルトンインスタンス

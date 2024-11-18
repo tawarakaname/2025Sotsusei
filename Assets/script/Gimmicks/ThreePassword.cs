@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ThreePassword : MonoBehaviour
@@ -9,7 +7,6 @@ public class ThreePassword : MonoBehaviour
     [SerializeField] private int[] correctNumbers; // 正解の番号
     [SerializeField] private ThreePasswordButton[] threepasswordButtons; // 現在のパネルの数値
     private bool firstFireIgnored = false; // 最初のFire2入力を無視するためのフラグ
-
 
     private int currentPosition = 0; // 現在選択されているスロットの位置
     private float nextMoveTime = 0f; // 次に移動できる時間を記録
@@ -31,22 +28,31 @@ public class ThreePassword : MonoBehaviour
 
         if (IsClear())
         {
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.ThreePasswordclear, true);
-            Debug.Log("threePasswordclearFlagON");
+            flagManager.SetFlag(FlagManager.FlagType.ThreePasswordclear, true);
         }
     }
 
     private void Update()
     {
-        //ここ↓どうにかできないかなぁという気持ち
+        // ThreePasswordclearがtrueの場合、このスクリプトを無効化
+        if (flagManager.GetFlag(FlagManager.FlagType.ThreePasswordclear))
+        {
+            this.enabled = false; // スクリプトを無効化
+            return;
+        }
+
+        // CameraZoomObjがfalseの場合、初期化
         if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
         {
             firstFireIgnored = false;
         }
 
-        if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
+        // 必要なフラグが揃っていない場合は早期リターン
+        if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) ||
             !flagManager.GetFlag(FlagManager.FlagType.BTBCamera))
+        {
             return;
+        }
 
         HandleHorizontalInput(); // 水平方向の入力を処理
         HandleFireButtonInput(); // 丸ボタンの入力を処理
@@ -69,7 +75,6 @@ public class ThreePassword : MonoBehaviour
 
     private void HandleFireButtonInput()
     {
-
         if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
             flagManager.GetFlag(FlagManager.FlagType.BTBCamera))
         {
