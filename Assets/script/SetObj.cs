@@ -1,13 +1,16 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SetObj : MonoBehaviour
 {
-    [SerializeField] private GameObject setObject; // 表示するオブジェクト
-    [SerializeField] private Item.Type useItem; // 使用するアイテムのタイプ
+    [System.Serializable]
+    public class ItemSet
+    {
+        public Item.Type useItem; // 使用するアイテムのタイプ
+        public GameObject setObject; // 対応するオブジェクト
+    }
+
+    [SerializeField] private List<ItemSet> itemSets = new List<ItemSet>(); // アイテムとオブジェクトのペア
     [SerializeField] private GameObject targetUI; // 条件が揃った時に表示するUI
     [SerializeField] private SelectedItem selectedItem; // 選択されたアイテムの参照
 
@@ -15,9 +18,12 @@ public class SetObj : MonoBehaviour
     private AudioSource audioSource2; // 追加音再生用のAudioSource
     private bool playerInsideCollider = false; // プレイヤーがコライダー内にいるかどうか
     public bool IsFreeInteract = true;
+    private TextManager textManager; // テキストを管理するクラスの参照
+    private string currentKeyword; // 現在のキーワード（エラーメッセージ用）
 
     private void Start()
     {
+        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         targetUI.SetActive(false); // 初期状態でUIを非表示に設定
         audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
         audioSource2 = GetComponents<AudioSource>()[1]; // 2つ目のAudioSourceコンポーネントを取得
@@ -33,7 +39,7 @@ public class SetObj : MonoBehaviour
     {
         bool isCameraZoomObj = FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj);
         bool hasItem = FlagManager.Instance.GetFlag(FlagManager.FlagType.itemmotteru);
-        bool componentEnabled = IsComponentEnabled(); // コンポーネントが有効かどうかを確認
+        bool componentEnabled = IsComponentEnabled();
         var isMovie = FlagManager.Instance.GetFlag(FlagManager.FlagType.Nowanim);
 
         if (!isMovie && isCameraZoomObj && hasItem && componentEnabled)
@@ -58,10 +64,8 @@ public class SetObj : MonoBehaviour
 
     private bool IsComponentEnabled()
     {
-        //stageBのテストプレイのためにコメントアウトしてるけど、Aから通しでplayする場合dialpasswordを戻す
-        //bool isDialPasswordClear = FlagManager.Instance.GetFlag(FlagManager.FlagType.DialPasswordclear);
         bool isCameraZoomObj = FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj);
-        return isCameraZoomObj;//&& isDialPasswordClear
+        return isCameraZoomObj;
     }
 
     private void UIdasetayo()
@@ -74,30 +78,46 @@ public class SetObj : MonoBehaviour
 
     public bool OnClickThis()
     {
-        if (Itembox.instance.TryUseItem(useItem))
+        // 現在選択されているアイテムを取得
+        Item currentSelectedItem = selectedItem.GetSelectedItem();
+        if (currentSelectedItem == null) return false;
+
+        // アイテムリストから対応するItemSetを探す
+        foreach (var itemSet in itemSets)
         {
-            targetUI.SetActive(false);
-
-            Item currentSelectedItem = selectedItem.GetSelectedItem();
-
-            if (currentSelectedItem != null && currentSelectedItem.type == useItem)
+            if (currentSelectedItem.type == itemSet.useItem)
             {
-                FlagManager.Instance.SetFlagByType(currentSelectedItem.type, true);
-                selectedItem.UpdateSelectedItem(null);
+                // アイテム使用を試みる
+                if (Itembox.instance.TryUseItem(itemSet.useItem))
+                {
+                    // 使用成功時の処理
+                    targetUI.SetActive(false);
+                    ActivateItemSet(itemSet);
+                    return true; // アイテムが使用された場合、早期リターン
+                }
+                else
+                {
+                    // アイテム使用失敗時の処理
+                    HandleMiss();
+                    return false; // 失敗した場合のリターン
+                }
             }
-
-            if (setObject != null)
-            {
-                setObject.SetActive(true);
-                audioSource2?.Play(); // 条件に応じてaudioSource2を再生
-            }
-            return true;
         }
-        else
+
+        // 一致するItemSetが見つからなかった場合
+        HandleMiss();
+        return false;
+    }
+
+
+    private void ActivateItemSet(ItemSet itemSet)
+    {
+        if (itemSet.setObject != null)
         {
-            HandleMiss();
-            return false;
+            itemSet.setObject.SetActive(true);
+            audioSource2?.Play(); // 条件に応じてaudioSource2を再生
         }
+        selectedItem.UpdateSelectedItem(null); // 使用後は選択アイテムをクリア
     }
 
     private void HandleMiss()
@@ -106,6 +126,22 @@ public class SetObj : MonoBehaviour
         {
             audioSource.Play(); // アイテム使用失敗時に通常の音を再生
         }
+        currentKeyword = "Miss";
+        // アイテムが間違っている場合の処理
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+        {
+            OnClickMissTextThis();
+        }
+        else
+        {
+            textManager.DisplayCurrentLine(); // Miss時のテキスト表示
+        }
+    }
+
+    // エラー時のキーワードに基づいてテキストを表示
+    public void OnClickMissTextThis()
+    {
+        textManager.DisplayTextForKeyword(currentKeyword);
     }
 
     private void OnTriggerEnter(Collider other)

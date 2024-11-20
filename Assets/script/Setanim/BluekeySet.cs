@@ -98,6 +98,7 @@ public class BluekeySet : MonoBehaviour
             // Fire2が押されたらCanvasをfalseに
             Bluekeyget.gameObject.SetActive(false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
+            FlagManager.Instance.SetFlagByType(Item.Type.bluekey, false);
             playerScript.enabled = true;
         }
 
@@ -157,11 +158,13 @@ public class BluekeySet : MonoBehaviour
 
     private IEnumerator EnableCanvasAD()
     {
+        // bluekeyフラグがtrueでない場合、処理を終了
+        if (!FlagManager.Instance.GetFlagByType(Item.Type.bluekey)) yield break;
+
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
-        // 6秒待機
-        yield return new WaitForSeconds(0.4f);
+        // 0.8秒待機
+        yield return new WaitForSeconds(0.8f);
         Bluekeyget.gameObject.SetActive(true);
-        // Akeygetをtrueにする
 
         if (!itemgetpanelLogged)
         {

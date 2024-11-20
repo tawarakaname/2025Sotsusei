@@ -145,6 +145,11 @@ public class TextManager : MonoBehaviour
         }
     }
 
+    internal void DisplayTextForKeyword(object currentKeyword)
+    {
+        throw new System.NotImplementedException();
+    }
+
     // Item.Typeに対応するテキストを表示する
     public void DisplayTextForItemType(Item.Type itemType)
     {
@@ -253,6 +258,7 @@ public class TextManager : MonoBehaviour
     // Item.Typeに対応する画像を表示する
     private void DisplayImageForItemType(Item.Type itemType)
     {
+        HideAllImages(); // まずは全ての画像を非表示にする
         if (spriteDictionary.TryGetValue(itemType, out var value))
         {
             HIcon.sprite = value;
@@ -262,10 +268,16 @@ public class TextManager : MonoBehaviour
     // キーワードに対応する画像を表示する
     private void DisplayImageForKeyword(string keyword)
     {
+        HideAllImages(); // まずは全ての画像を非表示にする
         if (keywordSpriteDictionary.TryGetValue(keyword, out var value))
         {
             HIcon.sprite = value;
         }
+    }
+
+    private void HideAllImages()
+    {
+        HIcon.sprite = null; // メインの画像を非表示に設定
     }
 
     private IEnumerator TypeTextCoroutine(TextMeshProUGUI textField, string fullText)

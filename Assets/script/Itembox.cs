@@ -7,9 +7,7 @@ public class Itembox : MonoBehaviour
 {
     [SerializeField] private Slot[] slots;
     [SerializeField] private Slot selectedSlot = null;
-    private string currentKeyword; // 現在のキーワード（エラーメッセージ用）
     [SerializeField] private SelectedItem selectedItemPanel;
-    private TextManager textManager; // テキストを管理するクラスの参照
 
 
     private int currentPosition = 0;  // 現在選択されているスロットの位置
@@ -35,7 +33,6 @@ public class Itembox : MonoBehaviour
 
     private void Start()
     {
-        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         if (slots == null || slots.Length == 0)
         {
             slots = GetComponentsInChildren<Slot>();
@@ -166,24 +163,13 @@ public class Itembox : MonoBehaviour
     public bool TryUseItem(Item.Type type)
     {
         // selectedItemPanelのアイテムを取得
-        Item selectedPanelItem = selectedItemPanel?.GetSelectedItem();
+        Item selectedPanelItem = selectedItemPanel.GetSelectedItem();
 
         // selectedItemPanelのアイテムがnull、またはタイプが一致しない場合は使用不可
         if (selectedPanelItem == null || selectedPanelItem.type != type)
         {
-            // タイプが一致しない場合のみエラーメッセージを表示
-            currentKeyword = "Miss";
-            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-            {
-                OnClickMissTextThis();
-            }
-            else
-            {
-                textManager.DisplayCurrentLine();
-            }
             return false;
         }
-
         // すべてのスロットから指定のタイプのアイテムを持つスロットを検索し、該当スロットのアイテムを削除
         foreach (Slot slot in slots)
         {
@@ -206,14 +192,7 @@ public class Itembox : MonoBehaviour
 
 
 
-
-    // エラー時のキーワードに基づいてテキストを表示
-    public void OnClickMissTextThis()
-    {
-        textManager.DisplayTextForKeyword(currentKeyword);
-    }
-
- public Item GetSelectedItem()
+ 　　public Item GetSelectedItem()
     {
         return selectedSlot?.GetItem();
     }
