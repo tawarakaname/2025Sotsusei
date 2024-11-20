@@ -4,7 +4,9 @@ using UnityEngine;
 public class Aquarium_heartanim : MonoBehaviour
 {
     public GameObject Heartcup;  // コップのオブジェクト (アニメーションがついているオブジェクト)
+    public GameObject wateranimHeart;  // コップのオブジェクト (アニメーションがついているオブジェクト)
     private Animator HeartcupAnimator;  // 上のオブジェクトのアニメーター
+    private Animator wateranimHeartAnimator;  // 上のオブジェクトのアニメーター
     private FlagManager flagManager;
     [SerializeField] private Collider Aquarium1collider;
     //[SerializeField] GameObject Colorpasswordobj;
@@ -26,6 +28,7 @@ public class Aquarium_heartanim : MonoBehaviour
         Heartcup2get.gameObject.SetActive(false);
         // ueとshitaのAnimatorコンポーネントを取得
         if (Heartcup != null) HeartcupAnimator = Heartcup.GetComponent<Animator>();
+        if (wateranimHeart != null) wateranimHeartAnimator = wateranimHeart.GetComponent<Animator>();
 
         audioSource = GetComponent<AudioSource>();
 
@@ -50,7 +53,7 @@ public class Aquarium_heartanim : MonoBehaviour
         {
             // プレイヤー操作と Fire1, Fire2 ボタンの入力を無効化
             DisablePlayerControls();
-            OnClickBbox();
+            StartCoroutine(OnClickBbox());
             Aquarium1waterCoroutine = StartCoroutine(BoxBAnimCompleted());
 
             // canvas がまだ有効化されていない場合のみコルーチンを実行
@@ -85,20 +88,42 @@ public class Aquarium_heartanim : MonoBehaviour
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Heartcup2get, true);
     }
 
-    public void OnClickBbox()
+    private IEnumerator OnClickBbox()
     {
+        // Diacup2getがまだ開かれていない場合のみアニメーションを再生
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Heartcup2get))
         {
             // Fire1, Fire2 入力を無効にするフラグを立てる
             controlsDisabled = true;
-            if (HeartcupAnimator != null) HeartcupAnimator.SetTrigger("faucet0");
+            yield return StartCoroutine(PlayAnimationsSimultaneously());
+        }
+        else
+        {
+            // 何もしない場合でも、yield return を使って空の処理を返す必要があります
+            yield break;
         }
     }
+
+    private IEnumerator PlayAnimationsSimultaneously()
+    {
+        if (HeartcupAnimator != null)
+        {
+            HeartcupAnimator.SetTrigger("faucet0");
+            yield return new WaitForSeconds(0.5f); // 0.5秒待機
+        }
+
+        if (wateranimHeartAnimator != null)
+        {
+            wateranimHeartAnimator.SetTrigger("water&cup");
+            yield return new WaitForSeconds(0.5f); // さらに0.5秒待機（必要に応じて）
+        }
+    }
+
     private IEnumerator EnableCanvasAfterDelay()
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 1.7秒待機
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         Heartcup2get.gameObject.SetActive(true);
         Heartcup2.SetActive(true);
 

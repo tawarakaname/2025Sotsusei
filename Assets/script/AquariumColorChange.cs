@@ -29,7 +29,7 @@ public class AquariumColorChange : MonoBehaviour
     void Update()
     {
         // 条件が成立した場合にのみ再生処理を実行
-        if (flagManager.GetFlag(FlagManager.FlagType.BTB) &&
+        if (flagManager.GetFlagByType(Item.Type.BTB) &&
            (flagManager.GetFlag(FlagManager.FlagType.ThreePasswordclear) &&
            (flagManager.GetFlag(FlagManager.FlagType.PushRedButton) &&
             !flagManager.GetFlag(FlagManager.FlagType.AquariumColorchange))))
