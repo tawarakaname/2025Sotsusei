@@ -103,7 +103,9 @@ public class FlagManager : MonoBehaviour
         ElectronicCamera,
         Bstartsceneok,
         PushRedButton,
-        RedButtonHutaopen
+        RedButtonHutaopen,
+        ToyPasswordclear,
+        ToyboxCamera,
     }
 
     // シングルトンインスタンス

@@ -35,7 +35,11 @@ public class Item
         Dkey,
         Dkeys,
         dryber,
-        key2
+        key2,
+        diacup3,
+        heartcup3,
+        starcup3,
+        batteryD,
     }
 
     public Type type;          // 種類

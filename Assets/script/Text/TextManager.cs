@@ -41,6 +41,7 @@ public class TextManager : MonoBehaviour
     private float currentTime;
     [SerializeField] private Image inputPredictImage;
     private MessageStrage messageStrage = new();
+    [SerializeField] Sprite sprite_nomalicon;
 
     private void Awake()
     {
@@ -255,30 +256,47 @@ public class TextManager : MonoBehaviour
     }
 
 
-    // Item.Typeに対応する画像を表示する
-    private void DisplayImageForItemType(Item.Type itemType)
-    {
-        HideAllImages(); // まずは全ての画像を非表示にする
-        if (spriteDictionary.TryGetValue(itemType, out var value))
-        {
-            HIcon.sprite = value;
-        }
-    }
-
     // キーワードに対応する画像を表示する
     private void DisplayImageForKeyword(string keyword)
     {
         HideAllImages(); // まずは全ての画像を非表示にする
-        if (keywordSpriteDictionary.TryGetValue(keyword, out var value))
+        if (keywordSpriteDictionary.TryGetValue(keyword, out var sprite))
         {
-            HIcon.sprite = value;
+            HIcon.sprite = sprite; // スプライトを設定
+            HIcon.gameObject.SetActive(true); // HIconを有効にする
+            Debug.Log($"[DisplayImageForKeyword] Displaying sprite for keyword: {keyword}");
+        }
+        else
+        {
+            HIcon.sprite = sprite_nomalicon;
+            Debug.LogWarning($"[DisplayImageForKeyword] No sprite found for keyword: {keyword}");
         }
     }
 
+    // Item.Typeに対応する画像を表示する
+    private void DisplayImageForItemType(Item.Type itemType)
+    {
+        HideAllImages(); // まずは全ての画像を非表示にする
+        if (spriteDictionary.TryGetValue(itemType, out var sprite))
+        {
+            HIcon.sprite = sprite; // スプライトを設定
+            HIcon.gameObject.SetActive(true); // HIconを有効にする
+            Debug.Log($"[DisplayImageForItemType] Displaying sprite for itemType: {itemType}");
+        }
+        else
+        {
+            HIcon.sprite = sprite_nomalicon;
+            Debug.LogWarning($"[DisplayImageForItemType] No sprite found for itemType: {itemType}");
+        }
+    }
+
+    // 全ての画像を非表示にする
     private void HideAllImages()
     {
-        HIcon.sprite = null; // メインの画像を非表示に設定
+        HIcon.sprite = null; // スプライトをクリア
+        //HIcon.gameObject.SetActive(false); // HIcon自体を非表示
     }
+
 
     private IEnumerator TypeTextCoroutine(TextMeshProUGUI textField, string fullText)
     {
@@ -289,4 +307,5 @@ public class TextManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);  // 0.1秒待機
         }
     }
+
 }

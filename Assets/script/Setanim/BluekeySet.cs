@@ -136,7 +136,6 @@ public class BluekeySet : MonoBehaviour
     public void OnClickBlueBox()
     {
         textManager.DisplayTextForKeyword(currentKeyword);
-        Debug.Log("menndokusaiyo");
     }
 
 

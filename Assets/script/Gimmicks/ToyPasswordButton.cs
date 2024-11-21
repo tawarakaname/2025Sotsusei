@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class ThreePasswordButton : MonoBehaviour
+public class ToyPasswordButton : MonoBehaviour
 {
 
     [SerializeField] private TMP_Text numberText; // ボタンの数値を表示するテキスト
@@ -24,7 +24,7 @@ public class ThreePasswordButton : MonoBehaviour
         number = 0;
         UpdateNumberDisplay();  // 数値の表示を更新
         UpdateSprite();  // スプライトを更新
-        HideBGColorPanel(); // 背景パネルは最初非表示
+        HideBGToyPanel(); // 背景パネルは最初非表示
     }
 
     private void UpdateNumberDisplay()
@@ -32,11 +32,11 @@ public class ThreePasswordButton : MonoBehaviour
         numberText.text = number.ToString(); // 数値をテキストに反映
     }
 
-    public void OnClickThree()
+    public void OnClickToy()
     {
         // カメラズームと選択状態のフラグが有効な場合にのみ実行
         if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
-            flagManager.GetFlag(FlagManager.FlagType.BTBCamera) &&
+            flagManager.GetFlag(FlagManager.FlagType.ToyboxCamera) &&
             isSelected)
         {
             number++;
@@ -58,7 +58,7 @@ public class ThreePasswordButton : MonoBehaviour
     }
 
     // 背景パネルを非表示にする処理
-    public void HideBGColorPanel()
+    public void HideBGToyPanel()
     {
         bgPanel.color = new Color(1f, 1f, 1f, 0f); // 背景を透明にして非表示
         SetSelectedState(false);

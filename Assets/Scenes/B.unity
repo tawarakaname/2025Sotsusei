@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18337959, g: 0.2289871, b: 0.30608997, a: 1}
+  m_IndirectSpecularColor: {r: 0.18337908, g: 0.22898655, b: 0.30608898, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3072,7 +3072,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &104523570
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6091,7 +6091,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &234546962
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10784,9 +10784,9 @@ RectTransform:
   - {fileID: 1605068776}
   m_Father: {fileID: 1706747519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 288.79993, y: -92.94998}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &486855551
@@ -11230,7 +11230,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &500689823
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11375,7 +11375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e48439629224926b5172f8ea11c090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSets: []
+  itemSets:
+  - useItem: 10
+    setObject: {fileID: 751970285}
   targetUI: {fileID: 1712816224}
   selectedItem: {fileID: 717024867}
   IsFreeInteract: 1
@@ -12899,9 +12901,9 @@ RectTransform:
   - {fileID: 1080535018}
   m_Father: {fileID: 1706747519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 378.79993, y: -92.94998}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &576208115
@@ -13516,9 +13518,9 @@ RectTransform:
   - {fileID: 217582965}
   m_Father: {fileID: 1706747519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 558.7999, y: -92.94998}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &616061613
@@ -15679,7 +15681,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e48439629224926b5172f8ea11c090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSets: []
+  itemSets:
+  - useItem: 9
+    setObject: {fileID: 1986412580}
   targetUI: {fileID: 398426988}
   selectedItem: {fileID: 717024867}
   IsFreeInteract: 1
@@ -23758,7 +23762,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1038743241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23796,6 +23800,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c0b5612f6740749019b33a5f3f21ccb7, type: 3}
   buttonOsemasen: 1
   inputPredictImage: {fileID: 681998852}
+  sprite_nomalicon: {fileID: 21300000, guid: ba51331f91eeb40b0afff0fc71f27d22, type: 3}
 --- !u!4 &1038743242
 Transform:
   m_ObjectHideFlags: 0
@@ -25239,7 +25244,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1d2435d4797054957af866a4ffc57c20, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.094
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -28532,7 +28537,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e48439629224926b5172f8ea11c090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSets: []
+  itemSets:
+  - useItem: 18
+    setObject: {fileID: 0}
   targetUI: {fileID: 1136882149}
   selectedItem: {fileID: 717024867}
   IsFreeInteract: 1
@@ -29768,7 +29775,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c0b5612f6740749019b33a5f3f21ccb7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -30183,9 +30190,9 @@ RectTransform:
   - {fileID: 408474251}
   m_Father: {fileID: 1706747519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 198.79993, y: -92.94998}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1355471614
@@ -32705,7 +32712,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e48439629224926b5172f8ea11c090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSets: []
+  itemSets:
+  - useItem: 11
+    setObject: {fileID: 77149328}
   targetUI: {fileID: 492368864}
   selectedItem: {fileID: 717024867}
   IsFreeInteract: 1
@@ -36131,9 +36140,9 @@ RectTransform:
   - {fileID: 479776914}
   m_Father: {fileID: 1706747519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 648.7999, y: -92.94998}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1590142813
@@ -36459,7 +36468,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1601162617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44578,7 +44587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1764239209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49556,7 +49565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &1981159952
 AudioSource:
   m_ObjectHideFlags: 0
@@ -51281,9 +51290,9 @@ RectTransform:
   - {fileID: 1749688963}
   m_Father: {fileID: 1706747519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 468.79993, y: -92.94998}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2044151353
@@ -51749,7 +51758,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e48439629224926b5172f8ea11c090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSets: []
+  itemSets:
+  - useItem: 5
+    setObject: {fileID: 1371050848}
   targetUI: {fileID: 270677363}
   selectedItem: {fileID: 717024867}
   IsFreeInteract: 1
