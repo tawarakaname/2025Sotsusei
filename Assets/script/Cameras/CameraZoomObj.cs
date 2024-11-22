@@ -154,6 +154,8 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.ElectronicCamera;
             case "ToyboxCamera":
                 return FlagManager.FlagType.ToyboxCamera;
+            case "GasCamera2":
+                return FlagManager.FlagType.GasCamera2;
             default:
                 return null;
         }

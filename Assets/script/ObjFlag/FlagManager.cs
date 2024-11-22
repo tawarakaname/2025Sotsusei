@@ -106,6 +106,14 @@ public class FlagManager : MonoBehaviour
         RedButtonHutaopen,
         ToyPasswordclear,
         ToyboxCamera,
+        diacup2,
+        heartcup2,
+        starcup2,
+        diacup3,
+        heartcup3,
+        starcup3,
+        burntcup3get,
+        GasCdooropen
     }
 
     // シングルトンインスタンス
