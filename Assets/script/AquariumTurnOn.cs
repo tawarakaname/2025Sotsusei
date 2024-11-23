@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class GasColorchange : MonoBehaviour
+
+public class AquariumTurnOn : MonoBehaviour
 {
     [SerializeField] private MonoBehaviour playerScript;           // プレイヤーのスクリプト（操作を無効化するため）
     [SerializeField] private GameObject targetCamera;              // アニメーション後に無効化するカメラ
-    [SerializeField] private GameObject[] cupsules; 
 
     private FlagManager flagManager;                               // フラグマネージャー
     public PlayableDirector director;
@@ -26,11 +26,13 @@ public class GasColorchange : MonoBehaviour
 
     void Update()
     {
-        // 条件が成立した場合にのみ再生処理を実行
-        if (flagManager.GetFlag(FlagManager.FlagType.capsuleclear) &&
-            !flagManager.GetFlag(FlagManager.FlagType.FireColorchange))
+        // 条件が成立した場合にのみ再生処理を実
+        if (flagManager.GetFlag(FlagManager.FlagType.Belt1move) &&
+           (flagManager.GetFlag(FlagManager.FlagType.SwitchCamera) &&
+           (flagManager.GetFlag(FlagManager.FlagType.PushRedButton2) &&
+            !flagManager.GetFlag(FlagManager.FlagType.AquariumTurnOn))))
         {
-            OpenGasBanner();        
+            AquariumTurnon();
         }
 
         // アニメーション完了後にフラグを確認してカメラを無効化
@@ -44,21 +46,12 @@ public class GasColorchange : MonoBehaviour
         }
     }
 
-    private void OpenGasBanner()
+    private void AquariumTurnon()
     {
         // フラグチェックを再度行い、再生が1回のみ行われるようにする
-        if (!flagManager.GetFlag(FlagManager.FlagType.FireColorchange) &&
+        if (!flagManager.GetFlag(FlagManager.FlagType.AquariumTurnOn) &&
             !flagManager.GetFlag(FlagManager.FlagType.Nowanim))  // 既にNowanimがtrueなら設定しない
         {
-            // cupsules 配列のすべてのオブジェクトを非アクティブ化
-            foreach (GameObject cupsule in cupsules)
-            {
-                if (cupsule != null)
-                {
-                    cupsule.SetActive(false);
-                }
-            }
-
             director.Play(); // Timelineの再生をここで実行
 
             // プレイヤー操作を無効化
@@ -91,7 +84,7 @@ public class GasColorchange : MonoBehaviour
     {
         // アニメーション終了後にフラグを設定
         animationCompleted = true;
-        flagManager.SetFlag(FlagManager.FlagType.FireColorchange, true); // 再生フラグを設定して再生は一度だけにする
+        flagManager.SetFlag(FlagManager.FlagType.AquariumTurnOn, true); // 再生フラグを設定して再生は一度だけにする
 
         // Nowanim フラグを false に設定
         flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);

@@ -113,7 +113,17 @@ public class FlagManager : MonoBehaviour
         heartcup3,
         starcup3,
         burntcup3get,
-        GasCdooropen
+        GasCdooropen,
+        Toyboxopen,
+        PushRedButton2,
+        toolPasswordclear,
+        batteryBget,
+        playironplate,
+        robotCamera,
+        Belt2move,
+        Belt1move,
+        AquariumTurnOn,
+        SwitchCamera,
     }
 
     // シングルトンインスタンス

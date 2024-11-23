@@ -37,6 +37,11 @@ public class GasbanerCclose : MonoBehaviour
 
     void Update()
     {
+        // BTBフラグがfalseの場合、一切動作しない
+        if (!FlagManager.Instance.GetFlagByType(Item.Type.BTB))
+        {
+            return; // Updateメソッドを早期終了
+        }
         if (!playerInsideCollider) return;
 
         // いずれかのフラグがtrueで未使用の場合に処理を実行
