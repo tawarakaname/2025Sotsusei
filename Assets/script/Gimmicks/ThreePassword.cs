@@ -34,6 +34,12 @@ public class ThreePassword : MonoBehaviour
 
     private void Update()
     {
+        // FlagManagerの条件に従いスクリプトを無効化する
+        if (!flagManager.GetFlagByType(Item.Type.BTB))
+        {
+            return;
+        }
+
         // ThreePasswordclearがtrueの場合、このスクリプトを無効化
         if (flagManager.GetFlag(FlagManager.FlagType.ThreePasswordclear))
         {

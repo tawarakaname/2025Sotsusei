@@ -37,6 +37,16 @@ public class SetObj : MonoBehaviour
 
     private void UpdateUIVisibility()
     {
+        // コライダー内にプレイヤーがいる場合のみ条件を満たす
+        if (!playerInsideCollider)
+        {
+            if (targetUI.activeSelf)
+            {
+                targetUI.SetActive(false);
+            }
+            return;
+        }
+
         bool isCameraZoomObj = FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj);
         bool hasItem = FlagManager.Instance.GetFlag(FlagManager.FlagType.itemmotteru);
         bool componentEnabled = IsComponentEnabled();

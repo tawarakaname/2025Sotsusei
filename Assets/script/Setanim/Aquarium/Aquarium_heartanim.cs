@@ -14,6 +14,7 @@ public class Aquarium_heartanim : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] private AudioClip soundEffect; // 音声クリップをシリアライズ
     [SerializeField] private GameObject Heartcup2; // 最初に非表示のオブジェクト
+    [SerializeField] private GameObject setcup; // 最初に表示のオブジェクト
 
     // Playerクラスの参照（プレイヤーの操作を無効化するため）
     [SerializeField] private MonoBehaviour playerScript;  // Playerクラスをアタッチ
@@ -126,6 +127,7 @@ public class Aquarium_heartanim : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         Heartcup2get.gameObject.SetActive(true);
         Heartcup2.SetActive(true);
+        setcup.SetActive(false);
 
         if (!itemgetpanelLogged)
         {

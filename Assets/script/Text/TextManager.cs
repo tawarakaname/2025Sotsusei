@@ -269,7 +269,6 @@ public class TextManager : MonoBehaviour
         else
         {
             HIcon.sprite = sprite_nomalicon;
-            Debug.LogWarning($"[DisplayImageForKeyword] No sprite found for keyword: {keyword}");
         }
     }
 
@@ -281,12 +280,10 @@ public class TextManager : MonoBehaviour
         {
             HIcon.sprite = sprite; // スプライトを設定
             HIcon.gameObject.SetActive(true); // HIconを有効にする
-            Debug.Log($"[DisplayImageForItemType] Displaying sprite for itemType: {itemType}");
         }
         else
         {
             HIcon.sprite = sprite_nomalicon;
-            Debug.LogWarning($"[DisplayImageForItemType] No sprite found for itemType: {itemType}");
         }
     }
 

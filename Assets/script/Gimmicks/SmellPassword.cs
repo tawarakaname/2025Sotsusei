@@ -24,6 +24,7 @@ public class SmellPassword : MonoBehaviour
     private Quaternion endRotation; // 終了時の回転
     private GameObject rotatingObject = null; // 現在回転中のオブジェクト
     private float rotationProgress = 0f; // 回転の進捗
+    private bool isRotating = false; // 現在回転中かどうかを管理
 
     private bool isUpScaleCam;
 
@@ -79,7 +80,9 @@ public class SmellPassword : MonoBehaviour
     private void HandleFireButtonInput()
     {
         if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
-            flagManager.GetFlag(FlagManager.FlagType.OdoguCamera))
+           (!flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
+           (!flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel) &&
+           (flagManager.GetFlag(FlagManager.FlagType.OdoguCamera)))))
         {
             // 初回のFire2入力を無視する処理
             if (!firstFireIgnored)
@@ -93,7 +96,7 @@ public class SmellPassword : MonoBehaviour
             else
             {
                 // 2回目以降のFire2入力処理
-                if (Input.GetButtonDown("Fire2") && !isFireButtonPressed)
+                if (Input.GetButtonDown("Fire2") && !isFireButtonPressed && !isRotating) // 回転中の入力を無視
                 {
                     var currentButton = SmellpasswordButtons[currentPosition];
                     if (currentButton.IsButtonActive())
@@ -114,12 +117,14 @@ public class SmellPassword : MonoBehaviour
 
     private void StartRotation(GameObject obj, float angle)
     {
+        if (isRotating) return; // 回転中は新しい回転を受け付けない
+
         rotatingObject = obj; // 回転対象のオブジェクトを設定
         startRotation = obj.transform.rotation; // 現在の回転を記録
         endRotation = startRotation * Quaternion.Euler(0, angle, 0); // 終了時の回転を計算
         rotationProgress = 0f; // 回転進捗をリセット
+        isRotating = true; // 回転中フラグを設定
     }
-
     private void RotateObjectOverTime()
     {
         if (rotatingObject != null)
@@ -132,9 +137,11 @@ public class SmellPassword : MonoBehaviour
                 rotatingObject.transform.rotation = endRotation; // 最終的な回転を設定
                 rotatingObject = null; // 回転完了後、対象をリセット
                 rotationProgress = 0f; // 進捗をリセット
+                isRotating = false; // 回転中フラグを解除
             }
         }
     }
+
 
     private void SelectSmellButton(int position)
     {
