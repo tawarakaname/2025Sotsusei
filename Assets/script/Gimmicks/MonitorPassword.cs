@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MonitorPassword : MonoBehaviour
 {
     private const float MoveCooldown = 0.2f; // 移動に関するクールダウン時間
+    private const float RotationDuration = 0.5f; // 回転にかかる時間（秒）
 
+    [SerializeField] private GameObject monitorpasswordobj;
+    [SerializeField] private GameObject mixpasswordobj;
     [SerializeField] private int[] correctNumbers; // 正解の番号
     [SerializeField] private MonitorPasswordButton[] monitorpasswordButtons; // 現在のパネルの数値
-
+    [SerializeField] private GameObject[] rotatingObjects; // 各ボタンに連動する回転オブジェクトの配列
 
     private int currentPosition = 0; // 現在選択されているスロットの位置
     private float nextMoveTime = 0f; // 次に移動できる時間を記録
@@ -17,6 +18,12 @@ public class MonitorPassword : MonoBehaviour
     private FlagManager flagManager; // フラグマネージャーのインスタンス
     private int lastSelectedPosition = -1; // 選択中のボタンのインデックスを保持
     private bool isUpScaleCam;
+
+    private Quaternion startRotation; // 開始時の回転
+    private Quaternion endRotation; // 終了時の回転
+    private GameObject rotatingObject = null; // 現在回転中のオブジェクト
+    private float rotationProgress = 0f; // 回転の進捗
+    private bool isRotating = false; // 現在回転中かどうかを管理
 
     private void Start()
     {
@@ -34,7 +41,8 @@ public class MonitorPassword : MonoBehaviour
         if (IsClear())
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.MonitorPasswordclear, true);
-            Debug.Log("MonitorPasswordclearFlagON");
+            monitorpasswordobj.gameObject.SetActive(false);
+            mixpasswordobj.gameObject.SetActive(true);
         }
     }
 
@@ -44,6 +52,7 @@ public class MonitorPassword : MonoBehaviour
         {
             HandleHorizontalInput(); // 水平方向の入力を処理
             HandleFireButtonInput(); // 丸ボタンの入力を処理
+            RotateObjectOverTime(); // 回転アニメーションの更新
         }
 
         isUpScaleCam = flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
@@ -83,12 +92,13 @@ public class MonitorPassword : MonoBehaviour
             else
             {
                 // 2回目以降のFire2入力処理
-                if (Input.GetButtonDown("Fire2") && !isFireButtonPressed)
+                if (Input.GetButtonDown("Fire2") && !isFireButtonPressed && !isRotating)
                 {
                     var currentButton = monitorpasswordButtons[currentPosition];
                     if (currentButton.IsButtonActive())
                     {
                         currentButton.OnClickThis(); // 現在のボタンをクリック
+                        StartRotation(rotatingObjects[currentPosition], 90f); // 回転処理を開始
                         CheckClear(); // クリア条件をチェック
                     }
                     isFireButtonPressed = true; // ボタンが押されたことを記録
@@ -97,6 +107,34 @@ public class MonitorPassword : MonoBehaviour
                 {
                     isFireButtonPressed = false; // ボタンが離されたことを記録
                 }
+            }
+        }
+    }
+
+    private void StartRotation(GameObject obj, float angle)
+    {
+        if (isRotating) return; // 回転中は新しい回転を受け付けない
+
+        rotatingObject = obj; // 回転対象のオブジェクトを設定
+        startRotation = obj.transform.rotation; // 現在の回転を記録
+        endRotation = startRotation * Quaternion.Euler(0, angle, 0); // 終了時の回転を計算
+        rotationProgress = 0f; // 回転進捗をリセット
+        isRotating = true; // 回転中フラグを設定
+    }
+
+    private void RotateObjectOverTime()
+    {
+        if (rotatingObject != null)
+        {
+            rotationProgress += Time.deltaTime / RotationDuration; // 回転進捗を更新
+            rotatingObject.transform.rotation = Quaternion.Lerp(startRotation, endRotation, rotationProgress); // 線形補間で回転を適用
+
+            if (rotationProgress >= 1f) // 回転が完了した場合
+            {
+                rotatingObject.transform.rotation = endRotation; // 最終的な回転を設定
+                rotatingObject = null; // 回転完了後、対象をリセット
+                rotationProgress = 0f; // 進捗をリセット
+                isRotating = false; // 回転中フラグを解除
             }
         }
     }

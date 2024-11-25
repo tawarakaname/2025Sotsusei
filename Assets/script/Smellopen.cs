@@ -4,17 +4,18 @@ using UnityEngine;
 public class Smellopen : MonoBehaviour
 {
     [SerializeField] private GameObject Blueori;
-    [SerializeField] private Collider SmellgimickCollider;
     [SerializeField] private Canvas bluekeyGet;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip soundEffect; // 効果音
     [SerializeField] private MonoBehaviour playerScript;
     [SerializeField] private float animatedTime;
+    [SerializeField] private Collider OdogurCollider;  // トリガーコライダー追加
 
     private Animator blueoriAnimator;
     private bool controlsDisabled = false;
     private bool canvasEnabled = false;
     private bool itemGetPanelLogged = false;
+    private bool playerInsideCollider = false;  // プレイヤーがコライダー内にいるかどうかのフラグ
     private Coroutine blueoriOpenCoroutine;
 
     void Start()
@@ -29,6 +30,10 @@ public class Smellopen : MonoBehaviour
 
     void Update()
     {
+        // プレイヤーがコライダー内にいる場合のみ動作
+        if (!playerInsideCollider)
+            return; // コライダー内にいない場合、コードは何もしない
+
         // FlagType.SmellPasswordclearが立ったら
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.SmellPasswordclear) && blueoriOpenCoroutine == null)
         {
@@ -87,6 +92,12 @@ public class Smellopen : MonoBehaviour
 
     private IEnumerator EnableCanvasAfterDelay()
     {
+        // すでにアイテム取得パネルが表示されている場合は何もしない
+        if (itemGetPanelLogged)
+        {
+            yield break; // 既に表示済みの場合、コルーチンを終了
+        }
+
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         yield return new WaitForSeconds(1f);
 
@@ -96,9 +107,8 @@ public class Smellopen : MonoBehaviour
         {
             itemGetPanelLogged = true;
             Debug.Log("正解のSEを流します");
+            audioSource.PlayOneShot(soundEffect); // 効果音を再生
         }
-
-        audioSource.PlayOneShot(soundEffect); // 効果音を再生
     }
 
     private void DisablePlayerControls()
@@ -107,5 +117,25 @@ public class Smellopen : MonoBehaviour
             playerScript.enabled = false;
 
         controlsDisabled = true;
+    }
+
+    // プレイヤーがOdogurColliderに入ったとき
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInsideCollider = true;
+            Debug.Log("in");
+        }
+    }
+
+    // プレイヤーがOdogurColliderから出たとき
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInsideCollider = false;
+            Debug.Log("out");
+        }
     }
 }

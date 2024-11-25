@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SmellPassword : MonoBehaviour
@@ -43,7 +41,6 @@ public class SmellPassword : MonoBehaviour
         if (IsClear())
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.SmellPasswordclear, true);
-            Debug.Log("SmellPPasswordclearFlagON");
             Bluekey.SetActive(true);
         }
     }

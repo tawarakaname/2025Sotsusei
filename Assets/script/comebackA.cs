@@ -9,12 +9,16 @@ public class ComebackA : MonoBehaviour
     [SerializeField] private Vector3 targetPosition;    // 移動先の位置
     [SerializeField] private PlayableDirector director; // 再生させるDirector
     [SerializeField] private Collider triggerCollider;  // トリガーコライダー
+    [SerializeField] private GameObject targetCamera;              // アニメーション後に無効化するカメラ
 
     private bool hasPlayedDirector = false; // Directorが再生されたかを追跡
     private bool isDoorOpened = false; // ドアが開いたかどうかのフラグ
+    private FlagManager flagManager;
 
     void Start()
     {
+        flagManager = FlagManager.Instance;
+
         // Animatorコンポーネントを取得
         if (objWithAnimation != null)
         {
@@ -26,7 +30,15 @@ public class ComebackA : MonoBehaviour
         {
             triggerCollider.enabled = false;
         }
+
+        // PlayableDirectorの停止イベントにハンドラーを登録
+        if (director != null)
+        {
+            director.stopped += OnPlayableDirectorStopped;
+        }
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -47,6 +59,7 @@ public class ComebackA : MonoBehaviour
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Nowanim, true); // Nowanim フラグを true に設定
         }
     }
+
 
     // Director再生条件をチェックするメソッド
     private bool ShouldPlayDirector()
@@ -75,4 +88,22 @@ public class ComebackA : MonoBehaviour
             isDoorOpened = true; // ドアが開いたことを記録
         }
     }
+
+    // タイムラインが停止したときに呼ばれる
+    private void OnPlayableDirectorStopped(PlayableDirector director)
+    {
+        // Nowanim フラグを false に設定
+        if (flagManager != null)
+        {
+            flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
+        }
+
+        // targetCamera を無効化
+        if (targetCamera != null)
+        {
+            targetCamera.SetActive(false);
+        }
+
+    }
+
 }
