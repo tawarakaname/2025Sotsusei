@@ -95,10 +95,10 @@ public class MonitorPassword : MonoBehaviour
                 if (Input.GetButtonDown("Fire2") && !isFireButtonPressed && !isRotating)
                 {
                     var currentButton = monitorpasswordButtons[currentPosition];
-                    if (currentButton.IsButtonActive())
+                    if (currentButton)
                     {
                         currentButton.OnClickThis(); // 現在のボタンをクリック
-                        StartRotation(rotatingObjects[currentPosition], 90f); // 回転処理を開始
+                        StartRotation(rotatingObjects[currentPosition], 60f); // 回転処理を開始
                         CheckClear(); // クリア条件をチェック
                     }
                     isFireButtonPressed = true; // ボタンが押されたことを記録

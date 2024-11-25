@@ -35,7 +35,10 @@ public class Smellopen : MonoBehaviour
             return; // コライダー内にいない場合、コードは何もしない
 
         // FlagType.SmellPasswordclearが立ったら
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.SmellPasswordclear) && blueoriOpenCoroutine == null)
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.SmellPasswordclear) &&
+           !FlagManager.Instance.GetFlag(FlagManager.FlagType.Blueoriopen) &&
+           FlagManager.Instance.GetFlag(FlagManager.FlagType.OdoguCamera) &&
+             blueoriOpenCoroutine == null)
         {
             DisablePlayerControls();
             OnClickBlueori();
@@ -54,10 +57,15 @@ public class Smellopen : MonoBehaviour
             FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
             FlagManager.Instance.GetFlag(FlagManager.FlagType.OdoguCamera) &&
             Input.GetButtonDown("Fire2"))
+
         {
             bluekeyGet.gameObject.SetActive(false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
             playerScript.enabled = true;
+
+            // コードの無効化とコライダー削除
+            DisableAndCleanup();
+            Debug.Log("owari");
         }
 
         // Fire1ボタンの無効化
@@ -97,18 +105,22 @@ public class Smellopen : MonoBehaviour
         {
             yield break; // 既に表示済みの場合、コルーチンを終了
         }
-
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
-        yield return new WaitForSeconds(1f);
-
-        bluekeyGet.gameObject.SetActive(true);
-
-        if (!itemGetPanelLogged)
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Blueoriopen))
         {
-            itemGetPanelLogged = true;
-            Debug.Log("正解のSEを流します");
-            audioSource.PlayOneShot(soundEffect); // 効果音を再生
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
+            yield return new WaitForSeconds(1f);
+
+            bluekeyGet.gameObject.SetActive(true);
+
+            if (!itemGetPanelLogged)
+            {
+                itemGetPanelLogged = true;
+                Debug.Log("正解のSEを流します");
+                audioSource.PlayOneShot(soundEffect); // 効果音を再生
+            }
         }
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Blueoriopen, true);
+       
     }
 
     private void DisablePlayerControls()
@@ -137,5 +149,20 @@ public class Smellopen : MonoBehaviour
             playerInsideCollider = false;
             Debug.Log("out");
         }
+    }
+
+    // スクリプトを無効化し、コライダーを削除
+    private void DisableAndCleanup()
+    {
+        // コライダーを削除
+        if (OdogurCollider != null)
+        {
+            Destroy(OdogurCollider);
+        }
+
+        // スクリプトを無効化
+        this.enabled = false;
+
+        Debug.Log("Smellopen script and collider disabled.");
     }
 }

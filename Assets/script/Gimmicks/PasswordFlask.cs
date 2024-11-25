@@ -147,6 +147,7 @@ public class PasswordFlask : MonoBehaviour
             }
         }
         FlagManager.Instance.SetFlag(FlagManager.FlagType.MixPasswordclear, true);
+        _frascoPanel.SetActive(false);
         Debug.Log("やるじゃん。");
     }
 
@@ -172,7 +173,7 @@ public class PasswordFlask : MonoBehaviour
 
     private void ChangeFrascoPanel(bool isActive)
     {
-        _frascoPanel.SetActive(isActive);
+       
         _playerSolving = isActive;
         if (!isActive) DeactivateAllPanels();
     }

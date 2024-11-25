@@ -6,9 +6,7 @@ using TMPro;
 public class MonitorPasswordButton : MonoBehaviour
 {
     [SerializeField] private TMP_Text numberText; // ボタンの数値を表示するテキスト
-    [SerializeField] Sprite[] sprites;
-    [SerializeField] private SpriteRenderer spriteRenderer; // ボタンのスプライトを表示するSpriteRenderer
-    [SerializeField] private SpriteRenderer bgPanel; // 背景パネルとしてのSpriteRenderer
+    [SerializeField] private GameObject bgPanel; // 背景パネルとしてのSpriteRenderer
 
     private FlagManager flagManager;
     private bool isSelected = false; // 選択状態を管理するフラグ
@@ -46,7 +44,6 @@ public class MonitorPasswordButton : MonoBehaviour
             }
 
             UpdateNumberDisplay();  // 数値表示を更新
-            UpdateSprite();
         }
     }
 
@@ -73,19 +70,6 @@ public class MonitorPasswordButton : MonoBehaviour
         isSelected = state;
 
     }
-    public bool IsButtonActive()
-    {
-        return spriteRenderer != null && spriteRenderer.enabled; // スプライトが有効かどうかを確認
-    }
-
-    private void UpdateSprite()
-    {
-        if (spriteRenderer != null && sprites != null && sprites.Length > 0)
-        {
-            // 現在の数値に対応するスプライトを適用
-            int spriteIndex = Mathf.Clamp(number, 0, sprites.Length - 1);
-            spriteRenderer.sprite = sprites[spriteIndex];
-        }
-    }
+    
 
 }

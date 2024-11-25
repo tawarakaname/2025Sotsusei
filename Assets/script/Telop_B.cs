@@ -6,6 +6,7 @@ public class Telop_B : MonoBehaviour
     [SerializeField] private MonoBehaviour playerScript;      // プレイヤーのスクリプト（操作を無効化するため）
     [SerializeField] private GameObject targetCamera;         // アニメーション後に無効化するカメラ
     [SerializeField] private GameObject telopBGameObject;     // 自身のオブジェクトを格納
+    [SerializeField] private GameObject telopB;     // telop_Bを格納
 
     private FlagManager flagManager;                          // フラグマネージャー
     public PlayableDirector director;
@@ -83,6 +84,7 @@ public class Telop_B : MonoBehaviour
         if (telopBGameObject != null)
         {
             telopBGameObject.SetActive(false);
+            telopB.SetActive(false);
         }
 
         // スクリプトを無効化
