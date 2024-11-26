@@ -124,6 +124,7 @@ public class FlagManager : MonoBehaviour
         Belt1move,
         AquariumTurnOn,
         SwitchCamera,
+        huta2open,
     }
 
     // シングルトンインスタンス

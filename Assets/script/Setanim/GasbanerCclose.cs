@@ -19,6 +19,7 @@ public class GasbanerCclose : MonoBehaviour
     private bool diaUsed = false;
     private bool starUsed = false;
 
+    private bool burntCup3Set = false; // `burntcup3get` が設定済みか追跡
     private Coroutine activePanelCoroutine;
 
     void Start()
@@ -61,10 +62,11 @@ public class GasbanerCclose : MonoBehaviour
                 activePanelCoroutine = StartCoroutine(HandlePanel(panels[2], cup2s[2], cup3s[2], () => diaUsed = true));
         }
 
-        // すべてのフラグがtrueの場合、burntcup3getをtrueにする
-        if (heartUsed && diaUsed && starUsed)
+        // すべてのフラグがtrueで、まだburntcup3getを設定していない場合に設定
+        if (!burntCup3Set && heartUsed && diaUsed && starUsed)
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.burntcup3get, true);
+            burntCup3Set = true; // 処理済みと記録
         }
     }
 
