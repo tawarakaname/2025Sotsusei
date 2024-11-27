@@ -10,7 +10,9 @@ public class ComebackA : MonoBehaviour
     [SerializeField] private PlayableDirector director; // 再生させるDirector
     [SerializeField] private Collider triggerCollider;  // トリガーコライダー
     [SerializeField] private GameObject targetCamera;   // アニメーション後に無効化するカメラ
-    
+    [SerializeField] private GameObject oldCdoor;
+    [SerializeField] private GameObject newCdoor;
+
 
     private bool hasPlayedDirector = false; // Directorが再生されたかを追跡
     private bool isDoorOpened = false;      // ドアが開いたかどうかのフラグ
@@ -40,6 +42,8 @@ public class ComebackA : MonoBehaviour
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) && !isDoorOpened)
         {
             MoveTargetObject();
+            oldCdoor.SetActive(false);
+            newCdoor.SetActive(true);
         }
 
         // Adooropen と comebackA フラグが true かつ、初回再生時のみDirectorを再生

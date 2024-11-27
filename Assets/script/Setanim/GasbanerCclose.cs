@@ -72,15 +72,14 @@ public class GasbanerCclose : MonoBehaviour
 
     private IEnumerator HandlePanel(GameObject panel, GameObject associatedCup2, GameObject associatedCup3, System.Action onPanelUsed)
     {
+        // 対応する cup3 オブジェクトをアクティブ化
+        if (associatedCup3 != null)
+        {
+            associatedCup3.SetActive(true);
+        }
+
         // ドアを閉じるアニメーション
         GasCdoorAnimator.SetTrigger("Cdoorclose");
-
-        // アニメーションが完了するまで待機
-        yield return new WaitForSeconds(animatedTime);
-
-        // パネルを表示
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
-        panel.SetActive(true);
 
         // 対応する cup2 オブジェクトを非アクティブ化
         if (associatedCup2 != null)
@@ -88,18 +87,28 @@ public class GasbanerCclose : MonoBehaviour
             associatedCup2.SetActive(false);
         }
 
-        // 対応する cup3 オブジェクトをアクティブ化
-        if (associatedCup3 != null)
-        {
-            associatedCup3.SetActive(true);
-        }
+        // アニメーションが完了するまで待機
+        yield return new WaitForSeconds(animatedTime);
+
+        // ドアを開くアニメーション
+        GasCdoorAnimator.SetTrigger("Cdooropen");
+
+        // ドア開くアニメーションの完了待機
+        yield return new WaitForSeconds(animatedTime); // ここで開くアニメーションの再生時間を待つ
+
+        // ドアのアニメーション完了フラグを設定
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.DoorAnimComplete, true);
+
+        // パネルを表示
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
+        panel.SetActive(true);
 
         // 音声を再生
         audioSource.PlayOneShot(soundEffect);
 
-        // Fire2キーの入力待機
+        // Fire2キーの入力待機（条件にアニメーション完了フラグを追加）
         yield return new WaitUntil(() =>
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.Itemgetpanel) &&
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.DoorAnimComplete) && // アニメーション完了フラグ
             FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
             FlagManager.Instance.GetFlag(FlagManager.FlagType.GasCamera2) &&
             Input.GetButtonDown("Fire2"));
@@ -111,10 +120,10 @@ public class GasbanerCclose : MonoBehaviour
         // フラグを更新
         onPanelUsed?.Invoke();
 
-        // ドアを開くアニメーション
-        GasCdoorAnimator.SetTrigger("Cdooropen");
+        // ドアアニメーション完了フラグをリセット
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.DoorAnimComplete, false);
 
-        // コルーチン終了
+        // コルーチンの最後でリセット
         activePanelCoroutine = null;
     }
 

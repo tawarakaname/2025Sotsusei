@@ -125,6 +125,7 @@ public class FlagManager : MonoBehaviour
         AquariumTurnOn,
         SwitchCamera,
         huta2open,
+        DoorAnimComplete
     }
 
     // シングルトンインスタンス

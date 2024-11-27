@@ -18,8 +18,18 @@ public class PickupObj : MonoBehaviour
     private bool ispickup = false;
     private bool hasDisplayedText = false;
 
+    static Dictionary<Item.Type, bool> pickeditem = new Dictionary<Item.Type, bool>();
+
     private void Start()
     {
+        if(    pickeditem.ContainsKey(itemType) && pickeditem[itemType])
+        {
+            Debug.Log($"{pickeditem[itemType]}");
+            gameObject.SetActive(false);
+            return;
+        }
+
+
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         // itemタイプに応じてitemを作成する
         item = ItemGenerater.instance.Spawn(itemType);
@@ -43,13 +53,18 @@ public class PickupObj : MonoBehaviour
         if (ispickup && hasDisplayedText && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
         {
             gameObject.SetActive(false);
+
+            pickeditem.Add(itemType, true);
+
         }
 
         if (playerInsideCollider)
         {
             var isAllRequiredFlagsOff =
-                !FlagManager.Instance.GetFlag(FlagManager.FlagType.itembox) &&
-                !FlagManager.Instance.GetFlag(FlagManager.FlagType.Itemgetpanel);
+                !FlagManager.Instance.GetFlag(FlagManager.FlagType.itembox); //&&
+                //!FlagManager.Instance.GetFlag(FlagManager.FlagType.Itemgetpanel);
+                //焦げたコップを取得するときに、itemgetpanelがtrueだったら一回のfire2でコップが拾えなかったのでコメントアウトしています。
+                //他の場所でトラブルがあればなんとか直したいよね
 
             if (!isAllRequiredFlagsOff) return;
             // PS4コントローラーの⚪︎ボタンは「Fire2」として認識されます
