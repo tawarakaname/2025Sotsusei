@@ -37721,27 +37721,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1484718797}
-  - component: {fileID: 1484718796}
+  - component: {fileID: 1484718798}
   m_Layer: 0
   m_Name: SceneChange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1484718796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1484718795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d5f3488c9523634f98d7d8ece039ef7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: B
+  m_IsActive: 1
 --- !u!4 &1484718797
 Transform:
   m_ObjectHideFlags: 0
@@ -37757,6 +37744,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1484718798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484718795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d5f3488c9523634f98d7d8ece039ef7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: B
 --- !u!1 &1485045274
 GameObject:
   m_ObjectHideFlags: 0
@@ -45785,7 +45785,7 @@ SpriteRenderer:
   m_Size: {x: 9.72, y: 9.72}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1821536513
