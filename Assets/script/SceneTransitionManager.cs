@@ -4,25 +4,36 @@ using UnityEngine.SceneManagement;
 
 public class SceneTransitionManager : MonoBehaviour
 {
-    [SerializeField] private GameObject loadingScreen; // ロード画面
-    [SerializeField] private float delayBeforeActivation = 1f; // シーン遷移前の待機時間
-    [SerializeField] private float fadeDuration = 0.3f; // フェードの時間
+    [SerializeField] GameObject loadingScreen; // ロード画面
+    [SerializeField] float delayBeforeActivation = 2f; // シーン遷移前の待機時間
+    private AsyncOperation async; // 非同期操作の参照
 
-    private CanvasGroup canvasGroup; // フェード制御用のCanvasGroup
+    private static SceneTransitionManager instance;
 
     private void Awake()
     {
-        // loadingScreen に CanvasGroup を追加または取得
-        if (loadingScreen != null)
+        // シングルトンパターンを実装して、重複を防ぐ
+        if (instance != null && instance != this)
         {
-            canvasGroup = loadingScreen.GetComponent<CanvasGroup>();
-            if (canvasGroup == null)
-            {
-                canvasGroup = loadingScreen.AddComponent<CanvasGroup>();
-            }
-            canvasGroup.alpha = 0f; // 初期状態は非表示
-            loadingScreen.SetActive(false); // ロード画面を非アクティブ化
+            Destroy(gameObject);
         }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // 永続化
+        }
+    }
+
+    private void OnEnable()
+    {
+        // シーンロード完了時に呼び出されるイベントを登録
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // イベント登録を解除
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void LoadScene(string sceneName)
@@ -32,57 +43,35 @@ public class SceneTransitionManager : MonoBehaviour
 
     private IEnumerator LoadSceneWithDelay(string sceneName)
     {
-        // ロード画面を表示しフェードイン
+        // ロード画面を表示
         if (loadingScreen != null)
         {
             loadingScreen.SetActive(true);
-            yield return StartCoroutine(FadeIn());
         }
 
-        // 非同期でシーンをロード
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
-        operation.allowSceneActivation = false; // 手動で制御
+        // シーンを非同期でロードする
+        async = SceneManager.LoadSceneAsync(sceneName);
+        async.allowSceneActivation = false; // シーン切り替えを手動制御
 
-        // ロード進捗を監視
-        while (!operation.isDone)
+        // 指定された遅延時間を待つ
+        yield return new WaitForSeconds(delayBeforeActivation);
+
+        // シーンロードの進捗を確認しながら待機
+        while (async.progress < 0.9f)
         {
-            if (operation.progress >= 0.9f)
-            {
-                yield return new WaitForSeconds(delayBeforeActivation); // 待機時間を設定
-                operation.allowSceneActivation = true; // シーンを有効化
-            }
-            yield return null; // 次のフレームまで待機
+            yield return null; // 1フレーム待機
         }
 
-        // フェードアウトしてロード画面を非表示
+        // シーン遷移を許可
+        async.allowSceneActivation = true;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // シーン遷移後にロード画面を非表示
         if (loadingScreen != null)
         {
-            yield return StartCoroutine(FadeOut());
             loadingScreen.SetActive(false);
         }
-    }
-
-    private IEnumerator FadeIn()
-    {
-        float elapsedTime = 0f;
-        while (elapsedTime < fadeDuration)
-        {
-            elapsedTime += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Clamp01(elapsedTime / fadeDuration);
-            yield return null;
-        }
-        canvasGroup.alpha = 1f; // 確実にフェードイン完了
-    }
-
-    private IEnumerator FadeOut()
-    {
-        float elapsedTime = fadeDuration;
-        while (elapsedTime > 0f)
-        {
-            elapsedTime -= Time.deltaTime;
-            canvasGroup.alpha = Mathf.Clamp01(elapsedTime / fadeDuration);
-            yield return null;
-        }
-        canvasGroup.alpha = 0f; // 確実にフェードアウト完了
     }
 }
