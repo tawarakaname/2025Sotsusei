@@ -8,9 +8,11 @@ public class CameraZoomObj : MonoBehaviour
     [SerializeField] Collider triggerCollider; // ここでコライダーを公開
     [SerializeField] GameObject targetImage; // 表示・非表示を制御するImage
 
+
     private CameraManeger cameraManeger;
     private bool playerInsideCollider = false;
     private bool inputCooldown = false; // クールダウンフラグ
+
 
     private void Start()
     {
@@ -76,9 +78,10 @@ public class CameraZoomObj : MonoBehaviour
         {
             if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj))
             {
+
                 cameraManeger.SetZoomCamera(zoomCamera);
                 SetCameraFlag();
-                FlagManager.Instance.SetFlag(FlagManager.FlagType.CameraZoomObj, true);
+              
             }
         }
         else

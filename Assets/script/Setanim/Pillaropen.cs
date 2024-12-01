@@ -1,11 +1,9 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Pillaropen : MonoBehaviour
 {
-    public GameObject pillar;
-    private Animator pillarAnimator;
-    private FlagManager flagManager;
     [SerializeField] private Collider pillarcollider;
     [SerializeField] GameObject Monitorpasswordobj;
     [SerializeField] GameObject Mixpasswordobj;
@@ -19,13 +17,20 @@ public class Pillaropen : MonoBehaviour
     private bool controlsDisabled = false;
     private bool canvasEnabled = false;
     private bool itemgetpanelLogged = false;
-    [SerializeField] private float animatedTime;
+
+    [SerializeField] private GameObject targetCamera;
+
+    // PlayableDirectorの追加
+    [SerializeField] private PlayableDirector director;
+
+    // 独自のフラグを追加
+    private bool playerDisabledOnce = false;
+    private bool playerEnabledOnce = false;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         jouroget.gameObject.SetActive(false);
-        if (pillar != null) pillarAnimator = pillar.GetComponent<Animator>();
     }
 
     void Update()
@@ -37,18 +42,17 @@ public class Pillaropen : MonoBehaviour
                 Monitorpasswordobj.SetActive(false);
                 Mixpasswordobj.SetActive(true);
             }
-            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.MixPasswordclear))
+            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.MixPasswordclear) && !playerDisabledOnce)
             {
                 DisablePlayerControls();
                 OnClickpillar();
+                playerDisabledOnce = true; // フラグを設定
             }
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.MixPasswordclear) && !canvasEnabled)
             {
-                // すでにコルーチンが実行されていない場合のみ開始
                 StartCoroutine(EnableCanvasAfterDelay());
-                canvasEnabled = true;  // コルーチンが一度だけ呼ばれるように設定
+                canvasEnabled = true; // コルーチンが一度だけ呼ばれるように設定
             }
-
 
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.MixPasswordclear) &&
                 FlagManager.Instance.GetFlag(FlagManager.FlagType.Pillaropen) &&
@@ -59,7 +63,7 @@ public class Pillaropen : MonoBehaviour
             {
                 jouroget.gameObject.SetActive(false);
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
-                playerScript.enabled = true;
+                targetCamera.SetActive(false);
             }
         }
 
@@ -90,27 +94,41 @@ public class Pillaropen : MonoBehaviour
 
     public void OnClickpillar()
     {
+        // 既にフラグが設定されている場合、処理をスキップ
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Pillaropen))
         {
             StartCoroutine(PlayAnimationsSimultaneously());
-            Mixpasswordobj.SetActive(false);
             controlsDisabled = true;
         }
     }
 
     private IEnumerator PlayAnimationsSimultaneously()
     {
-        if (pillarAnimator != null)
-            pillarAnimator.SetTrigger("pillaropen");
+        if (director != null)
+        {
+            director.Play(); // PlayableDirectorで再生
+        }
 
-        yield return new WaitForSeconds(animatedTime); // アニメーションの再生時間を待機
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Pillaropen, true); // フラグを設定
+        yield return new WaitForSeconds((float)director.duration); // PlayableDirectorの再生時間を待機
+
+        // フラグを設定（ここで一度だけ実行される）
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Pillaropen))
+        {
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Pillaropen, true);
+        }
+
+        // プレイヤー操作を再び有効化
+        if (playerScript != null && !playerEnabledOnce)
+        {
+            playerScript.enabled = true;
+            playerEnabledOnce = true; // フラグを設定
+        }
     }
 
     private IEnumerator EnableCanvasAfterDelay()
     {
+        yield return new WaitForSeconds(4.5f);
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
-        yield return new WaitForSeconds(1f);
         jouroget.gameObject.SetActive(true);
 
         if (!itemgetpanelLogged)
@@ -119,12 +137,14 @@ public class Pillaropen : MonoBehaviour
         }
         audioSource.PlayOneShot(soundEffect); // 音声クリップを再生
         Debug.Log("正解のSEを流します");
-
     }
 
     private void DisablePlayerControls()
     {
-        if (playerScript != null) playerScript.enabled = false;
+        if (playerScript != null)
+        {
+            playerScript.enabled = false;
+        }
         controlsDisabled = true;
     }
 }

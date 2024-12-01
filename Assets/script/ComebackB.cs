@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class ComebackA : MonoBehaviour
+public class ComebackB : MonoBehaviour
 {
     private Animator animator;
     [SerializeField] private GameObject targetObject;   // 位置を移動させたいオブジェクト
@@ -9,8 +9,6 @@ public class ComebackA : MonoBehaviour
     [SerializeField] private PlayableDirector director; // 再生させるDirector
     [SerializeField] private Collider triggerCollider;  // トリガーコライダー
     [SerializeField] private GameObject targetCamera;   // アニメーション後に無効化するカメラ
-    [SerializeField] private GameObject oldCdoor;
-    [SerializeField] private GameObject newCdoor;
 
 
     private bool hasPlayedDirector = false; // Directorが再生されたかを追跡
@@ -37,20 +35,18 @@ public class ComebackA : MonoBehaviour
 
     void Update()
     {
-        // comebackA フラグが true になったらオブジェクトの位置を移動
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) && !isDoorOpened)
+        // comebackB フラグが true になったらオブジェクトの位置を移動
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB) && !isDoorOpened)
         {
             MoveTargetObject();
-            oldCdoor.SetActive(false);
-            newCdoor.SetActive(true);
         }
 
-        // Adooropen と comebackA フラグが true かつ、初回再生時のみDirectorを再生
+        // Bdooropen と comebackB フラグが true かつ、初回再生時のみDirectorを再生
         if (ShouldPlayDirector())
         {
             director.Play();
             hasPlayedDirector = true; // 再生済みと記録
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackAanim, true);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackBanim, true);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Nowanim, true); // Nowanim フラグを true に設定
         }
     }
@@ -69,10 +65,10 @@ public class ComebackA : MonoBehaviour
     // Director再生条件をチェックするメソッド
     private bool ShouldPlayDirector()
     {
-        return FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen)
-               && FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA)
+        return FlagManager.Instance.GetFlag(FlagManager.FlagType.Bdooropen)
+               && FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB)
                && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Nowanim)
-               && !FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackAanim)
+               && !FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackBanim)
                && !hasPlayedDirector;
     }
 

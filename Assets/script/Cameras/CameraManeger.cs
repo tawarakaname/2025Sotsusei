@@ -8,12 +8,18 @@ public class CameraManeger : MonoBehaviour
 
     // メインカメラの参照をキャッシュ
     [SerializeField] private Camera mainCamera;
+    public GameObject wipe; // アニメーション対象のオブジェクト
+    private Animator wipeAnimator; // Animatorコンポーネント
+    [SerializeField] private GameObject wipeobj;
 
     private Camera currentCamera;
     private FlagManager flagManager;
 
+
     private void Awake()
     {
+        wipeobj.SetActive(false);
+
         // シングルトンの実装を安全にする
         if (instance == null)
         {
@@ -30,7 +36,10 @@ public class CameraManeger : MonoBehaviour
         {
             mainCamera = Camera.main;
         }
-        flagManager = FlagManager.Instance; 
+        flagManager = FlagManager.Instance;
+
+        if (wipe != null)
+            wipeAnimator = wipe.GetComponent<Animator>();
     }
 
     private void Update()
@@ -45,7 +54,7 @@ public class CameraManeger : MonoBehaviour
             if (Input.GetButtonDown("Fire1"))
             {
                 ReturnToMainCamera();
-                flagManager.SetFlag(FlagManager.FlagType.CameraZoomObj, false);
+               
                 
             }
         }
@@ -55,11 +64,27 @@ public class CameraManeger : MonoBehaviour
 
     public void SetZoomCamera(Camera camera)
     {
+        if (wipeAnimator != null)
+        {
+            flagManager.SetFlag(FlagManager.FlagType.wipe, true);
+            wipeobj.SetActive(true);
+            wipeAnimator.SetTrigger("wipein");
+        }
+
+
         if (camera == null)
         {
-            Debug.LogWarning("Attempted to set a null camera as the zoom camera.");
             return;
         }
+
+        // コルーチンを使って遅延切り替えを実現
+        StartCoroutine(SwitchCameraWithDelay(camera));
+    }
+
+    private IEnumerator SwitchCameraWithDelay(Camera camera)
+    {
+        // 0.2秒待機
+        yield return new WaitForSeconds(0.2f);
 
         if (camera != currentCamera)
         {
@@ -71,6 +96,8 @@ public class CameraManeger : MonoBehaviour
             currentCamera = camera;
             mainCamera.gameObject.SetActive(false);
             currentCamera.gameObject.SetActive(true);
+            flagManager.SetFlag(FlagManager.FlagType.CameraZoomObj, true);
+
         }
     }
 
@@ -78,11 +105,39 @@ public class CameraManeger : MonoBehaviour
     // メインカメラに戻る
     public void ReturnToMainCamera()
     {
+        Debug.Log("wipeout1");
         if (currentCamera != null && currentCamera.gameObject.activeSelf)
+        {
+            Debug.Log("wipeout2");
+            if (wipeAnimator != null)
+            {
+                wipeAnimator.SetTrigger("wipeout");
+            }
+
+            // アニメーション後の処理をコルーチンで遅延実行
+            StartCoroutine(HandleWipeOut());
+        }
+    }
+
+    private IEnumerator HandleWipeOut()
+    {
+        // 0.1秒待機して currentCamera を無効化
+        yield return new WaitForSeconds(0.3f);
+        if (currentCamera != null)
         {
             currentCamera.gameObject.SetActive(false);
             mainCamera.gameObject.SetActive(true);
-            currentCamera = null; // メインカメラに戻ったので、currentCameraをクリア
+            flagManager.SetFlag(FlagManager.FlagType.CameraZoomObj, false);
         }
+
+        // さらに0.5秒待機して他の処理を実行（合計0.3秒）
+        yield return new WaitForSeconds(0.2f);
+
+        // アニメーション再生後に実行する処理
+        flagManager.SetFlag(FlagManager.FlagType.wipe, false);
+        wipeobj.SetActive(false);
+        currentCamera = null; // メインカメラに戻ったので、currentCameraをクリア
     }
+
+
 }

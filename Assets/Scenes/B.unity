@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18337959, g: 0.2289871, b: 0.30608997, a: 1}
+  m_IndirectSpecularColor: {r: 0.18337908, g: 0.22898655, b: 0.30608898, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3927,7 +3927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5905831020955021710, guid: a1dae84253444b243a11653ce62fef27, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5991454717992982474, guid: a1dae84253444b243a11653ce62fef27, type: 3}
       propertyPath: m_Pivot.x
@@ -9714,7 +9714,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3db320aeb96345da855023723e01fd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
+  mainCamera: {fileID: 1877894537}
+  wipe: {fileID: 231828896}
+  wipeobj: {fileID: 231828896}
 --- !u!4 &387966350
 Transform:
   m_ObjectHideFlags: 0
@@ -10789,7 +10791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d74647ac4313423682ec19ce26ae3dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScript: {fileID: 0}
+  playerScript: {fileID: 1400446389}
   targetCamera: {fileID: 982696244}
   director: {fileID: 432209374}
 --- !u!320 &432209374
@@ -11408,7 +11410,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.53, y: 2.2, z: 1.55}
+  m_Size: {x: 2.28, y: 2.2, z: 1.55}
   m_Center: {x: -0.36, y: -4.58, z: 1.76}
 --- !u!114 &444740423
 MonoBehaviour:
@@ -12066,7 +12068,6 @@ MonoBehaviour:
   - {fileID: 752829651}
   - {fileID: 52967941}
   - {fileID: 53241488}
-  _frascoPanel: {fileID: 466809703}
   _flaskColorSprites:
   - yellowSprite: {fileID: 21300000, guid: 2864af33718e93d499e59b451f6b4231, type: 3}
     blueSprite: {fileID: 21300000, guid: 419a93166455d41488dfdae40a03c20a, type: 3}
@@ -16494,7 +16495,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &623930085
 Transform:
   m_ObjectHideFlags: 0
@@ -18065,6 +18066,7 @@ GameObject:
   - component: {fileID: 673692127}
   - component: {fileID: 673692126}
   - component: {fileID: 673692128}
+  - component: {fileID: 673692129}
   m_Layer: 0
   m_Name: Hashira
   m_TagString: Untagged
@@ -18202,15 +18204,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a5e07c7b6664417283f512ac7ea30cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pillar: {fileID: 673692124}
-  pillarcollider: {fileID: 444740422}
+  pillarcollider: {fileID: 673692129}
   Monitorpasswordobj: {fileID: 1499294534}
-  Mixpasswordobj: {fileID: 1759585499}
+  Mixpasswordobj: {fileID: 466809703}
   jouroget: {fileID: 11671332}
   audioSource: {fileID: 673692126}
-  soundEffect: {fileID: 8300000, guid: 8869ad8a552a248afb6224b1881a5be6, type: 3}
-  playerScript: {fileID: 0}
-  animatedTime: 1
+  soundEffect: {fileID: 8300000, guid: 5c9a9b19010b0a04c8aae0cebb8afd53, type: 3}
+  playerScript: {fileID: 1400446389}
+  targetCamera: {fileID: 1257068992}
+  director: {fileID: 1138773323}
 --- !u!95 &673692128
 Animator:
   serializedVersion: 5
@@ -18232,6 +18234,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &673692129
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 673692124}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.38, y: 1, z: 1.72}
+  m_Center: {x: -0.25, y: -3.43, z: -1.01}
 --- !u!1 &676678744
 GameObject:
   m_ObjectHideFlags: 0
@@ -29052,7 +29075,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!320 &1042121730
 PlayableDirector:
   m_ObjectHideFlags: 0
@@ -32770,7 +32793,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1236508505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33479,7 +33502,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1257068992}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1257068996
 Camera:
   m_ObjectHideFlags: 0
@@ -37085,7 +37108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1371050849
 Transform:
   m_ObjectHideFlags: 0
@@ -37464,7 +37487,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -38872,6 +38895,55 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1442110293}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1443663978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1443663979}
+  - component: {fileID: 1443663980}
+  m_Layer: 0
+  m_Name: comebackB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1443663979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443663978}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -14.009983, y: 3.710373, z: 12.936932}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1443663980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443663978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d2a7bdf6fa54115a53ad8bdcbf1574, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObject: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
+  director: {fileID: 0}
+  triggerCollider: {fileID: 0}
+  targetCamera: {fileID: 0}
 --- !u!1 &1448630892
 GameObject:
   m_ObjectHideFlags: 0
@@ -50786,7 +50858,7 @@ Transform:
   m_GameObject: {fileID: 1709759682}
   serializedVersion: 2
   m_LocalRotation: {x: 0.026120214, y: -0.5145493, z: 0.016944546, w: 0.8568954}
-  m_LocalPosition: {x: 3.63, y: 0.44, z: 0.23}
+  m_LocalPosition: {x: 3.83, y: 0.45, z: 0.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -52006,7 +52078,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1752105272
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52386,11 +52458,6 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!1 &1759585499 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3938929717149204587, guid: c249f5cd26c9d634b9ebbca24e124f17, type: 3}
-  m_PrefabInstance: {fileID: 476109445}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1763975301
 GameObject:
   m_ObjectHideFlags: 0
@@ -70072,8 +70139,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Threepashuta: {fileID: 2037878681}
+  gaslamp: {fileID: 176044361}
   BTBgimmickcollider: {fileID: 2037878687}
-  animatedTime: 1.3
+  gaslampAnimatedTime: 1.1
+  threepashutaDelay: 0.5
+  playerScript: {fileID: 1400446389}
 --- !u!65 &2037878687
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -73420,7 +73490,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RedButtonhuta: {fileID: 2059698198}
+  gaslamp: {fileID: 416606881}
   ButtonUIImage: {fileID: 955557437}
+  playerScript: {fileID: 1400446389}
 --- !u!64 &2132311647
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -83744,6 +83816,7 @@ SceneRoots:
   - {fileID: 1518053404}
   - {fileID: 1499294535}
   - {fileID: 476109445}
+  - {fileID: 1138773322}
   - {fileID: 444740421}
   - {fileID: 120327373}
   - {fileID: 1390759517}
@@ -83767,7 +83840,6 @@ SceneRoots:
   - {fileID: 752640061}
   - {fileID: 11671333}
   - {fileID: 1563075726}
-  - {fileID: 1138773322}
   - {fileID: 1139906553}
   - {fileID: 1995685725}
   - {fileID: 432209375}
@@ -83781,3 +83853,4 @@ SceneRoots:
   - {fileID: 1752105278}
   - {fileID: 881515670}
   - {fileID: 1975752816}
+  - {fileID: 1443663979}

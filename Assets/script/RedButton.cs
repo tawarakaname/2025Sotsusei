@@ -1,25 +1,29 @@
 using UnityEngine;
+using System.Collections;
 
 public class RedButton : MonoBehaviour
 {
     private FlagManager flagManager;
     public GameObject RedButtonhuta;
+    public GameObject gaslamp; // アニメーション対象のオブジェクト
     private Animator RedButtonhutaAnimator;
+    private Animator gaslampAnimator; // Animatorコンポーネント
     [SerializeField] GameObject ButtonUIImage; // 表示・非表示を制御するImage
+    [SerializeField] private MonoBehaviour playerScript; // プレイヤー操作スクリプトを参照
 
-    // Start is called before the first frame update
     void Start()
     {
         flagManager = FlagManager.Instance;
         if (RedButtonhuta != null)
             RedButtonhutaAnimator = RedButtonhuta.GetComponent<Animator>();
+        if (gaslamp != null)
+            gaslampAnimator = gaslamp.GetComponent<Animator>();
         if (ButtonUIImage != null)
         {
             ButtonUIImage.SetActive(false); // 初期状態は非表示
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         // 共通フラグ取得
@@ -37,7 +41,7 @@ public class RedButton : MonoBehaviour
         // 条件を満たす場合に一度だけメソッドを呼び出す
         if (threePasswordclear && btb && !redButtonHutaopen)
         {
-            playredbuttonhuta();
+            StartCoroutine(PlayGaslampAndRedButtonHuta());
         }
 
         if (redButtonHutaopen && !pushRedButton && Input.GetButtonDown("Fire2"))
@@ -46,12 +50,24 @@ public class RedButton : MonoBehaviour
         }
     }
 
-    private void playredbuttonhuta()
+    private IEnumerator PlayGaslampAndRedButtonHuta()
     {
-        if (flagManager.GetFlag(FlagManager.FlagType.PushRedButton) ||
-            flagManager.GetFlag(FlagManager.FlagType.RedButtonHutaopen))
-            return;
+        if (flagManager.GetFlag(FlagManager.FlagType.RedButtonHutaopen)) yield break;
 
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Nowanim, true);
+        // gaslamp のアニメーションを再生
+        if (gaslampAnimator != null)
+        {
+            gaslampAnimator.SetTrigger("gaslamp");
+        }
+
+        // gaslamp のアニメーション終了まで待機
+        yield return new WaitForSeconds(GetAnimationLength(gaslampAnimator, "gaslamp"));
+
+        // 1秒待機
+        yield return new WaitForSeconds(1f);
+
+        // RedButtonhuta のアニメーションを再生
         if (RedButtonhutaAnimator != null)
         {
             RedButtonhutaAnimator.SetTrigger("Redbttonopen");
@@ -63,12 +79,31 @@ public class RedButton : MonoBehaviour
             ButtonUIImage.SetActive(true);
         }
 
-        flagManager.SetFlag(FlagManager.FlagType.RedButtonHutaopen, true);
+        // フラグを設定 (一度だけ)
+        if (!flagManager.GetFlag(FlagManager.FlagType.RedButtonHutaopen))
+        {
+            flagManager.SetFlag(FlagManager.FlagType.RedButtonHutaopen, true);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Nowanim, false);
+
+        }
+    }
+
+    private float GetAnimationLength(Animator animator, string animationName)
+    {
+        if (animator == null || string.IsNullOrEmpty(animationName)) return 0f;
+        var runtimeAnimatorController = animator.runtimeAnimatorController;
+        foreach (var clip in runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == animationName)
+            {
+                return clip.length;
+            }
+        }
+        return 0f;
     }
 
     private void playredbutton1()
     {
-        // 二重呼び出しを防ぐ
         if (flagManager.GetFlag(FlagManager.FlagType.PushRedButton) ||
             !flagManager.GetFlag(FlagManager.FlagType.RedButtonHutaopen))
             return;
@@ -84,6 +119,10 @@ public class RedButton : MonoBehaviour
             ButtonUIImage.SetActive(false);
         }
 
-        flagManager.SetFlag(FlagManager.FlagType.PushRedButton, true);
+        // フラグを設定 (一度だけ)
+        if (!flagManager.GetFlag(FlagManager.FlagType.PushRedButton))
+        {
+            flagManager.SetFlag(FlagManager.FlagType.PushRedButton, true);
+        }
     }
 }

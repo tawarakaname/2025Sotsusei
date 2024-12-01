@@ -24,7 +24,6 @@ public class PasswordFlask : MonoBehaviour
     [SerializeField] private GameObject _flaskSelected;
     [SerializeField] private GameObject[] _flasks;
     [SerializeField] private GameObject[] _bgPanels;
-    [SerializeField] private GameObject _frascoPanel;
 
     [Header("各フラスコの色スプライト")]
     [SerializeField] private FlaskColorSprites[] _flaskColorSprites;
@@ -55,7 +54,7 @@ public class PasswordFlask : MonoBehaviour
     {
         // フラグが立っていない場合、処理を行わない
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.MonitorPasswordclear) &&
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.JugCamera))
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.JugCamera))
         {
             return;
         }
@@ -147,7 +146,6 @@ public class PasswordFlask : MonoBehaviour
             }
         }
         FlagManager.Instance.SetFlag(FlagManager.FlagType.MixPasswordclear, true);
-        _frascoPanel.SetActive(false);
         Debug.Log("やるじゃん。");
     }
 

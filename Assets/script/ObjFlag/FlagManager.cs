@@ -127,7 +127,9 @@ public class FlagManager : MonoBehaviour
         huta2open,
         DoorAnimComplete,
         Cstartsceneok,
-        comebackB
+        comebackB,
+        comebackBanim,
+        wipe,
     }
 
     // シングルトンインスタンス
