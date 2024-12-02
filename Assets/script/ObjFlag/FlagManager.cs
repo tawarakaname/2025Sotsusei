@@ -130,6 +130,7 @@ public class FlagManager : MonoBehaviour
         comebackB,
         comebackBanim,
         wipe,
+        Setanim,
     }
 
     // シングルトンインスタンス

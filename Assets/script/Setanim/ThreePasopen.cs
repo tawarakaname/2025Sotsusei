@@ -60,7 +60,7 @@ public class ThreePasopen : MonoBehaviour
         // gaslamp のアニメーションを再生し、その後 Threepashuta を再生
         if (gaslampAnimator != null)
         {
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.Nowanim, true);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Setanim, true);
             DisablePlayerControls(); // プレイヤー操作を無効化
             gaslampAnimator.SetTrigger("gaslamp");
             animationPlayed = true; // アニメーション再生済みを記録
@@ -88,7 +88,7 @@ public class ThreePasopen : MonoBehaviour
 
         // フラグを設定
         FlagManager.Instance.SetFlag(FlagManager.FlagType.huta2open, true);
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Nowanim,false);
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Setanim, false);
 
         EnablePlayerControls(); // プレイヤー操作を再有効化
     }

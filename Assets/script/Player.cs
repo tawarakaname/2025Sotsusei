@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
             flagManager.GetFlag(FlagManager.FlagType.UICanvas) ||
             flagManager.GetFlag(FlagManager.FlagType.Textbox)||
             flagManager.GetFlag(FlagManager.FlagType.Nowanim)||
+            flagManager.GetFlag(FlagManager.FlagType.Setanim) ||
             flagManager.GetFlag(FlagManager.FlagType.wipe) && !flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj)) // wipe時の特例処理
 
         {

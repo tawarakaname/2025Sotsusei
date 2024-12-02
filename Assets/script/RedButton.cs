@@ -54,7 +54,7 @@ public class RedButton : MonoBehaviour
     {
         if (flagManager.GetFlag(FlagManager.FlagType.RedButtonHutaopen)) yield break;
 
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Nowanim, true);
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Setanim, true);
         // gaslamp のアニメーションを再生
         if (gaslampAnimator != null)
         {
@@ -83,7 +83,7 @@ public class RedButton : MonoBehaviour
         if (!flagManager.GetFlag(FlagManager.FlagType.RedButtonHutaopen))
         {
             flagManager.SetFlag(FlagManager.FlagType.RedButtonHutaopen, true);
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.Nowanim, false);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Setanim, false);
 
         }
     }

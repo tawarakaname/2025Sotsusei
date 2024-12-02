@@ -48,18 +48,24 @@ public class CameraManeger : MonoBehaviour
         if (!flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel) &&
            (!flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
            (!flagManager.GetFlag(FlagManager.FlagType.Nowanim) &&
-            flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))))
+           (!flagManager.GetFlag(FlagManager.FlagType.Setanim) &&
+            flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj)))))
         {
             // Fire1 ボタンが押された場合のみカメラを戻す処理を実行
             if (Input.GetButtonDown("Fire1"))
             {
                 ReturnToMainCamera();
-               
-                
             }
         }
 
+        // wipeの表示非表示をNowanimの状態に依存させる
+        if (flagManager.GetFlag(FlagManager.FlagType.wipe))
+        {
+            bool nowanim = flagManager.GetFlag(FlagManager.FlagType.Nowanim);
+            wipeobj.SetActive(!nowanim);
+        }
     }
+
 
 
     public void SetZoomCamera(Camera camera)
