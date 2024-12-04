@@ -87,7 +87,7 @@ public class TextManager : MonoBehaviour
             { "smell2", HSprite[1] },
             { "smell3", HSprite[2] },
             { "NoteA", HSprite[3] },
-            { "Miss", HSprite[3] },
+            { "Miss", HSprite[2] },
             { "BalloonStand", HSprite[1]},
             { "BlueBox", HSprite[3]},
             { "Hint5", HSprite[2]}
