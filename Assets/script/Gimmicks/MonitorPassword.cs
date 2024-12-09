@@ -5,8 +5,6 @@ public class MonitorPassword : MonoBehaviour
     private const float MoveCooldown = 0.2f; // 移動に関するクールダウン時間
     private const float RotationDuration = 0.5f; // 回転にかかる時間（秒）
 
-    [SerializeField] private GameObject monitorpasswordobj;
-    [SerializeField] private GameObject mixpasswordobj;
     [SerializeField] private int[] correctNumbers; // 正解の番号
     [SerializeField] private MonitorPasswordButton[] monitorpasswordButtons; // 現在のパネルの数値
     [SerializeField] private GameObject[] rotatingObjects; // 各ボタンに連動する回転オブジェクトの配列
@@ -41,8 +39,6 @@ public class MonitorPassword : MonoBehaviour
         if (IsClear())
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.MonitorPasswordclear, true);
-            monitorpasswordobj.gameObject.SetActive(false);
-            mixpasswordobj.gameObject.SetActive(true);
         }
     }
 

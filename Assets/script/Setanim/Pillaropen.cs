@@ -5,8 +5,6 @@ using UnityEngine.Playables;
 public class Pillaropen : MonoBehaviour
 {
     [SerializeField] private Collider pillarcollider;
-    [SerializeField] GameObject Monitorpasswordobj;
-    [SerializeField] GameObject Mixpasswordobj;
     [SerializeField] Canvas jouroget;
     private bool playerInsideCollider = false;
 
@@ -37,11 +35,6 @@ public class Pillaropen : MonoBehaviour
     {
         if (playerInsideCollider)
         {
-            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.MonitorPasswordclear))
-            {
-                Monitorpasswordobj.SetActive(false);
-                Mixpasswordobj.SetActive(true);
-            }
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.MixPasswordclear) && !playerDisabledOnce)
             {
                 DisablePlayerControls();

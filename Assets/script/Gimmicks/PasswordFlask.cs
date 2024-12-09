@@ -52,14 +52,15 @@ public class PasswordFlask : MonoBehaviour
 
     private void Update()
     {
-        // フラグが立っていない場合、処理を行わない
-        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.MonitorPasswordclear) &&
+        // フラグがすべてtrueでなければ、処理を行わない
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.MonitorPasswordclear) ||
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.monitorpanelopen) ||
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.JugCamera))
         {
-            return;
+            return; // 処理をスキップ
         }
 
-        // フラグがtrueになった時のみギミックを有効にする
+        // フラグがすべてtrueの場合のみ動作
         if (!_playerSolving)
         {
             // フラグがtrueになったタイミングでプレイヤーが解いている状態にする
@@ -69,6 +70,7 @@ public class PasswordFlask : MonoBehaviour
         if (_playerSolving) HandleSolving();
         HandlePanelInteraction();
     }
+
 
     private void HandleSolving()
     {

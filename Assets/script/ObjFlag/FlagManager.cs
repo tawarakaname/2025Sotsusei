@@ -131,6 +131,7 @@ public class FlagManager : MonoBehaviour
         comebackBanim,
         wipe,
         Setanim,
+        monitorpanelopen,
     }
 
     // シングルトンインスタンス
