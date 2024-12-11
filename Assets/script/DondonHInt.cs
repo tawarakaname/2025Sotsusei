@@ -71,6 +71,11 @@ public class DondonHInt : MonoBehaviour
                 {
                     FlagManager.Instance.SetFlag(FlagManager.FlagType.Dondon1kaiwa, true);
                 }
+                // Hint11が表示されたらDondon1kaiwaをtrueにする
+                if (currentKeyword == "Hint11")
+                {
+                    FlagManager.Instance.SetFlag(FlagManager.FlagType.Funfun1kaiwa, true);
+                }
             }
             // Textboxが表示されている場合
             else if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))

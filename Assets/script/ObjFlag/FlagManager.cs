@@ -132,6 +132,7 @@ public class FlagManager : MonoBehaviour
         wipe,
         Setanim,
         monitorpanelopen,
+        Funfun1kaiwa,
     }
 
     // シングルトンインスタンス

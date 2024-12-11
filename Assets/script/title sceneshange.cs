@@ -1,18 +1,27 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; // シーン管理に必要
 
-public class titlesceneshange : MonoBehaviour
+public class TitleSceneChange : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        
+        // Fire2ボタンが押されたか確認
+        if (Input.GetButtonDown("Fire2"))
+        {
+            // コルーチンを開始
+            StartCoroutine(WaitAndChangeScene());
+        }
+    }
+
+    // シーン遷移を遅らせるためのコルーチン
+    IEnumerator WaitAndChangeScene()
+    {
+        // 1秒待つ
+        yield return new WaitForSeconds(2f);
+
+        // シーンを"OP"に切り替え
+        SceneManager.LoadScene("OP");
     }
 }

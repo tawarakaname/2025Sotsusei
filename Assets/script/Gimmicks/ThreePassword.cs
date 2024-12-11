@@ -6,6 +6,7 @@ public class ThreePassword : MonoBehaviour
 
     [SerializeField] private int[] correctNumbers; // 正解の番号
     [SerializeField] private ThreePasswordButton[] threepasswordButtons; // 現在のパネルの数値
+    [SerializeField] private GameObject objectToDisable; // 入力可能時に無効化するオブジェクト
     private bool firstFireIgnored = false; // 最初のFire2入力を無視するためのフラグ
 
     private int currentPosition = 0; // 現在選択されているスロットの位置
@@ -51,6 +52,15 @@ public class ThreePassword : MonoBehaviour
         if (!flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
         {
             firstFireIgnored = false;
+        }
+
+        // 必要なフラグが揃ったときにオブジェクトを無効化
+        if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
+            flagManager.GetFlag(FlagManager.FlagType.BTBCamera) &&
+            objectToDisable.activeSelf &&
+            flagManager.GetFlagByType(Item.Type.BTB))
+        {
+            objectToDisable.SetActive(false); // GameObjectを無効化
         }
 
         // 必要なフラグが揃っていない場合は早期リターン
