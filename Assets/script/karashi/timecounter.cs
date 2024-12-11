@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
+//OP専用のシーンチェンジコード
+//他のシーンには持ち越さない
+
 public class timecounter : MonoBehaviour
 {
 
@@ -17,8 +20,7 @@ public class timecounter : MonoBehaviour
 
     void SceneChange()
     {
-        Debug.Log("シーン変えるよ");
-        SceneManager.LoadScene("test");
+        SceneManager.LoadScene("Z");
 
     }
 
