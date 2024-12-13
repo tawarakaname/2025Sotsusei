@@ -36,9 +36,9 @@ public static class Textkeyword
            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Funfun1kaiwa))
             return "Hint11";
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Funfun1kaiwa) &&
-            !FlagManager.Instance.GetFlagByType(Item.Type.diacup) &&
-            !FlagManager.Instance.GetFlagByType(Item.Type.starcup) &&
-            !FlagManager.Instance.GetFlagByType(Item.Type.heartcup))
+    　　　　　!FlagManager.Instance.GetFlagByType(Item.Type.diacup) ||
+  　　　　　  !FlagManager.Instance.GetFlagByType(Item.Type.starcup) ||
+ 　　　　　   !FlagManager.Instance.GetFlagByType(Item.Type.heartcup))
             return "Hint12";
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.SmellPasswordclear) &&
              FlagManager.Instance.GetFlagByType(Item.Type.diacup) &&
@@ -49,25 +49,35 @@ public static class Textkeyword
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Bluekeyget))
             return "Hint14";
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Bluekeyget) &&
+            !FlagManager.Instance.GetFlagByType(Item.Type.BTB) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA))
             return "Hint15";
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) &&
             FlagManager.Instance.GetFlagByType(Item.Type.BTB) &&
-            !FlagManager.Instance.GetFlag(FlagManager.FlagType.ThreePasswordclear))
+            !FlagManager.Instance.GetFlagByType(Item.Type.diacup2) ||
+            !FlagManager.Instance.GetFlagByType(Item.Type.starcup2) ||
+            !FlagManager.Instance.GetFlagByType(Item.Type.heartcup2))
             return "Hint16";
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.burntcup3get) &&
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) &&
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.burntcup3get) &&
+            FlagManager.Instance.GetFlagByType(Item.Type.diacup2) &&
+             FlagManager.Instance.GetFlagByType(Item.Type.starcup2) &&
+             FlagManager.Instance.GetFlagByType(Item.Type.heartcup2) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.ThreePasswordclear))
             return "Hint17";
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.ThreePasswordclear) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.MonitorPasswordclear))
             return "Hint18";
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.MonitorPasswordclear) &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Pillaropen) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.MixPasswordclear))
             return "Hint19";
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.MixPasswordclear) &&
-           !FlagManager.Instance.GetFlagByType(Item.Type.watercan))
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.Pillaropen) &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.potopen) &&
+            !FlagManager.Instance.GetFlagByType(Item.Type.watercan))
             return "Hintc20";
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Bdooropen) &&
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.potopen) &&
             FlagManager.Instance.GetFlagByType(Item.Type.watercan))
             return "Hint21";
 
