@@ -161,8 +161,8 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.GasCamera2;
             case "robotCamera":
                 return FlagManager.FlagType.robotCamera;
-            case "SwitchCamera":
-                return FlagManager.FlagType.SwitchCamera;
+            case "LeverCamera":
+                return FlagManager.FlagType.LeverCamera;
             default:
                 return null;
         }

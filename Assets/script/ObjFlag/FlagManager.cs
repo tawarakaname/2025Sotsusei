@@ -123,7 +123,7 @@ public class FlagManager : MonoBehaviour
         Belt2move,
         Belt1move,
         AquariumTurnOn,
-        SwitchCamera,
+        LeverCamera,
         huta2open,
         DoorAnimComplete,
         Cstartsceneok,

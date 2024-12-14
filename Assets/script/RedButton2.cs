@@ -22,7 +22,7 @@ public class RedButton2 : MonoBehaviour
     void Update()
     {
         // 共通フラグ取得
-        bool ButtonstandCamera = flagManager.GetFlag(FlagManager.FlagType.SwitchCamera);
+        bool ButtonstandCamera = flagManager.GetFlag(FlagManager.FlagType.LeverCamera);
 
         // ButtonstandCamera フラグが false なら処理をスキップ
         if (!ButtonstandCamera) return;
