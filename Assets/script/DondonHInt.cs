@@ -12,6 +12,7 @@ public class DondonHInt : MonoBehaviour
 
     private void Start()
     {
+        //FlagManager.Instance.SetFlag(FlagManager.FlagType.Cstartsceneok, true);
         targetImage.SetActive(false);
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
     }
@@ -75,6 +76,11 @@ public class DondonHInt : MonoBehaviour
                 if (currentKeyword == "Hint11")
                 {
                     FlagManager.Instance.SetFlag(FlagManager.FlagType.Funfun1kaiwa, true);
+                }
+                // Hint22が表示されたらDondon1kaiwaをtrueにする
+                if (currentKeyword == "Hint22")
+                {
+                    FlagManager.Instance.SetFlag(FlagManager.FlagType.Yappi1kaiwa, true);
                 }
             }
             // Textboxが表示されている場合

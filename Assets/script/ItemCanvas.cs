@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class ItemCanvas : MonoBehaviour
 {
     [SerializeField] private GameObject Canvas;
+    [SerializeField] private GameObject OptionCanvas;
     private FlagManager flagManager;
     private bool currentZoomPanelFlag;
     [SerializeField] private Image inventryImage;
@@ -16,6 +17,7 @@ public class ItemCanvas : MonoBehaviour
     {
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         Canvas.SetActive(false);
+        OptionCanvas.SetActive(false);
         flagManager = FlagManager.Instance;
     }
     private void Awake()
@@ -45,7 +47,17 @@ public class ItemCanvas : MonoBehaviour
             !flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
             !flagManager.GetFlag(FlagManager.FlagType.Telop) &&
             !flagManager.GetFlag(FlagManager.FlagType.Nowanim) &&
+            !flagManager.GetFlag(FlagManager.FlagType.Option) &&
             !flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel);
+
+        bool isAlloptionFlagsOff =
+            !flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
+            !flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
+            !flagManager.GetFlag(FlagManager.FlagType.Telop) &&
+            !flagManager.GetFlag(FlagManager.FlagType.Nowanim) &&
+            !flagManager.GetFlag(FlagManager.FlagType.itembox) &&
+            !flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel);
+
 
         inventryImage.enabled = isAllFlagsOff;
 
@@ -64,12 +76,32 @@ public class ItemCanvas : MonoBehaviour
             ClosePanel();
         }
         currentZoomPanelFlag = flagManager.GetFlag(FlagManager.FlagType.zoompanel);
+
+        if (isAlloptionFlagsOff && Input.GetButtonDown("Fire-Option"))
+        {
+            OptionCanvas.SetActive(true);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Option, true);
+        }
+
+        bool isOptionFlagOn = flagManager.GetFlag(FlagManager.FlagType.Option);
+        // Optionflag が true、なおかつ ZukanOflag が false だった場合
+        if (isOptionFlagOn && Input.GetButtonDown("Fire1"))
+        {
+            CloseOptionPanel();
+        }
+
     }
 
     public void ClosePanel()
     {
         Canvas.SetActive(false);
         FlagManager.Instance.SetFlag(FlagManager.FlagType.itembox, false);
+    }
+
+    public void CloseOptionPanel()
+    {
+        OptionCanvas.SetActive(false);
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Option, false);
     }
 
 }

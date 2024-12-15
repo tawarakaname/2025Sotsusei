@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class Belt1move : MonoBehaviour
 {
-
     [SerializeField] private MonoBehaviour playerScript;           // プレイヤーのスクリプト（操作を無効化するため）
     [SerializeField] private GameObject targetCamera;              // アニメーション後に無効化するカメラ
+    [SerializeField] private Collider[] colliders;                 // 制御する複数のコライダー
 
     private FlagManager flagManager;                               // フラグマネージャー
     public PlayableDirector director;
@@ -16,6 +16,15 @@ public class Belt1move : MonoBehaviour
     {
         // フラグマネージャーのインスタンスを取得
         flagManager = FlagManager.Instance;
+
+        // コライダーをすべて無効化
+        if (colliders != null)
+        {
+            foreach (var collider in colliders)
+            {
+                collider.enabled = false; // 初期状態で無効化
+            }
+        }
 
         // タイムラインの終了時にカメラを無効化
         if (director != null)
@@ -41,6 +50,10 @@ public class Belt1move : MonoBehaviour
             {
                 targetCamera.SetActive(false);  // カメラを無効化
             }
+
+            // コライダーをすべて有効化
+            EnableColliders();
+
             animationCompleted = false;  // 一度だけ無効化するようにフラグをリセット
         }
     }
@@ -51,7 +64,6 @@ public class Belt1move : MonoBehaviour
         if (!flagManager.GetFlag(FlagManager.FlagType.Belt1move) &&
             !flagManager.GetFlag(FlagManager.FlagType.Nowanim))  // 既にNowanimがtrueなら設定しない
         {
-
             director.Play(); // Timelineの再生をここで実行
 
             // プレイヤー操作を無効化
@@ -59,7 +71,6 @@ public class Belt1move : MonoBehaviour
 
             // Nowanim フラグを true に設定
             flagManager.SetFlag(FlagManager.FlagType.Nowanim, true);
-
         }
     }
 
@@ -76,6 +87,17 @@ public class Belt1move : MonoBehaviour
         if (playerScript != null)
         {
             playerScript.enabled = true;  // プレイヤーのスクリプトを有効化
+        }
+    }
+
+    private void EnableColliders()
+    {
+        if (colliders != null)
+        {
+            foreach (var collider in colliders)
+            {
+                collider.enabled = true; // すべてのコライダーを有効化
+            }
         }
     }
 

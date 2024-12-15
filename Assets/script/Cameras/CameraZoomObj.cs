@@ -32,6 +32,7 @@ public class CameraZoomObj : MonoBehaviour
     {
         bool isAllRequiredFlagsOff =
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.itembox) &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Option) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Itemgetpanel);
 

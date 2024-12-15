@@ -143,7 +143,6 @@ public class PasswordFlask : MonoBehaviour
             if (_flaskColors[i] != _correctColors[i])
             {
                 _isCorrect = false;
-                Debug.Log("ミス！！");
                 return;
             }
         }

@@ -14,6 +14,7 @@ public class Telop_C : MonoBehaviour
 
     void Start()
     {
+
         // フラグマネージャーのインスタンスを取得
         flagManager = FlagManager.Instance;
 
