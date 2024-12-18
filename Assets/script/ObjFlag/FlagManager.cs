@@ -135,6 +135,9 @@ public class FlagManager : MonoBehaviour
         Funfun1kaiwa,
         Option,
         Yappi1kaiwa,
+        Zukan,
+        Home,
+        Operation,
     }
 
     // シングルトンインスタンス

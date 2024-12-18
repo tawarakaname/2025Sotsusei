@@ -70,6 +70,7 @@ public class Option : MonoBehaviour
             if (zukanScript != null)
             {
                 zukanScript.Jump();
+                FlagManager.Instance.SetFlag(FlagManager.FlagType.Zukan, true);
             }
 
             // OperationScriptがアタッチされていればJumpメソッドを呼び出し
@@ -77,6 +78,7 @@ public class Option : MonoBehaviour
             if (operationScript != null)
             {
                 operationScript.Jump();
+                FlagManager.Instance.SetFlag(FlagManager.FlagType.Operation, true);
             }
 
             // HomeScriptがアタッチされていればJumpメソッドを呼び出し
@@ -84,6 +86,7 @@ public class Option : MonoBehaviour
             if (homeScript != null)
             {
                 homeScript.Jump();
+                FlagManager.Instance.SetFlag(FlagManager.FlagType.Home, true);
             }
         }
     }

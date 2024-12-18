@@ -84,8 +84,11 @@ public class ItemCanvas : MonoBehaviour
         }
 
         bool isOptionFlagOn = flagManager.GetFlag(FlagManager.FlagType.Option);
+        bool isZukanFlagOn = !flagManager.GetFlag(FlagManager.FlagType.Zukan);
+        bool isOperationFlagOn = !flagManager.GetFlag(FlagManager.FlagType.Operation);
+        bool isHomeFlagOn = !flagManager.GetFlag(FlagManager.FlagType.Home);
         // Optionflag が true、なおかつ ZukanOflag が false だった場合
-        if (isOptionFlagOn && Input.GetButtonDown("Fire1"))
+        if (isOptionFlagOn && isZukanFlagOn && isOperationFlagOn && isHomeFlagOn && Input.GetButtonDown("Fire1"))
         {
             CloseOptionPanel();
         }
