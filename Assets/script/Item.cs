@@ -40,6 +40,9 @@ public class Item
         heartcup3,
         starcup3,
         batteryD,
+        mystery1,
+        mystery2,
+
     }
 
     public Type type;          // 種類
