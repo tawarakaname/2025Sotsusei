@@ -95,22 +95,32 @@ public class ZukanScript : MonoBehaviour
 
     private void UpdateContentDisplay()
     {
-
         if (flagManager == null)
             return;
 
         // FlagManager から現在のフラグ状態を取得
         bool isRegistered = flagManager.GetFlag(FlagManager.FlagType.Adooropen);
 
-        // 使用するSprite配列を選択
-        Sprite[] activeSprites = isRegistered ? clearsprites : sprites;
-        
-        // 現在選択されているSpriteをImageに適用
-        if (activeSprites != null && activeSprites.Length > 0 && contentImage != null)
+        // 選択するSpriteを条件に基づいて決定
+        Sprite selectedSprite = null;
+        if (isRegistered && currentIndex <= 4)
         {
-            contentImage.sprite = activeSprites[currentIndex];
+            // Adooropen が true かつ currentIndex が 0～4 の場合、登録済みのスプライトを使用
+            selectedSprite = clearsprites.Length > currentIndex ? clearsprites[currentIndex] : null;
+        }
+        else
+        {
+            // それ以外の場合、未登録のスプライトを使用
+            selectedSprite = sprites.Length > currentIndex ? sprites[currentIndex] : null;
+        }
+
+        // 選択されたスプライトを Image に適用
+        if (contentImage != null && selectedSprite != null)
+        {
+            contentImage.sprite = selectedSprite;
         }
     }
+
 
     private Sprite[] GetActiveSprites()
     {
