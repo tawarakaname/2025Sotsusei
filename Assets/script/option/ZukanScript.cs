@@ -100,11 +100,11 @@ public class ZukanScript : MonoBehaviour
             return;
 
         // FlagManager から現在のフラグ状態を取得
-        bool isRegistered = flagManager.GetFlag(FlagManager.FlagType.Motosen);
+        bool isRegistered = flagManager.GetFlag(FlagManager.FlagType.Adooropen);
 
         // 使用するSprite配列を選択
         Sprite[] activeSprites = isRegistered ? clearsprites : sprites;
-
+        
         // 現在選択されているSpriteをImageに適用
         if (activeSprites != null && activeSprites.Length > 0 && contentImage != null)
         {
