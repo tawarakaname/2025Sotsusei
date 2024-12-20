@@ -29,15 +29,24 @@ public class Option : MonoBehaviour
         UpdateSelectionUI(); // 初期状態のUIを更新
     }
 
-    // Update is called once per frame
-    void Update()
+   void Update()
+{
+    // Optionフラグがtrueでない場合は実行しない
+    if (!flagManager.GetFlag(FlagManager.FlagType.Option))
     {
-        if (flagManager.GetFlag(FlagManager.FlagType.Option))
-        {
-            HandleHorizontalInput(); // 横方向の入力処理
-            HandleFire2Input();      // Fire2ボタンの入力処理
-        }
+        return;
     }
+
+    // Homeフラグ、Operationフラグ、Zukanフラグがすべてfalseの場合は処理を終了
+    if (flagManager.GetFlag(FlagManager.FlagType.Option) &&
+        !flagManager.GetFlag(FlagManager.FlagType.Home) &&
+        !flagManager.GetFlag(FlagManager.FlagType.Operation) &&
+        !flagManager.GetFlag(FlagManager.FlagType.Zukan))
+
+    HandleHorizontalInput(); // 横方向の入力処理
+    HandleFire2Input();      // Fire2ボタンの入力処理
+}
+
 
     // 横方向の入力処理
     private void HandleHorizontalInput()

@@ -138,6 +138,7 @@ public class FlagManager : MonoBehaviour
         Zukan,
         Home,
         Operation,
+        Gotitle,
     }
 
     // シングルトンインスタンス

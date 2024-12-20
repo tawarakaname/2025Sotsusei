@@ -10,6 +10,7 @@ public class ItemCanvas : MonoBehaviour
     [SerializeField] private GameObject OptionCanvas;
     private FlagManager flagManager;
     private bool currentZoomPanelFlag;
+    private bool hasClosedOptionPanel = false; // オプションパネルを閉じたかどうかを記録
     [SerializeField] private Image inventryImage;
     private TextManager textManager;
 
@@ -20,6 +21,7 @@ public class ItemCanvas : MonoBehaviour
         OptionCanvas.SetActive(false);
         flagManager = FlagManager.Instance;
     }
+
     private void Awake()
     {
         CheckSingleton();
@@ -38,10 +40,8 @@ public class ItemCanvas : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // フラグがすべて false のときにのみ Fire0 ボタンを受け付ける
         bool isAllFlagsOff =
             !flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
             !flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
@@ -58,10 +58,8 @@ public class ItemCanvas : MonoBehaviour
             !flagManager.GetFlag(FlagManager.FlagType.itembox) &&
             !flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel);
 
-
         inventryImage.enabled = isAllFlagsOff;
 
-        // PS4コントローラーの ▫︎ ボタンは「Fire0」として認識されます
         if (isAllFlagsOff && Input.GetButtonDown("Fire0"))
         {
             Canvas.SetActive(true);
@@ -70,7 +68,6 @@ public class ItemCanvas : MonoBehaviour
 
         bool isitemboxFlagOn = flagManager.GetFlag(FlagManager.FlagType.itembox);
 
-        // itemboxflag が true、なおかつ zoompanelflag が false だった場合
         if (isitemboxFlagOn && !currentZoomPanelFlag && Input.GetButtonDown("Fire1"))
         {
             ClosePanel();
@@ -87,12 +84,17 @@ public class ItemCanvas : MonoBehaviour
         bool isZukanFlagOn = !flagManager.GetFlag(FlagManager.FlagType.Zukan);
         bool isOperationFlagOn = !flagManager.GetFlag(FlagManager.FlagType.Operation);
         bool isHomeFlagOn = !flagManager.GetFlag(FlagManager.FlagType.Home);
-        // Optionflag が true、なおかつ ZukanOflag が false だった場合
+
         if (isOptionFlagOn && isZukanFlagOn && isOperationFlagOn && isHomeFlagOn && Input.GetButtonDown("Fire1"))
         {
             CloseOptionPanel();
         }
 
+        if (flagManager.GetFlag(FlagManager.FlagType.Gotitle) && !hasClosedOptionPanel)
+        {
+            CloseOptionPanel();
+            hasClosedOptionPanel = true; // 一度閉じたことを記録する
+        }
     }
 
     public void ClosePanel()
@@ -106,5 +108,4 @@ public class ItemCanvas : MonoBehaviour
         OptionCanvas.SetActive(false);
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Option, false);
     }
-
 }
