@@ -115,7 +115,7 @@ public class FlagManager : MonoBehaviour
         burntcup3get,
         GasCdooropen,
         Toyboxopen,
-        PushRedButton2,
+        Leverdown,
         toolPasswordclear,
         batteryBget,
         playironplate,

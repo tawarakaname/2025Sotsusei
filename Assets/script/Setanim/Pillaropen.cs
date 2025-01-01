@@ -18,6 +18,8 @@ public class Pillaropen : MonoBehaviour
 
     [SerializeField] private GameObject targetCamera;
 
+    [SerializeField] private GameObject watercan; // 最初に非表示のオブジェクト
+
     // PlayableDirectorの追加
     [SerializeField] private PlayableDirector director;
 
@@ -120,6 +122,7 @@ public class Pillaropen : MonoBehaviour
 
     private IEnumerator EnableCanvasAfterDelay()
     {
+        watercan.SetActive(true);
         yield return new WaitForSeconds(4.5f);
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         jouroget.gameObject.SetActive(true);

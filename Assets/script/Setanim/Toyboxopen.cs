@@ -3,16 +3,15 @@ using UnityEngine;
 
 public class Toyboxopen : MonoBehaviour
 {
-    public GameObject Toyue;  // 上のオブジェクト (アニメーションがついているオブジェクト)
-    public GameObject Toyshita;  // 下のオブジェクト (アニメーションがついているオブジェクト)
+    public GameObject Toyanim;  // 上のオブジェクト (アニメーションがついているオブジェクト)
     private Animator ToyueAnimator;  // 上のオブジェクトのアニメーター
-    private Animator ToyshitaAnimator;  // 下のオブジェクトのアニメーター
     [SerializeField] private Collider ToyBoxcollider;
-    [SerializeField] GameObject Toypasswordobj;
     [SerializeField] Canvas butteryAget;
     private bool playerInsideCollider = false;
     [SerializeField] AudioSource audioSource;
     [SerializeField] private AudioClip soundEffect; // 音声クリップをシリアライズ
+
+    [SerializeField] private GameObject BatteryA; // 最初に非表示のオブジェクト
 
     // Playerクラスの参照（プレイヤーの操作を無効化するため）
     [SerializeField] private MonoBehaviour playerScript;  // Playerクラスをアタッチ
@@ -26,8 +25,7 @@ public class Toyboxopen : MonoBehaviour
     {
         butteryAget.gameObject.SetActive(false);
         // ueとshitaのAnimatorコンポーネントを取得
-        if (Toyue != null) ToyueAnimator = Toyue.GetComponent<Animator>();
-        if (Toyshita != null) ToyshitaAnimator = Toyshita.GetComponent<Animator>();
+        if (Toyanim != null) ToyueAnimator = Toyanim.GetComponent<Animator>();
 
         audioSource = GetComponent<AudioSource>();
 
@@ -39,19 +37,20 @@ public class Toyboxopen : MonoBehaviour
         // プレイヤーがコライダー内にいる場合のみ処理を行う
         if (playerInsideCollider)
         {
-            // ToyPasswordclear が true かつ Toyboxopen がまだ開かれていない場合
-            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.ToyPasswordclear) &&
-                 ToyOpenCoroutine == null)
-            {
-                // プレイヤー操作と Fire1, Fire2 ボタンの入力を無効化
-                DisablePlayerControls();
-                OnClickToybox();
-                ToyOpenCoroutine = StartCoroutine(ToyAnimCompleted());
-            }
+            if (playerInsideCollider &&
+   　　　　　　   FlagManager.Instance.GetFlag(FlagManager.FlagType.ToyPasswordclear) &&
+   　　　　　　   ToyOpenCoroutine == null)
+           　　 {
+             　　   DisablePlayerControls();
+             　　   OnClickToybox();
+             　　   ToyOpenCoroutine = StartCoroutine(ToyAnimCompleted());
+          　　  }
+
 
             //  ColorPasswordclear が true で、まだ canvas が有効化されていない場合のみ処理を行う
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.ToyPasswordclear) && !canvasEnabled)
             {
+                BatteryA.SetActive(true);
                 StartCoroutine(EnableCanvasAfterDelay());
                 canvasEnabled = true;  // コルーチンが一度だけ呼ばれるように設定
             }
@@ -107,25 +106,19 @@ public class Toyboxopen : MonoBehaviour
 
     public void OnClickToybox()
     {
-        // Bboxopen がまだ開かれていない場合のみアニメーションを再生
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Toyboxopen))
         {
-            Toypasswordobj.SetActive(false);
-            // 上と下のアニメーションをできるだけ同時に再生する
             StartCoroutine(PlayAnimationsSimultaneously());
-            // Fire1, Fire2 入力を無効にするフラグを立てる
             controlsDisabled = true;
         }
+
     }
 
     private IEnumerator PlayAnimationsSimultaneously()
     {
-        if (ToyueAnimator != null) ToyueAnimator.SetTrigger("Toyboxopen");
-        if (ToyshitaAnimator != null) ToyshitaAnimator.SetTrigger("Toyboxopen");
-
-        // 次のフレームまで待機して処理を続行
+        if (ToyueAnimator != null) ToyueAnimator.SetTrigger("toyboxopen");
         yield return null;
-        yield return null;
+      
     }
 
     private IEnumerator EnableCanvasAfterDelay()

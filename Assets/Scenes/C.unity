@@ -4680,7 +4680,7 @@ MonoBehaviour:
     setObject: {fileID: 391211252}
   targetUI: {fileID: 340859525}
   selectedItem: {fileID: 863886576}
-  IsFreeInteract: 1
+  IsFreeInteract: 0
 --- !u!65 &179863056
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9079,6 +9079,7 @@ GameObject:
   - component: {fileID: 371721996}
   - component: {fileID: 371721999}
   - component: {fileID: 371721998}
+  - component: {fileID: 371722000}
   m_Layer: 0
   m_Name: Toybox
   m_TagString: Untagged
@@ -9093,19 +9094,18 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 371721995}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd8f942eb43df4a5d9336707f6e010b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Toyue: {fileID: 0}
-  Toyshita: {fileID: 0}
-  ToyBoxcollider: {fileID: 0}
-  Toypasswordobj: {fileID: 0}
+  Toyanim: {fileID: 823283831}
+  ToyBoxcollider: {fileID: 371721998}
   butteryAget: {fileID: 301261391}
   audioSource: {fileID: 0}
   soundEffect: {fileID: 8300000, guid: 5c9a9b19010b0a04c8aae0cebb8afd53, type: 3}
-  playerScript: {fileID: 0}
+  BatteryA: {fileID: 1531359145}
+  playerScript: {fileID: 2059716863}
   animatedTime: 1.3
 --- !u!4 &371721997
 Transform:
@@ -9162,6 +9162,102 @@ MonoBehaviour:
   zoomCamera: {fileID: 1326896541}
   triggerCollider: {fileID: 371721998}
   targetImage: {fileID: 1218486515}
+--- !u!82 &371722000
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 371721995}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 5c9a9b19010b0a04c8aae0cebb8afd53, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &376620901
 GameObject:
   m_ObjectHideFlags: 0
@@ -9755,6 +9851,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 1d95a218585167b43a6fbf4f997b138f, type: 3}
       propertyPath: m_Name
       value: lever
+      objectReference: {fileID: 0}
+    - target: {fileID: 2879070364656932655, guid: 1d95a218585167b43a6fbf4f997b138f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8457417007716413456, guid: 1d95a218585167b43a6fbf4f997b138f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11837,6 +11937,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 437836164}
   m_CullTransparentMesh: 1
+--- !u!1 &439174268 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2879070364656932655, guid: 1d95a218585167b43a6fbf4f997b138f, type: 3}
+  m_PrefabInstance: {fileID: 387127387}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &442049849
 GameObject:
   m_ObjectHideFlags: 0
@@ -13330,7 +13435,7 @@ GameObject:
   - component: {fileID: 490191296}
   - component: {fileID: 490191295}
   m_Layer: 0
-  m_Name: Batteryset4
+  m_Name: BatterysetA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13477,7 +13582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSets:
-  - useItem: 32
+  - useItem: 0
     setObject: {fileID: 1187841074}
   targetUI: {fileID: 1790416215}
   selectedItem: {fileID: 863886576}
@@ -16350,7 +16455,7 @@ Transform:
   m_GameObject: {fileID: 567987593}
   serializedVersion: 2
   m_LocalRotation: {x: -0.013084135, y: -0, z: -0, w: 0.9999144}
-  m_LocalPosition: {x: 0, y: -0.053202428, z: 0.47740057}
+  m_LocalPosition: {x: 0, y: -0.077, z: -1.158}
   m_LocalScale: {x: 0.7775149, y: 0.9220087, z: 0.92128783}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18347,8 +18452,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644985348}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2673002, y: -0, z: -0, w: 0.9636133}
-  m_LocalPosition: {x: 0.19024391, y: 0.18137518, z: -0.6508421}
+  m_LocalRotation: {x: 0.26730022, y: -0, z: -0, w: 0.96361333}
+  m_LocalPosition: {x: 0.19024391, y: 0.18137504, z: -0.6508421}
   m_LocalScale: {x: 0.21217807, y: 0.1323923, z: 0.10698974}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19666,7 +19771,7 @@ GameObject:
   - component: {fileID: 744181038}
   - component: {fileID: 744181037}
   m_Layer: 0
-  m_Name: SwitchCamera
+  m_Name: LeverCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26182,9 +26287,8 @@ GameObject:
   - component: {fileID: 823283836}
   - component: {fileID: 823283835}
   - component: {fileID: 823283834}
-  - component: {fileID: 823283833}
-  - component: {fileID: 823283832}
   - component: {fileID: 823283838}
+  - component: {fileID: 823283839}
   m_Layer: 0
   m_Name: Mheart
   m_TagString: Untagged
@@ -26192,54 +26296,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &823283832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 823283831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c017ea92f636246b6b976189fefb6a10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemType: 21
-  triggerCollider: {fileID: 0}
-  TextBox: {fileID: 0}
-  DTextBox: {fileID: 0}
-  modelobj: {fileID: 0}
-  targetImage: {fileID: 0}
-  audioSource: {fileID: 0}
---- !u!114 &823283833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 823283831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 823283832}
-          m_TargetAssemblyTypeName: PickupObj, Assembly-CSharp
-          m_MethodName: OnClickObj
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!65 &823283834
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26352,6 +26408,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &823283839
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823283831}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.01, y: 1.0000001, z: 1.4}
+  m_Center: {x: 0.1, y: -1.34, z: -1.24}
 --- !u!1 &824802639
 GameObject:
   m_ObjectHideFlags: 0
@@ -42027,7 +42104,7 @@ GameObject:
   - component: {fileID: 1189163184}
   - component: {fileID: 1189163186}
   m_Layer: 0
-  m_Name: Batteryset1
+  m_Name: BatterysetB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42067,7 +42144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSets:
-  - useItem: 21
+  - useItem: 22
     setObject: {fileID: 349621181}
   targetUI: {fileID: 942518290}
   selectedItem: {fileID: 863886576}
@@ -56432,7 +56509,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 7.76, y: 6.4, z: 23.65}
+  m_Size: {x: 14.01, y: 6.4, z: 23.65}
   m_Center: {x: 0, y: 0, z: -6.91}
 --- !u!114 &1531359149
 MonoBehaviour:
@@ -56491,7 +56568,7 @@ Transform:
   m_GameObject: {fileID: 1531359145}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.66, y: 2.02, z: 1.75}
+  m_LocalPosition: {x: -3.53, y: 2.02, z: -0.78}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -58658,13 +58735,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1623168497}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95dec1bb4c205475fa4fdf98cf01fec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RedButton2huta: {fileID: 0}
   ButtonUIImage: {fileID: 1099749790}
+  Lever: {fileID: 439174268}
 --- !u!82 &1623168500
 AudioSource:
   m_ObjectHideFlags: 0
@@ -65786,7 +65863,7 @@ Transform:
   m_GameObject: {fileID: 1936690900}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00000056183603, y: 0.5869377, z: 1.2084026}
+  m_LocalPosition: {x: 0.00000056183603, y: 0.58693767, z: 1.2084026}
   m_LocalScale: {x: 1.35, y: 1.2000003, z: 1.1999999}
   m_ConstrainProportionsScale: 0
   m_Children: []

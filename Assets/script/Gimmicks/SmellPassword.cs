@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class SmellPassword : MonoBehaviour
+public class
+    SmellPassword : MonoBehaviour
 {
     private const float MoveCooldown = 0.2f; // 移動に関するクールダウン時間
     private const float RotationDuration = 0.5f; // 回転にかかる時間（秒）

@@ -29,7 +29,7 @@ public class AquariumTurnOn : MonoBehaviour
         // 条件が成立した場合にのみ再生処理を実
         if (flagManager.GetFlag(FlagManager.FlagType.Belt1move) &&
            (flagManager.GetFlag(FlagManager.FlagType.LeverCamera) &&
-           (flagManager.GetFlag(FlagManager.FlagType.PushRedButton2) &&
+           (flagManager.GetFlag(FlagManager.FlagType.Leverdown) &&
             !flagManager.GetFlag(FlagManager.FlagType.AquariumTurnOn))))
         {
             AquariumTurnon();
