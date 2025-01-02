@@ -4,9 +4,8 @@ using TMPro;
 public class ToolPasswordButton : MonoBehaviour
 {
     [SerializeField] private TMP_Text numberText; // ボタンの数値を表示するテキスト
-    [SerializeField] private Sprite[] images;  // 9択のスプライト配列
-    [SerializeField] private SpriteRenderer spriteRenderer; // ボタンのスプライトを表示するSpriteRenderer
-    [SerializeField] private SpriteRenderer bgPanel; // 背景パネルとしてのSpriteRenderer
+    [SerializeField] private GameObject bgPanel; // 背景パネル
+    [SerializeField] private GameObject lightPanel; // 背景パネル2
 
     private FlagManager flagManager;
     private bool isSelected = false; // 選択状態を管理するフラグ
@@ -22,13 +21,18 @@ public class ToolPasswordButton : MonoBehaviour
     {
         number = 0;
         UpdateNumberDisplay();  // 数値の表示を更新
-        UpdateSprite();  // スプライトを更新
         HideBGToolPanel(); // 背景パネルは最初非表示
     }
 
     private void UpdateNumberDisplay()
     {
         numberText.text = number.ToString(); // 数値をテキストに反映
+
+        // 数値が1のときlightPanelをアクティブにする
+        if (lightPanel != null)
+        {
+            lightPanel.SetActive(number == 1);
+        }
     }
 
     public void OnClickToolButtonThis()
@@ -39,27 +43,32 @@ public class ToolPasswordButton : MonoBehaviour
             isSelected)
         {
             number++;
-            if (number > 1)  // スプライトと数値が択であることを反映
+            if (number > 1)  // スプライトと数値が2択であることを反映
             {
                 number = 0;
             }
 
             UpdateNumberDisplay();  // 数値表示を更新
-            UpdateSprite();  // スプライトを更新
         }
     }
 
     // 背景パネルを表示する処理
     public void ShowBGPanel()
     {
-        bgPanel.color = new Color(1f, 1f, 1f, 1f); // 背景を不透明にして表示
+        if (bgPanel != null)
+        {
+            bgPanel.gameObject.SetActive(true); // bgPanelがnullでないことを確認
+        }
         SetSelectedState(true);
     }
 
     // 背景パネルを非表示にする処理
     public void HideBGToolPanel()
     {
-        bgPanel.color = new Color(1f, 1f, 1f, 0f); // 背景を透明にして非表示
+        if (bgPanel != null)
+        {
+            bgPanel.gameObject.SetActive(false);
+        }
         SetSelectedState(false);
     }
 
@@ -68,24 +77,4 @@ public class ToolPasswordButton : MonoBehaviour
     {
         isSelected = state;
     }
-
-    // スプライトを現在の数値に基づいて更新
-    private void UpdateSprite()
-    {
-        if (spriteRenderer != null && images != null && images.Length > 0)
-        {
-            // 現在の数値に対応するスプライトを取得
-            int spriteIndex = Mathf.Clamp(number, 0, images.Length - 1);
-            Sprite selectedSprite = images[spriteIndex];
-
-            // スプライトをSpriteRendererに設定
-            spriteRenderer.sprite = selectedSprite;
-        }
-    }
-    public bool IsButtonActive()
-    {
-        return spriteRenderer != null && spriteRenderer.enabled; // スプライトが有効かどうかを確認
-    }
-
 }
-

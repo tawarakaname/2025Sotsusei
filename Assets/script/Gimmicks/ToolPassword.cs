@@ -67,7 +67,7 @@ public class ToolPassword : MonoBehaviour
             if (Input.GetButtonDown("Fire2") && !isFireButtonPressed)
             {
                 var currentButton = ToolpasswordButtons[currentPosition];
-                if (currentButton.IsButtonActive())
+                if (currentButton)
                 {
                     currentButton.OnClickToolButtonThis(); // 現在のボタンをクリック
                     CheckClear(); // クリア条件をチェック
