@@ -139,6 +139,7 @@ public class FlagManager : MonoBehaviour
         Home,
         Operation,
         Gotitle,
+        ToolCamera,
     }
 
     // シングルトンインスタンス

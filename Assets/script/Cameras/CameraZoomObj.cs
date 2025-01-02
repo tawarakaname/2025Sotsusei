@@ -164,6 +164,8 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.robotCamera;
             case "LeverCamera":
                 return FlagManager.FlagType.LeverCamera;
+            case "ToolCamera":
+                return FlagManager.FlagType.ToolCamera;
             default:
                 return null;
         }
