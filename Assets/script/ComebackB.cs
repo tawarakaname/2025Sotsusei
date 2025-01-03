@@ -3,12 +3,13 @@ using UnityEngine.Playables;
 
 public class ComebackB : MonoBehaviour
 {
-    private Animator animator;
+    //やっぱりこっちがcomeback２にしました
+
     [SerializeField] private GameObject targetObject;   // 位置を移動させたいオブジェクト
     [SerializeField] private Vector3 targetPosition;    // 移動先の位置
     [SerializeField] private PlayableDirector director; // 再生させるDirector
-    [SerializeField] private Collider triggerCollider;  // トリガーコライダー
     [SerializeField] private GameObject targetCamera;   // アニメーション後に無効化するカメラ
+    [SerializeField] private Collider triggerCollider;
 
 
     private bool hasPlayedDirector = false; // Directorが再生されたかを追跡
@@ -16,14 +17,12 @@ public class ComebackB : MonoBehaviour
     private bool hasMovedTarget = false;    // オブジェクトを移動したかどうかを追跡
     private FlagManager flagManager;
 
-    void Start()
+    void Update()
     {
-        flagManager = FlagManager.Instance;
-
-        // コライダーを無効化
-        if (triggerCollider != null)
+        // フラグがfalseの場合、一切動作しない
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
         {
-            triggerCollider.enabled = false;
+            return; // Updateメソッドを早期終了
         }
 
         // PlayableDirectorの停止イベントにハンドラーを登録
@@ -31,10 +30,12 @@ public class ComebackB : MonoBehaviour
         {
             director.stopped += OnPlayableDirectorStopped;
         }
-    }
 
-    void Update()
-    {
+        if (triggerCollider != null)
+        {
+            triggerCollider.enabled = true;
+        }
+
         // comebackB フラグが true になったらオブジェクトの位置を移動
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB) && !isDoorOpened)
         {
@@ -58,7 +59,7 @@ public class ComebackB : MonoBehaviour
         {
             targetObject.transform.position = targetPosition;
             hasMovedTarget = true; // 移動済みと記録
-            Debug.Log("1回目の移動完了");
+            Debug.Log("2回目の移動完了");
         }
     }
 

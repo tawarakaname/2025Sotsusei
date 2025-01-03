@@ -8,7 +8,6 @@ public class ToolPassword : MonoBehaviour
 
     [SerializeField] private int[] correctNumbers; // 正解の番号
     [SerializeField] private ToolPasswordButton[] ToolpasswordButtons; // 現在のパネルの数値
-    [SerializeField] private GameObject Dryber; // 最初に非表示のオブジェクト
 
     private int currentPosition = 0; // 現在選択されているスロットの位置
     private float nextMoveTime = 0f; // 次に移動できる時間を記録
@@ -30,7 +29,6 @@ public class ToolPassword : MonoBehaviour
         if (IsClear())
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.toolPasswordclear, true);
-            Dryber.SetActive(true);
         }
     }
 

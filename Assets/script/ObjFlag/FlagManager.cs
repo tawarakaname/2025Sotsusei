@@ -140,6 +140,7 @@ public class FlagManager : MonoBehaviour
         Operation,
         Gotitle,
         ToolCamera,
+        toolboxopen,
     }
 
     // シングルトンインスタンス

@@ -29,7 +29,7 @@ public class Dryberset : MonoBehaviour
 
     void Start()
     {
-        //if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen))
+        //if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Cdooropen))
         //{
         //    enabled = false;
         //    return;
@@ -78,7 +78,7 @@ public class Dryberset : MonoBehaviour
     private void Update()
     {
         // Adooropen フラグが true の場合、このスクリプトを無効化
-        //if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen))
+        //if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Cdooropen))
         //{
         //    enabled = false;
         //    return;
