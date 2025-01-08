@@ -15,6 +15,8 @@ public class Dryberset : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] private AudioClip soundEffect; // 音声クリップをシリアライズ
 
+    [SerializeField] private GameObject BatteryC; // 最初に非表示のオブジェクト
+
     [SerializeField] private MonoBehaviour playerScript;  // Playerクラスをアタッチ
     private bool canvasEnabled = false;  // canvasDgetが有効になったかを追跡するフラグ
     private string currentKeyword; // 現在のコライダーに対応するキーワード
@@ -39,7 +41,6 @@ public class Dryberset : MonoBehaviour
         batteryBget.gameObject.SetActive(false);
 
         if (ironplateanim != null) ironplateAnimator = ironplateanim.GetComponent<Animator>();
-        textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         setObj.IsFreeInteract = false;
     }
 
@@ -53,7 +54,6 @@ public class Dryberset : MonoBehaviour
             {
                 if (robotCollider.bounds.Intersects(other.bounds))
                 {
-                    currentKeyword = "robot";
                     playerInsideCollider = true;
                 }
             }
@@ -68,8 +68,6 @@ public class Dryberset : MonoBehaviour
             // プレイヤーがコライダーから出た場合、キーワードをリセット
             if (other.CompareTag("Player"))
             {
-                currentKeyword = null;
-                TextBox.SetActive(false); // コライダーを出た時にTextBoxを非表示にする
                 playerInsideCollider = false;
             }
         }
@@ -96,6 +94,7 @@ public class Dryberset : MonoBehaviour
 
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.batteryBget) && !canvasEnabled)
         {
+            BatteryC.SetActive(true);
             StartCoroutine(EnableCanvasAD());
             canvasEnabled = true;
         }
@@ -118,23 +117,7 @@ public class Dryberset : MonoBehaviour
             firstInteract = false;
         }
 
-        if (playerInsideCollider)
-        {
-            if (!FlagManager.Instance.GetFlagByType(Item.Type.dryber))
-            {
-                if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.toolPasswordclear)　&& (FlagManager.Instance.GetFlag(FlagManager.FlagType.robotCamera)))
-                {
-                    if (Input.GetButtonDown("Fire2") && currentKeyword != null && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-                    {
-                        firstInteract = true;
-                    }
-                    else if (!firstInteract && Input.GetButtonDown("Fire2") && currentKeyword != null && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-                    {
-                        textManager.DisplayCurrentLine();
-                    }
-                }
-            }
-        }
+       
     }
 
     private IEnumerator ironplateAnimCompleted()

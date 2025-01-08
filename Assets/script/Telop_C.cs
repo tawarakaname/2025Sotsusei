@@ -14,26 +14,27 @@ public class Telop_C : MonoBehaviour
 
     void Start()
     {
-
-        // フラグマネージャーのインスタンスを取得
         flagManager = FlagManager.Instance;
 
-        // Bstartsceneok フラグが既に true ならスクリプトを無効化
+        if (flagManager == null)
+        {
+            return;
+        }
+
         if (flagManager.GetFlag(FlagManager.FlagType.Cstartsceneok))
         {
             DisableScript();
             return;
         }
 
-        // タイムラインの再生
         TelopC();
 
-        // タイムラインの終了時にカメラを無効化
         if (director != null)
         {
             director.stopped += OnPlayableDirectorStopped;
         }
     }
+
 
     private void TelopC()
     {
@@ -46,8 +47,6 @@ public class Telop_C : MonoBehaviour
         // プレイヤー操作を無効化
         DisablePlayerControls();
 
-        // Telop フラグを設定
-        flagManager.SetFlag(FlagManager.FlagType.Telop, true);
     }
 
     private void DisablePlayerControls()
@@ -56,6 +55,10 @@ public class Telop_C : MonoBehaviour
         {
             playerScript.enabled = false;  // プレイヤーのスクリプトを無効化
         }
+
+
+        // Telop フラグを設定
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Telop, true);
     }
 
     private void EnablePlayerControls()

@@ -34,10 +34,10 @@ public class Safezone : MonoBehaviour
 
     private void Update()
     {
-        // Belt1moveフラグがtrueの場合、このスクリプトを無効化
+        // Belt1moveフラグがtrueの場合、このスクリプトとコライダーを無効化
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt1move))
         {
-            this.enabled = false;
+            DisableSafezone();
             return;
         }
 
@@ -63,6 +63,15 @@ public class Safezone : MonoBehaviour
         {
             direction.Normalize();  // 単位ベクトルにする
             player.position += direction * 0.5f;  // 中心に向かって5ユニット移動
+        }
+    }
+    // Safezoneを無効化する関数
+    private void DisableSafezone()
+    {
+        this.enabled = false; // このスクリプトを無効化
+        if (safezoneCollider != null)
+        {
+            safezoneCollider.enabled = false; // コライダーを無効化
         }
     }
 }

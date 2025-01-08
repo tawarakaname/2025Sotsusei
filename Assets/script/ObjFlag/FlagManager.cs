@@ -141,6 +141,8 @@ public class FlagManager : MonoBehaviour
         Gotitle,
         ToolCamera,
         toolboxopen,
+        cupCCamera,
+        Greeting,
     }
 
     // シングルトンインスタンス
@@ -163,19 +165,19 @@ public class FlagManager : MonoBehaviour
     // フラグを管理する辞書
     private Dictionary<object, bool> flagDictionary = new Dictionary<object, bool>();
 
-    private void Start()
-    {
-        // FlagTypeの全ての値を取得し、辞書に追加
-        foreach (FlagType flagType in FlagType.GetValues(typeof(FlagType)))
-        {
-            flagDictionary.Add(flagType, false);
-        }
-        // Item.Typeの全ての値を取得し、辞書に追加
-        foreach (Item.Type itemType in Enum.GetValues(typeof(Item.Type)))
-        {
-            flagDictionary.Add(itemType, false);
-        }
-    }
+    //private void Start()　　startの中身をawakeに移動させたため、startをコメントアウトしてるけど、問題があれば直してください。telop-cのtelopフラグtrueがなぜがflagmanagerのstartよりも早く呼ばれてフラグがtrueになれない問題を解決するためにやりました！
+    //{
+    //    //// FlagTypeの全ての値を取得し、辞書に追加
+    //    //foreach (FlagType flagType in FlagType.GetValues(typeof(FlagType)))
+    //    //{
+    //    //    flagDictionary.Add(flagType, false);
+    //    //}
+    //    // Item.Typeの全ての値を取得し、辞書に追加
+    //    foreach (Item.Type itemType in Enum.GetValues(typeof(Item.Type)))
+    //    {
+    //        flagDictionary.Add(itemType, false);
+    //    }
+    //}
 
     private void Awake()
     {
@@ -189,10 +191,20 @@ public class FlagManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        foreach (FlagType flagType in Enum.GetValues(typeof(FlagType)))
+        {
+            flagDictionary.Add(flagType, false);
+        }
+        // Item.Typeの全ての値を取得し、辞書に追加
+        foreach (Item.Type itemType in Enum.GetValues(typeof(Item.Type)))
+        {
+            flagDictionary.Add(itemType, false);
+        }
     }
 
-    // FlagTypeのフラグの取得
-    public bool GetFlag(FlagType flagType)
+
+        // FlagTypeのフラグの取得
+        public bool GetFlag(FlagType flagType)
     {
         if (flagDictionary.ContainsKey(flagType))
         {

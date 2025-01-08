@@ -6,11 +6,13 @@ public class Belt1move : MonoBehaviour
     [SerializeField] private MonoBehaviour playerScript;           // プレイヤーのスクリプト（操作を無効化するため）
     [SerializeField] private GameObject targetCamera;              // アニメーション後に無効化するカメラ
     [SerializeField] private Collider[] colliders;                 // 制御する複数のコライダー
-
+    [SerializeField] private GameObject targetObject;   // 位置を移動させたいオブジェクト
+    [SerializeField] private Vector3 targetPosition;    // 移動先の位置
     private FlagManager flagManager;                               // フラグマネージャー
     public PlayableDirector director;
 
     private bool animationCompleted = false;                       // アニメーションの完了フラグ
+    private bool hasMovedTarget = false;    // オブジェクトを移動したかどうかを追跡
 
     void Start()
     {
@@ -40,6 +42,7 @@ public class Belt1move : MonoBehaviour
             (flagManager.GetFlagByType(Item.Type.batteryB) &&
             !flagManager.GetFlag(FlagManager.FlagType.Belt1move)))
         {
+            MoveTargetObject();
             Movebelt1();
         }
 
@@ -55,6 +58,15 @@ public class Belt1move : MonoBehaviour
             EnableColliders();
 
             animationCompleted = false;  // 一度だけ無効化するようにフラグをリセット
+        }
+    }
+
+    private void MoveTargetObject()
+    {
+        if (!hasMovedTarget && targetObject != null)
+        {
+            targetObject.transform.position = targetPosition;
+            hasMovedTarget = true; // 移動済みと記録
         }
     }
 

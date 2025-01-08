@@ -91,7 +91,7 @@ public class TextManager : MonoBehaviour
             { "BalloonStand", HSprite[1]},
             { "BlueBox", HSprite[3]},
             { "Hint5", HSprite[2]},
-            { "Notsafezone", HSprite[3]},
+            { "Notsafezone", HSprite[2]},
         };
         // 使用例
         otomo0SpriteDictionary = new Dictionary<string, Sprite>
