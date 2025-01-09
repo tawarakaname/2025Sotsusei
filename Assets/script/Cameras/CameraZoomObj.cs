@@ -168,6 +168,8 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.ToolCamera;
             case "cupCCamera":
                 return FlagManager.FlagType.cupCCamera;
+            case "NabeCamera":
+                return FlagManager.FlagType.NabeCamera;
             default:
                 return null;
         }

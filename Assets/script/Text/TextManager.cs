@@ -46,7 +46,10 @@ public class TextManager : MonoBehaviour
     private void Awake()
     {
         CheckSingleton();
+        OtherTextBoxImage = OtherTextBox.GetComponent<Image>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
 
     private void CheckSingleton()
     {
@@ -66,7 +69,6 @@ public class TextManager : MonoBehaviour
         TextBox.SetActive(false);
         OtherTextBox.SetActive(false);
 
-        OtherTextBoxImage = OtherTextBox.GetComponent<Image>();
 
         // Item.Typeに基づく画像の初期化
         spriteDictionary = new Dictionary<Item.Type, Sprite>
@@ -112,7 +114,6 @@ public class TextManager : MonoBehaviour
         };
         // 
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDestroy()
@@ -122,8 +123,16 @@ public class TextManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log($"[OnSceneLoaded] Scene name: {scene.name}");
+
         switch (scene.name)
         {
+          
+            case "Z":
+                targetOtomoDictionary = otomo3SpriteDictionary;
+                OtherIcon.sprite = otomo3Sprite[0];
+                OtherTextBoxImage.sprite = otomoTextFlame[3];
+                break;
             case "A":
                 targetOtomoDictionary = otomo0SpriteDictionary;
                 OtherIcon.sprite = otomo0Sprite[0];
@@ -138,11 +147,6 @@ public class TextManager : MonoBehaviour
                 targetOtomoDictionary = otomo2SpriteDictionary;
                 OtherIcon.sprite = otomo2Sprite[0];
                 OtherTextBoxImage.sprite = otomoTextFlame[2];
-                break;
-            case "D":
-                targetOtomoDictionary = otomo3SpriteDictionary;
-                OtherIcon.sprite = otomo3Sprite[0];
-                OtherTextBoxImage.sprite = otomoTextFlame[3];
                 break;
         }
     }

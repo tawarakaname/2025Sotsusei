@@ -143,6 +143,10 @@ public class FlagManager : MonoBehaviour
         toolboxopen,
         cupCCamera,
         Greeting,
+        Tu_01clear,
+        Tu_02clear,
+        Jayo1kaiwa,
+        NabeCamera,
     }
 
     // シングルトンインスタンス
