@@ -5,19 +5,24 @@ public class Belt1move : MonoBehaviour
 {
     [SerializeField] private MonoBehaviour playerScript;           // プレイヤーのスクリプト（操作を無効化するため）
     [SerializeField] private GameObject targetCamera;              // アニメーション後に無効化するカメラ
+    [SerializeField] private GameObject wipe;              //早めにwipeをfalseにする。今のままだとイベントシーン中にwipeがガッツリ映る
     [SerializeField] private Collider[] colliders;                 // 制御する複数のコライダー
-    [SerializeField] private GameObject targetObject;   // 位置を移動させたいオブジェクト
-    [SerializeField] private Vector3 targetPosition;    // 移動先の位置
+    [SerializeField] private GameObject targetObject;              // 位置を移動させたいオブジェクト
+    [SerializeField] private Vector3 targetPosition;               // 移動先の位置
     private FlagManager flagManager;                               // フラグマネージャー
+    private CameraManeger cameraManager;                           // カメラマネージャー
     public PlayableDirector director;
 
     private bool animationCompleted = false;                       // アニメーションの完了フラグ
-    private bool hasMovedTarget = false;    // オブジェクトを移動したかどうかを追跡
+    private bool hasMovedTarget = false;                           // オブジェクトを移動したかどうかを追跡
 
     void Start()
     {
         // フラグマネージャーのインスタンスを取得
         flagManager = FlagManager.Instance;
+
+        // CameraManager の参照を取得
+        cameraManager = FindObjectOfType<CameraManeger>();
 
         // コライダーをすべて無効化
         if (colliders != null)
@@ -39,9 +44,10 @@ public class Belt1move : MonoBehaviour
     {
         // 条件が成立した場合にのみ再生処理を実行
         if (flagManager.GetFlagByType(Item.Type.batteryA) &&
-            (flagManager.GetFlagByType(Item.Type.batteryB) &&
-            !flagManager.GetFlag(FlagManager.FlagType.Belt1move)))
+            flagManager.GetFlagByType(Item.Type.batteryB) &&
+            !flagManager.GetFlag(FlagManager.FlagType.Belt1move))
         {
+            //wipe.SetActive(false);
             MoveTargetObject();
             Movebelt1();
         }
@@ -74,16 +80,25 @@ public class Belt1move : MonoBehaviour
     {
         // フラグチェックを再度行い、再生が1回のみ行われるようにする
         if (!flagManager.GetFlag(FlagManager.FlagType.Belt1move) &&
-            !flagManager.GetFlag(FlagManager.FlagType.Nowanim))  // 既にNowanimがtrueなら設定しない
+            !flagManager.GetFlag(FlagManager.FlagType.specialnowanim))  // 既にNowanimがtrueなら設定しない
         {
+           
             director.Play(); // Timelineの再生をここで実行
 
             // プレイヤー操作を無効化
             DisablePlayerControls();
 
             // Nowanim フラグを true に設定
-            flagManager.SetFlag(FlagManager.FlagType.Nowanim, true);
+            flagManager.SetFlag(FlagManager.FlagType.specialnowanim, true);
+           
+            // カメラの制御を戻す
+            if (cameraManager != null)
+            {
+                cameraManager.ReturnToMainCamera(); // CameraManager のメソッドを呼び出し
+            }
         }
+
+        
     }
 
     private void DisablePlayerControls()
@@ -92,6 +107,7 @@ public class Belt1move : MonoBehaviour
         {
             playerScript.enabled = false;  // プレイヤーのスクリプトを無効化
         }
+        
     }
 
     private void EnablePlayerControls()
@@ -121,18 +137,15 @@ public class Belt1move : MonoBehaviour
         flagManager.SetFlag(FlagManager.FlagType.Belt1move, true); // 再生フラグを設定して再生は一度だけにする
 
         // Nowanim フラグを false に設定
-        flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
+        flagManager.SetFlag(FlagManager.FlagType.specialnowanim, false);
 
         // プレイヤー操作を再び有効化
         EnablePlayerControls();
-    }
 
-    private void OnDestroy()
-    {
-        // イベントの登録解除
-        if (director != null)
+        if (targetCamera != null)
         {
-            director.stopped -= OnPlayableDirectorStopped;
+            targetCamera.SetActive(false);
         }
     }
 }
+

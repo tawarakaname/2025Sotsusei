@@ -34,6 +34,7 @@ public class CameraZoomObj : MonoBehaviour
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.itembox) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Option) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.specialnowanim) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Itemgetpanel);
 
         if (isAllRequiredFlagsOff &&

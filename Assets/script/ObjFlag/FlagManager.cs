@@ -122,7 +122,6 @@ public class FlagManager : MonoBehaviour
         robotCamera,
         Belt2move,
         Belt1move,
-        AquariumTurnOn,
         LeverCamera,
         huta2open,
         DoorAnimComplete,
@@ -143,10 +142,13 @@ public class FlagManager : MonoBehaviour
         toolboxopen,
         cupCCamera,
         Greeting,
+        Tu_00clear,
         Tu_01clear,
         Tu_02clear,
         Jayo1kaiwa,
         NabeCamera,
+        specialnowanim,
+        otomokakuho,
     }
 
     // シングルトンインスタンス

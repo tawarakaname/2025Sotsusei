@@ -111,10 +111,8 @@ public class CameraManeger : MonoBehaviour
     // メインカメラに戻る
     public void ReturnToMainCamera()
     {
-        Debug.Log("wipeout1");
         if (currentCamera != null && currentCamera.gameObject.activeSelf)
         {
-            Debug.Log("wipeout2");
             if (wipeAnimator != null)
             {
                 wipeAnimator.SetTrigger("wipeout");
