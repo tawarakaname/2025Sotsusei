@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Tu_01icontalk : MonoBehaviour
 {
+    [SerializeField] private Animator UIAnimator; // アニメーション用アニメーター
+
     [SerializeField] private Collider CauldronCollider; // ゴミ箱コライダー
     [SerializeField] private Collider Tu_01iconCollider; // コライダーAを指定する
     [SerializeField] GameObject targetImage; // 表示・非表示を制御するImage
@@ -51,6 +53,8 @@ public class Tu_01icontalk : MonoBehaviour
                 isTextboxActive = false;
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Tu_01clear, true);
                 DisableTu_01collider(); // スクリプトとコライダーを無効化
+                                        // アニメーションを再生
+              
             }
         }
 
@@ -75,7 +79,8 @@ public class Tu_01icontalk : MonoBehaviour
 
             currentKeyword = "Tu_01";
 
-            if (currentKeyword != null && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+            if (currentKeyword != null && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox)
+                 && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_01clear))
             {
                 OnClickTu_01This();
             }
@@ -98,6 +103,11 @@ public class Tu_01icontalk : MonoBehaviour
     public void OnClickTu_01This()
     {
         textManager.DisplayTextForKeyword(currentKeyword);
+
+        if (UIAnimator != null)
+        {
+            UIAnimator.SetTrigger("maru");
+        }
     }
 
     // 1秒後に処理を実行するコルーチン
@@ -125,5 +135,10 @@ public class Tu_01icontalk : MonoBehaviour
     {
         // コルーチンを開始して1秒後に処理を実行
         StartCoroutine(DisableTu_01colliderWithDelay());
+
+        if (UIAnimator != null)
+        {
+            UIAnimator.SetTrigger("marudefault");
+        }
     }
 }

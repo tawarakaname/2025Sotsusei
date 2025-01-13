@@ -5,6 +5,7 @@ using UnityEngine;
 public class Tu_02camerazoom : MonoBehaviour
 {
     [SerializeField] private Collider CauldronCollider; // ゴミ箱コライダー
+    [SerializeField] private Animator UIAnimator; // アニメーション用アニメーター
 
     private TextManager textManager; // TextManagerへの参照
     private string currentKeyword; // 現在のコライダーに対応するキーワード
@@ -19,11 +20,25 @@ public class Tu_02camerazoom : MonoBehaviour
 
     private void Update()
     {
-        // Belt1moveフラグがtrueの場合、このスクリプトとコライダーを無効化
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_02clear))
+        // 指定のフラグが全てtrueの場合、Textboxを呼び出す
+        if (isPlayerInCollider &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_02clear) &&  // Tu_02clear が false
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_01clear) &&   // Tu_01clear が true
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.NabeCamera))    // NabeCamera が true
         {
-            DisableTu_02collider();
-            return;
+            // Textboxを呼び出す
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
+            {
+                currentKeyword = "Tu_02";  // 現在のキーワードを設定
+                OnClickTu_02This();        // Textbox表示処理を実行
+            }
+        }
+
+        // Fire2入力がある場合にフラグとキーワードをチェック
+        if (Input.GetButtonDown("Fire2") && currentKeyword != null && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox)
+             && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_02clear) && isPlayerInCollider)
+        {
+            textManager.DisplayCurrentLine();
         }
 
         // プレイヤーがコライダー内にいる場合、Textboxの状態を確認
@@ -41,26 +56,6 @@ public class Tu_02camerazoom : MonoBehaviour
                 DisableTu_02collider(); // スクリプトとコライダーを無効化
             }
         }
-
-        // 指定のフラグが全てtrueの場合、Textboxを呼び出す
-        if (isPlayerInCollider &&
-            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_02clear) &&  // Tu_02clear が false
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_01clear) &&   // Tu_01clear が true
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.NabeCamera))    // NabeCamera が true
-        {
-            // Textboxを呼び出す
-            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-            {
-                currentKeyword = "Tu_02";  // 現在のキーワードを設定
-                OnClickTu_02This();        // Textbox表示処理を実行
-            }
-        }
-
-        // Fire2入力がある場合にフラグとキーワードをチェック
-        if (Input.GetButtonDown("Fire2") && currentKeyword != null && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
-        {
-            textManager.DisplayCurrentLine();
-        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -76,18 +71,30 @@ public class Tu_02camerazoom : MonoBehaviour
     public void OnClickTu_02This()
     {
         textManager.DisplayTextForKeyword(currentKeyword);
+        // アニメーションを再生
+        if (UIAnimator != null)
+        {
+            UIAnimator.SetTrigger("batu");
+        }
     }
 
     // 1秒後に処理を実行するコルーチン
     private IEnumerator DisableTu_02colliderWithDelay()
     {
         yield return new WaitForSeconds(1f); // 1秒待つ
+                                             // アニメーションを再生
+        if (UIAnimator != null)
+        {
+            UIAnimator.SetTrigger("batudefault");
+        }
         this.enabled = false; // このスクリプトを無効化
     }
+
 
     private void DisableTu_02collider()
     {
         // コルーチンを開始して1秒後に処理を実行
         StartCoroutine(DisableTu_02colliderWithDelay());
+
     }
 }

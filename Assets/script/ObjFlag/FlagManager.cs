@@ -145,7 +145,7 @@ public class FlagManager : MonoBehaviour
         Tu_00clear,
         Tu_01clear,
         Tu_02clear,
-        Jayo1kaiwa,
+        Tu_03clear,
         NabeCamera,
         specialnowanim,
         otomokakuho,

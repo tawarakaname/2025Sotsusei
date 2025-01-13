@@ -39,17 +39,13 @@ public class Tu_00marubutton : MonoBehaviour
         // プレイヤーがコライダー内にいる場合、Textboxの状態を確認
         if (isPlayerInCollider)
         {
+
             // Textboxがアクティブでなく、かつ現在のキーワードが設定されている場合に表示処理
             if (Input.GetButtonDown("Fire2") && currentKeyword != null
                 && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
             {
                 textManager.DisplayCurrentLine();
 
-                // アニメーションを再生
-                if (UIAnimator != null)
-                {
-                    UIAnimator.SetTrigger("maru");
-                }
             }
 
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
@@ -97,6 +93,12 @@ public class Tu_00marubutton : MonoBehaviour
     public void OnClickTu_00This()
     {
         textManager.DisplayTextForKeyword(currentKeyword);
+
+        // アニメーションを再生
+        if (UIAnimator != null)
+        {
+            UIAnimator.SetTrigger("maru");
+        }
     }
 
     private void EnableTu_00Collider()
@@ -114,6 +116,12 @@ public class Tu_00marubutton : MonoBehaviour
         if (firstcollider != null)
         {
             firstcollider.enabled = false;
+        }
+
+        // アニメーションを再生
+        if (UIAnimator != null)
+        {
+            UIAnimator.SetTrigger("marudefault");
         }
     }
 }

@@ -3,8 +3,11 @@ public static class Textkeyword
     public static string GetKeywordBasedOnFlags()
     {
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Greeting) &&
-            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Jayo1kaiwa))
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_02clear))
             return "Hint25";
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_02clear) &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_03clear))
+            return "Hint26";
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Dondon1kaiwa))
             return "Hint1";
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Dondon1kaiwa) &&
