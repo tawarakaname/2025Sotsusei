@@ -146,5 +146,9 @@ public class PickupObj : MonoBehaviour
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.havekey2, true);
         }
+        if (itemType == Item.Type.caudlonkey)
+        {
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.havecaudlonkey, true);
+        }
     }
 }

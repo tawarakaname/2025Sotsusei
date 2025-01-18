@@ -42,6 +42,7 @@ public class Item
         batteryD,
         mystery1,
         mystery2,
+        caudlonkey,
 
     }
 
