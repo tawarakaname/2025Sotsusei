@@ -148,11 +148,14 @@ public class FlagManager : MonoBehaviour
         Tu_025clear,
         Tu_03clear,
         Tu_04clear,
+        Tu_05clear,
+        Tu_06clear,
         NabeCamera,
         specialnowanim,
         otomokakuho,
         caudlonkey,
-        havecaudlonkey
+        havecaudlonkey,
+        Cauldronopen,
     }
 
     // シングルトンインスタンス

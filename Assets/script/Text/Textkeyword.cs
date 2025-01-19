@@ -6,8 +6,14 @@ public static class Textkeyword
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_02clear))
             return "Hint25";
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_02clear) &&
-            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_03clear))
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_04clear))
             return "Hint26";
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_04clear) &&
+           !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_05clear))
+            return "Hint27";
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_05clear) &&
+          !FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_06clear))
+            return "Hint28";
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Dondon1kaiwa))
             return "Hint1";
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Dondon1kaiwa) &&
