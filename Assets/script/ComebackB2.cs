@@ -20,12 +20,13 @@ public class ComebackB2 : MonoBehaviour
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB) && !isDoorOpened)
         {
             MoveTargetObject();
+            if (triggerCollider != null)
+            {
+                triggerCollider.enabled = false;
+            }
+        }
 
-        }
-        if (triggerCollider != null)
-        {
-            triggerCollider.enabled = false;
-        }
+
     }
 
     // 指定した位置にオブジェクトを移動させるメソッド

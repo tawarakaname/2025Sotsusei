@@ -40,15 +40,11 @@ public class Cauldronopen : MonoBehaviour
             }
 
 
-            // 条件をチェック
-            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_05clear) &&
-                FlagManager.Instance.GetFlagByType(Item.Type.caudlonkey) &&
-                FlagManager.Instance.GetFlag(FlagManager.FlagType.Cauldronopen) &&
-                FlagManager.Instance.GetFlag(FlagManager.FlagType.NabeCamera) &&
-                playerInsideCollider && !playerScript)
+            if (playerInsideCollider && FlagManager.Instance.GetFlag(FlagManager.FlagType.Cauldronopen) && controlsDisabled)
             {
-                playerScript.enabled = true;
+                EnablePlayerControls();
             }
+
 
         }
 
@@ -91,11 +87,6 @@ public class Cauldronopen : MonoBehaviour
         }
     }
 
-    private IEnumerator CauldronAnimCompleted()
-    {
-        yield return new WaitForSeconds(animatedTime);
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Cauldronopen, true);
-    }
 
     public void OnClickCauldron()
     {
@@ -121,4 +112,26 @@ public class Cauldronopen : MonoBehaviour
         if (playerScript != null) playerScript.enabled = false;
         controlsDisabled = true;
     }
+
+    private IEnumerator CauldronAnimCompleted()
+    {
+        // アニメーションが完了するまで待機
+        yield return new WaitForSeconds(animatedTime);
+
+        // フラグを更新
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Cauldronopen, true);
+
+        // プレイヤーの操作を再有効化
+        EnablePlayerControls();
+    }
+
+    private void EnablePlayerControls()
+    {
+        if (playerScript != null)
+        {
+            playerScript.enabled = true;
+        }
+        controlsDisabled = false; // フラグをリセット
+    }
+
 }
