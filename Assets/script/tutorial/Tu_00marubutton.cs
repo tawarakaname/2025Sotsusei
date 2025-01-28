@@ -93,7 +93,6 @@ public class Tu_00marubutton : MonoBehaviour
     public void OnClickTu_00This()
     {
         textManager.DisplayTextForKeyword(currentKeyword);
-
         // アニメーションを再生
         if (UIAnimator != null)
         {
@@ -117,11 +116,11 @@ public class Tu_00marubutton : MonoBehaviour
         {
             firstcollider.enabled = false;
         }
-
-        // アニメーションを再生
+        // "marudefault" トリガーを呼び出す
         if (UIAnimator != null)
         {
             UIAnimator.SetTrigger("marudefault");
         }
+
     }
 }

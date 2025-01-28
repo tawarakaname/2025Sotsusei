@@ -104,7 +104,6 @@ public class Tu_03pickupitem : MonoBehaviour
     public void OnClickTu_03This()
     {
         textManager.DisplayTextForKeyword(currentKeyword);
-
         if (UIAnimator != null)
         {
             UIAnimator.SetTrigger("maru");

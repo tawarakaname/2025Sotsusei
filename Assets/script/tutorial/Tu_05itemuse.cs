@@ -92,6 +92,7 @@ public class Tu_05itemuse : MonoBehaviour
         {
             UIAnimator.SetTrigger("marudefault");
         }
+
         this.enabled = false; // このスクリプトを無効化
     }
 }

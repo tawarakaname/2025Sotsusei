@@ -14,6 +14,7 @@ public class Tu_04itemget : MonoBehaviour
     private bool hasCauldronColliderBeenEnabled = false; // コライダーが一度有効化されたかどうか
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,7 +65,7 @@ public class Tu_04itemget : MonoBehaviour
                 // Textboxが終了したタイミングで処理を実行
                 isTextboxActive = false;
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Tu_04clear, true);
-                DisableTu_04collider(); // スクリプトとコライダーを無効化
+                StartCoroutine(DisableTu_04colliderWithDelay()); // スクリプトとコライダーを無効化
             }
         }
     }
@@ -101,11 +102,4 @@ public class Tu_04itemget : MonoBehaviour
         this.enabled = false; // このスクリプトを無効化
     }
 
-
-    private void DisableTu_04collider()
-    {
-        // コルーチンを開始して1秒後に処理を実行
-        StartCoroutine(DisableTu_04colliderWithDelay());
-
-    }
 }

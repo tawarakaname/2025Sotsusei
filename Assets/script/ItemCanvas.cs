@@ -12,6 +12,7 @@ public class ItemCanvas : MonoBehaviour
     private bool currentZoomPanelFlag;
     private bool hasClosedOptionPanel = false; // オプションパネルを閉じたかどうかを記録
     [SerializeField] private Image inventryImage;
+    [SerializeField] private Image inventrynameImage;
     private TextManager textManager;
 
     void Start()
@@ -61,6 +62,7 @@ public class ItemCanvas : MonoBehaviour
             !flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel);
 
         inventryImage.enabled = isAllFlagsOff;
+        inventrynameImage.enabled = isAllFlagsOff;
 
         if (isAllFlagsOff && Input.GetButtonDown("Fire0"))
         {

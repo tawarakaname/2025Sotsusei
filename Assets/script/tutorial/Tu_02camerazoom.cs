@@ -12,6 +12,7 @@ public class Tu_02camerazoom : MonoBehaviour
     private bool isTextboxActive; // Textboxが現在アクティブかどうか
     private bool isPlayerInCollider; // プレイヤーがコライダー内にいるかどうか
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,7 +54,7 @@ public class Tu_02camerazoom : MonoBehaviour
                 // Textboxが終了したタイミングで処理を実行
                 isTextboxActive = false;
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Tu_02clear, true);
-                DisableTu_02collider(); // スクリプトとコライダーを無効化
+                StartCoroutine(DisableTu_02colliderWithDelay()); // スクリプトとコライダーを無効化
             }
         }
     }
@@ -87,14 +88,10 @@ public class Tu_02camerazoom : MonoBehaviour
         {
             UIAnimator.SetTrigger("batudefault");
         }
+        // 1秒待機
+        yield return new WaitForSeconds(1f);
+
         this.enabled = false; // このスクリプトを無効化
     }
 
-
-    private void DisableTu_02collider()
-    {
-        // コルーチンを開始して1秒後に処理を実行
-        StartCoroutine(DisableTu_02colliderWithDelay());
-
-    }
 }

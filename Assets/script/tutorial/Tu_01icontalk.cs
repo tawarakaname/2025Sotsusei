@@ -14,6 +14,7 @@ public class Tu_01icontalk : MonoBehaviour
     private bool isTextboxActive; // Textboxが現在アクティブかどうか
     private bool isPlayerInCollider; // プレイヤーがコライダー内にいるかどうか
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -97,7 +98,6 @@ public class Tu_01icontalk : MonoBehaviour
     public void OnClickTu_01This()
     {
         textManager.DisplayTextForKeyword(currentKeyword);
-
         if (UIAnimator != null)
         {
             UIAnimator.SetTrigger("maru");
@@ -134,5 +134,6 @@ public class Tu_01icontalk : MonoBehaviour
         {
             UIAnimator.SetTrigger("marudefault");
         }
+       
     }
 }
