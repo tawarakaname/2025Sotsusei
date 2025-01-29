@@ -1,64 +1,113 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class Telop_A : MonoBehaviour
 {
-    [SerializeField] private MonoBehaviour playerScript;  // Playerスクリプトの参照
-    public GameObject Telop_Aanim;                        // アニメーションがついているオブジェクト
-    private Animator Telop_AAnimator;                     // アニメーター
-    [SerializeField] private float delayAfterAnim = 1f;   // アニメーション後の遅延時間
-    [SerializeField] private string triggerName = "Telop_A"; // アニメーション用のトリガー名
+    [SerializeField] private MonoBehaviour playerScript;      // プレイヤーのスクリプト（操作を無効化するため）
+    [SerializeField] private GameObject targetCamera;         // アニメーション後に無効化するカメラ
+    [SerializeField] private GameObject telopAGameObject;     // Telop_Cが入ったeventsceneのgameobj
+    [SerializeField] private GameObject telopA;     // telop_を格納
+
+    private FlagManager flagManager;                          // フラグマネージャー
+    public PlayableDirector director;
 
     void Start()
     {
-        // Adooropenフラグがtrueの場合
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen))
-        {
-            // アニメーションオブジェクトを非表示にする
-            if (Telop_Aanim != null)
-            {
-                Telop_Aanim.SetActive(false);
-            }
+        flagManager = FlagManager.Instance;
 
-            // このスクリプトを無効化
-            this.enabled = false;
+        if (flagManager == null)
+        {
             return;
         }
 
-        // スクリプトを無効化
-        playerScript.enabled = false;
+        if (flagManager.GetFlag(FlagManager.FlagType.Astartsceneok))
+        {
+            DisableScript();
+            return;
+        }
 
-        // アニメーターを取得
-        if (Telop_Aanim != null) Telop_AAnimator = Telop_Aanim.GetComponent<Animator>();
+        TelopA();
 
-        // アニメーション再生の監視を開始
-        StartCoroutine(HandleAnimationAndDelay());
+        if (director != null)
+        {
+            director.stopped += OnPlayableDirectorStopped;
+        }
     }
 
-    private IEnumerator HandleAnimationAndDelay()
+
+    private void TelopA()
     {
-        // アニメーション再生を開始（トリガーを設定）
-        if (Telop_AAnimator != null && !string.IsNullOrEmpty(triggerName))
+        // タイムラインの再生
+        if (director != null)
         {
-            Telop_AAnimator.SetTrigger(triggerName);
+            director.Play();
         }
 
-        // アニメーション開始フラグをセット
+        // プレイヤー操作を無効化
+        DisablePlayerControls();
+
+    }
+
+    private void DisablePlayerControls()
+    {
+        if (playerScript != null)
+        {
+            playerScript.enabled = false;  // プレイヤーのスクリプトを無効化
+        }
+
+
+        // Telop フラグを設定
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Telop, true);
+    }
 
-        // アニメーションが終了するまで待機
-        while (Telop_AAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f || Telop_AAnimator.IsInTransition(0))
+    private void EnablePlayerControls()
+    {
+        if (playerScript != null)
         {
-            yield return null;
+            playerScript.enabled = true;  // プレイヤーのスクリプトを有効化
+        }
+    }
+
+    // タイムラインが停止したときに呼ばれる
+    private void OnPlayableDirectorStopped(PlayableDirector director)
+    {
+        // カメラを非表示
+        if (targetCamera != null)
+        {
+            targetCamera.SetActive(false);
         }
 
-        // 指定された秒数待機
-        yield return new WaitForSeconds(delayAfterAnim);
+        // フラグを更新
+        flagManager.SetFlag(FlagManager.FlagType.Telop, false);
+        flagManager.SetFlag(FlagManager.FlagType.Astartsceneok, true);
 
-        // フラグをリセット
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Telop, false);
+        // プレイヤー操作を再び有効化
+        EnablePlayerControls();
 
-        // スクリプトを有効化
-        playerScript.enabled = true;
+        // Telop_Aオブジェクトを非表示
+        if (telopAGameObject != null)
+        {
+            telopAGameObject.SetActive(false);
+            telopA.SetActive(false);
+        }
+
+        // スクリプトを無効化
+        DisableScript();
+    }
+
+    private void DisableScript()
+    {
+        // イベントの登録解除
+        if (director != null)
+        {
+            director.stopped -= OnPlayableDirectorStopped;
+
+            // タイムラインを強制停止
+            director.Stop();
+        }
+
+        // スクリプトを無効化
+        this.enabled = false;
     }
 }

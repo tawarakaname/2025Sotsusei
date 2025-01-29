@@ -86,6 +86,12 @@ public class Telop_B : MonoBehaviour
             telopBGameObject.SetActive(false);
             //telopB.SetActive(false);
         }
+        // SEが再生されている場合、停止する
+        AudioSource[] audioSources = GetComponentsInChildren<AudioSource>();
+        foreach (var audio in audioSources)
+        {
+            audio.Stop();
+        }
 
         // スクリプトを無効化
         DisableScript();
@@ -97,6 +103,9 @@ public class Telop_B : MonoBehaviour
         if (director != null)
         {
             director.stopped -= OnPlayableDirectorStopped;
+
+            // タイムラインを強制停止
+            director.Stop();
         }
 
         // スクリプトを無効化

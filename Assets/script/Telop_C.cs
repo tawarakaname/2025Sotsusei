@@ -102,6 +102,9 @@ public class Telop_C : MonoBehaviour
         if (director != null)
         {
             director.stopped -= OnPlayableDirectorStopped;
+
+            // タイムラインを強制停止
+            director.Stop();
         }
 
         // スクリプトを無効化
