@@ -157,6 +157,12 @@ public class FlagManager : MonoBehaviour
         havecaudlonkey,
         Cauldronopen,
         Astartsceneok,
+        eventscenein_Aopen,
+        eventscenein_Bopen,
+        eventscenein_Copen,
+        crystalA,
+        crystalB,
+        crystalC,
     }
 
     // シングルトンインスタンス

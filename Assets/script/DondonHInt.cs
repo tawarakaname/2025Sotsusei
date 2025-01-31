@@ -72,20 +72,21 @@ public class DondonHInt : MonoBehaviour
                 {
                     FlagManager.Instance.SetFlag(FlagManager.FlagType.Dondon1kaiwa, true);
                 }
-                // Hint11が表示されたらDondon1kaiwaをtrueにする
                 if (currentKeyword == "Hint11")
                 {
                     FlagManager.Instance.SetFlag(FlagManager.FlagType.Funfun1kaiwa, true);
                 }
-                // Hint22が表示されたらDondon1kaiwaをtrueにする
                 if (currentKeyword == "Hint22")
                 {
                     FlagManager.Instance.SetFlag(FlagManager.FlagType.Yappi1kaiwa, true);
                 }
-                // Hint26が表示されたらDondon1kaiwaをtrueにする
                 if (currentKeyword == "Hint26")
                 {
                     FlagManager.Instance.SetFlag(FlagManager.FlagType.Tu_025clear, true);
+                }
+                if (currentKeyword == "Hint28")
+                {
+                    StartCoroutine(WaitForTextboxToClose());
                 }
 
 
@@ -101,5 +102,11 @@ public class DondonHInt : MonoBehaviour
     public void OnClickDondon()
     {
         textManager.DisplayTextForKeyword(currentKeyword);
+    }
+
+    private IEnumerator WaitForTextboxToClose()
+    {
+        yield return new WaitUntil(() => !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox));
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Tu_06clear, true);
     }
 }

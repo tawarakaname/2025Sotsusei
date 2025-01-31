@@ -91,7 +91,7 @@ public class TextManager : MonoBehaviour
             { "NoteA", HSprite[3] },
             { "Miss", HSprite[2] },
             { "BalloonStand", HSprite[1]},
-            { "BlueBox", HSprite[3]},
+            { "BlueBox", HSprite[1]},
             { "Hint5", HSprite[2]},
             { "Notsafezone", HSprite[2]},
         };

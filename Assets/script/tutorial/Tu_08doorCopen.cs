@@ -1,33 +1,48 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class Telop_A : MonoBehaviour
+public class Tu_08doorCopen : MonoBehaviour
 {
     [SerializeField] private MonoBehaviour playerScript;      // プレイヤーのスクリプト（操作を無効化するため）
     //[SerializeField] private GameObject targetCamera;         // アニメーション後に無効化するカメラ
-    [SerializeField] private GameObject telopAGameObject;     // Telop_Cが入ったeventsceneのgameobj
-    [SerializeField] private GameObject telopA;     // telop_を格納
+    [SerializeField] private GameObject in_CGameObject;     // Telop_Cが入ったeventsceneのgameobj
 
     private FlagManager flagManager;                          // フラグマネージャー
     public PlayableDirector director;
 
+    private bool hasStarted = false; // 一度だけ実行するためのフラグ
+
     void Start()
     {
         flagManager = FlagManager.Instance;
+    }
 
-        if (flagManager == null)
+    void Update()
+    {
+        if (hasStarted || flagManager == null)
         {
             return;
         }
 
-        if (flagManager.GetFlag(FlagManager.FlagType.Astartsceneok))
+        // crystalAフラグが true になったタイミングで実行
+        if (flagManager.GetFlagByType(Item.Type.crystalB))
+        {
+            hasStarted = true; // 二度と実行しないようにフラグを立てる
+            ExecuteEvent();
+        }
+    }
+
+    private void ExecuteEvent()
+    {
+        if (flagManager.GetFlag(FlagManager.FlagType.eventscenein_Copen))
         {
             DisableScript();
             return;
         }
 
-        TelopA();
+        TelopBAC();
 
         if (director != null)
         {
@@ -35,8 +50,7 @@ public class Telop_A : MonoBehaviour
         }
     }
 
-
-    private void TelopA()
+    private void TelopBAC()
     {
         // タイムラインの再生
         if (director != null)
@@ -46,7 +60,6 @@ public class Telop_A : MonoBehaviour
 
         // プレイヤー操作を無効化
         DisablePlayerControls();
-
     }
 
     private void DisablePlayerControls()
@@ -56,9 +69,8 @@ public class Telop_A : MonoBehaviour
             playerScript.enabled = false;  // プレイヤーのスクリプトを無効化
         }
 
-
         // Telop フラグを設定
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Telop, true);
+        flagManager.SetFlag(FlagManager.FlagType.Nowanim, true);
     }
 
     private void EnablePlayerControls()
@@ -72,24 +84,17 @@ public class Telop_A : MonoBehaviour
     // タイムラインが停止したときに呼ばれる
     private void OnPlayableDirectorStopped(PlayableDirector director)
     {
-        // カメラを非表示
-        //if (targetCamera != null)
-        //{
-        //    targetCamera.SetActive(false);
-        //}
-
         // フラグを更新
-        flagManager.SetFlag(FlagManager.FlagType.Telop, false);
-        flagManager.SetFlag(FlagManager.FlagType.Astartsceneok, true);
+        flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
+        flagManager.SetFlag(FlagManager.FlagType.eventscenein_Copen, true);
 
         // プレイヤー操作を再び有効化
         EnablePlayerControls();
 
         // Telop_Aオブジェクトを非表示
-        if (telopAGameObject != null)
+        if (in_CGameObject != null)
         {
-            telopAGameObject.SetActive(false);
-            telopA.SetActive(false);
+            in_CGameObject.SetActive(false);
         }
 
         // スクリプトを無効化

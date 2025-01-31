@@ -43,6 +43,9 @@ public class Item
         mystery1,
         mystery2,
         caudlonkey,
+        crystalA,
+        crystalB,
+        crystalC,
 
     }
 
