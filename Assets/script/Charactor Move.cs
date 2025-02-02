@@ -23,13 +23,16 @@ public class CharactorMove : MonoBehaviour
                 transitionManager.LoadScene("B");
                 this.transform.position = new Vector3(0, 0, 8);
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackA, false);
+                FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackAtoB, true);
             }
         }
         if (collision.gameObject.name == "warpBtoA")
         {
             transitionManager.LoadScene("A");
-             this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定
+             this.transform.position = new Vector3(8.47f, 0.79f, 8.76f); // シーン遷移後の新しい位置を設定
              FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackA, true);
+             FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackAtoB, false);
+            
 
 
         }
@@ -39,6 +42,7 @@ public class CharactorMove : MonoBehaviour
             transitionManager.LoadScene("C");
             this.transform.position = new Vector3(0, 10, 8);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackB, false);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackBtoC,true);
         }
 
         if (collision.gameObject.name == "warpCtoB")
@@ -46,7 +50,26 @@ public class CharactorMove : MonoBehaviour
             transitionManager.LoadScene("B");
             this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定
             FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackB, true);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackBtoC, false);
 
+
+        }
+        if (collision.gameObject.name == "warpZtoA")
+        {
+            transitionManager.LoadScene("A");
+            this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定
+
+        }
+        if (collision.gameObject.name == "warpZtoB")
+        {
+            transitionManager.LoadScene("B");
+            this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定
+
+        }
+        if (collision.gameObject.name == "warpZtoC")
+        {
+            transitionManager.LoadScene("C");
+            this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定
 
         }
     }

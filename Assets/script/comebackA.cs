@@ -6,6 +6,8 @@ public class ComebackA : MonoBehaviour
     private Animator animator;
     [SerializeField] private GameObject targetObject;   // 位置を移動させたいオブジェクト
     [SerializeField] private Vector3 targetPosition;    // 移動先の位置
+    [SerializeField] private GameObject playerObject;    // プレイヤー
+    [SerializeField] private Vector3 playerPosition;    //　プレイヤー移動先の位置
     [SerializeField] private PlayableDirector director; // 再生させるDirector
     [SerializeField] private Collider triggerCollider;  // トリガーコライダー
     [SerializeField] private GameObject targetCamera;   // アニメーション後に無効化するカメラ
@@ -28,15 +30,6 @@ public class ComebackA : MonoBehaviour
             triggerCollider.enabled = false;
         }
 
-        // PlayableDirectorの停止イベントにハンドラーを登録
-        if (director != null)
-        {
-            director.stopped += OnPlayableDirectorStopped;
-        }
-    }
-
-    void Update()
-    {
         // comebackA フラグが true になったらオブジェクトの位置を移動
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) && !isDoorOpened)
         {
@@ -48,12 +41,19 @@ public class ComebackA : MonoBehaviour
         // Adooropen と comebackA フラグが true かつ、初回再生時のみDirectorを再生
         if (ShouldPlayDirector())
         {
+            // PlayableDirectorの停止イベントにハンドラーを登録
+            if (director != null)
+            {
+                director.stopped += OnPlayableDirectorStopped;
+            }
+
             director.Play();
             hasPlayedDirector = true; // 再生済みと記録
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackAanim, true);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Nowanim, true); // Nowanim フラグを true に設定
         }
     }
+
+   
 
     // 指定した位置にオブジェクトを移動させるメソッド
     private void MoveTargetObject()
@@ -63,6 +63,10 @@ public class ComebackA : MonoBehaviour
             targetObject.transform.position = targetPosition;
             hasMovedTarget = true; // 移動済みと記録
             Debug.Log("1回目の移動完了");
+        }
+        if (playerObject != null)
+        {
+            playerObject.transform.position = playerPosition;
         }
     }
 
@@ -82,6 +86,7 @@ public class ComebackA : MonoBehaviour
         // Nowanim フラグを false に設定
         if (flagManager != null)
         {
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackAanim, true);
             flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
         }
 

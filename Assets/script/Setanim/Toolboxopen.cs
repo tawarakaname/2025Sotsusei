@@ -20,6 +20,7 @@ public class Toolboxopen : MonoBehaviour
     private bool canvasEnabled = false;  // canvasDgetが有効になったかを追跡するフラグ
     private bool itemgetpanelLogged = false;
     [SerializeField] private float animatedTime;
+    [SerializeField] private GameObject itemgeteffect;
     private Coroutine ToolOpenCoroutine;
 
     void Start()
@@ -29,6 +30,7 @@ public class Toolboxopen : MonoBehaviour
         if (Toolanim != null) ToolAnimator = Toolanim.GetComponent<Animator>();
 
         audioSource = GetComponent<AudioSource>();
+        itemgeteffect.gameObject.SetActive(false);
 
     }
 
@@ -66,6 +68,7 @@ public class Toolboxopen : MonoBehaviour
             {
                 // Fire2が押されたらCanvasをfalseに
                 Dryberget.gameObject.SetActive(false);
+                itemgeteffect.gameObject.SetActive(false);
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
                 playerScript.enabled = true;
             }
@@ -126,7 +129,9 @@ public class Toolboxopen : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 1.7秒待機
-        yield return new WaitForSeconds(1.7f);
+        yield return new WaitForSeconds(1f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.8f);
         Dryberget.gameObject.SetActive(true);
 
         if (!itemgetpanelLogged)

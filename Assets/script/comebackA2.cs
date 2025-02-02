@@ -1,37 +1,73 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class comebackA2 : MonoBehaviour
 {
     [SerializeField] private GameObject targetObject;   // 位置を移動させたいオブジェクト
     [SerializeField] private Vector3 targetPosition;    // 移動先の位置
     [SerializeField] private Collider triggerCollider;
-  
 
-    private bool isDoorOpened = false; // ドアが開いたかどうかのフラグ
 
- 
-    // Update is called once per frame
-    void Update()
+    public PlayableDirector director;
+    private FlagManager flagManager;                          // フラグマネージャー
+
+
+    //private bool isDoorOpened = false; // ドアが開いたかどうかのフラグ
+
+
+    void Start()
     {
-        // BTBフラグがfalseの場合、一切動作しない
-        if (!FlagManager.Instance.GetFlagByType(Item.Type.BTB))
+        flagManager = FlagManager.Instance;
+        // PlayableDirectorの停止イベントにハンドラーを登録
+        if (director != null)
+        {
+            director.stopped += OnPlayableDirectorStopped;
+        }
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackAanim))
         {
             return; // Updateメソッドを早期終了
         }
 
-        if (triggerCollider != null)
-        {
-            triggerCollider.enabled = true;
-        }
-        // comebackAフラグがtrueになった場合にオブジェクトを移動
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) && !isDoorOpened)
+        if (FlagManager.Instance.GetFlagByType(Item.Type.BTB) && (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA)))
         {
             MoveTargetObject();
-           
+            if (triggerCollider != null)
+            {
+                triggerCollider.enabled = true;
+            }
+        }
+
+
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackAanim))
+        {
+            // comebackAフラグがtrueになった場合にオブジェクトを移動
+            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA))
+            {
+                EnterEvent();
+            }
         }
     }
+    
+
+    private void EnterEvent()
+    {
+        // タイムラインの再生
+        if (director != null)
+        {
+            director.Play();
+        }
+
+        flagManager.SetFlag(FlagManager.FlagType.Nowanim, true);
+    }
+
+    private void OnPlayableDirectorStopped(PlayableDirector director)
+    {
+        flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
+
+    }
+
 
     // 指定した位置にオブジェクトを移動させるメソッド
     private void MoveTargetObject()
@@ -39,8 +75,10 @@ public class comebackA2 : MonoBehaviour
         if (targetObject != null)
         {
             targetObject.transform.position = targetPosition;
-            isDoorOpened = true; // ドアが開いたことを記録
             Debug.Log("2かいめ");
         }
+
     }
+  
+
 }

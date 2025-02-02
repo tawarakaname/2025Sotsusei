@@ -13,6 +13,7 @@ public class Tu_03pickupitem : MonoBehaviour
     private string currentKeyword; // 現在のコライダーに対応するキーワード
     private bool isTextboxActive; // Textboxが現在アクティブかどうか
     private bool isPlayerInCollider; // プレイヤーがコライダー内にいるかどうか
+    private bool hasSetAnimFlag = false; // Setanim フラグをセットしたかどうか
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +34,13 @@ public class Tu_03pickupitem : MonoBehaviour
 
     private void Update()
     {
+        if (isPlayerInCollider && !hasSetAnimFlag)
+        {
+            // Setanim を一度だけセットする
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Setanim, true);
+            hasSetAnimFlag = true;
+        }
+
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_025clear))
         {
             if (Tu_03pickupCollider != null)
@@ -45,6 +53,7 @@ public class Tu_03pickupitem : MonoBehaviour
         // プレイヤーがコライダー内にいる場合、Textboxの状態を確認
         if (isPlayerInCollider)
         {
+            
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
             {
                 isTextboxActive = true; // Textboxがアクティブ
@@ -114,6 +123,7 @@ public class Tu_03pickupitem : MonoBehaviour
     private IEnumerator DisableTu_03colliderWithDelay()
     {
         yield return new WaitForSeconds(1f); // 1秒待つ
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Setanim, false);
 
         // Tu_03pickupCollider を無効化
         if (Tu_03pickupCollider != null)

@@ -23,6 +23,8 @@ public class BoxBopen : MonoBehaviour
     [SerializeField] private float animatedTime;
     private Coroutine boxBOpenCoroutine;
 
+    [SerializeField] private GameObject itemgeteffect;
+
     void Start()
     {
         balloonget.gameObject.SetActive(false);
@@ -31,6 +33,7 @@ public class BoxBopen : MonoBehaviour
         if (Bshita != null) BshitaAnimator = Bshita.GetComponent<Animator>();
 
         audioSource = GetComponent<AudioSource>();
+        itemgeteffect.gameObject.SetActive(false);
 
     }
 
@@ -67,6 +70,7 @@ public class BoxBopen : MonoBehaviour
             {
                 // Fire2が押されたらCanvasをfalseに
                 balloonget.gameObject.SetActive(false);
+                itemgeteffect.gameObject.SetActive(false);
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
                 playerScript.enabled = true;
             }
@@ -133,7 +137,9 @@ public class BoxBopen : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 1.7秒待機
-        yield return new WaitForSeconds(1.7f);
+        yield return new WaitForSeconds(0.9f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.8f);
         balloonget.gameObject.SetActive(true);
 
         if (!itemgetpanelLogged)

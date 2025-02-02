@@ -24,7 +24,7 @@ public class Dryberset : MonoBehaviour
     private bool itemgetpanelLogged = false;
     [SerializeField] private float animatedTime;
     private Coroutine ironplateCoroutine;
-
+    [SerializeField] private GameObject itemgeteffect;
     [SerializeField] private SetObj setObj;
     private bool isFreeInteract = true;
     private bool firstInteract;
@@ -42,6 +42,7 @@ public class Dryberset : MonoBehaviour
 
         if (ironplateanim != null) ironplateAnimator = ironplateanim.GetComponent<Animator>();
         setObj.IsFreeInteract = false;
+        itemgeteffect.gameObject.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -105,6 +106,7 @@ public class Dryberset : MonoBehaviour
             Input.GetButtonDown("Fire2"))
         {
             batteryBget.gameObject.SetActive(false);
+            itemgeteffect.gameObject.SetActive(false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
             playerScript.enabled = true;
         }
@@ -151,7 +153,9 @@ public class Dryberset : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 6秒待機
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(5.3f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.8f);
         batteryBget.gameObject.SetActive(true);
         // Akeygetをtrueにする
 

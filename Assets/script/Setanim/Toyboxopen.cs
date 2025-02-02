@@ -19,6 +19,7 @@ public class Toyboxopen : MonoBehaviour
     private bool canvasEnabled = false;  // canvasDgetが有効になったかを追跡するフラグ
     private bool itemgetpanelLogged = false;
     [SerializeField] private float animatedTime;
+    [SerializeField] private GameObject itemgeteffect;
     private Coroutine ToyOpenCoroutine;
 
     void Start()
@@ -28,6 +29,7 @@ public class Toyboxopen : MonoBehaviour
         if (Toyanim != null) ToyueAnimator = Toyanim.GetComponent<Animator>();
 
         audioSource = GetComponent<AudioSource>();
+        itemgeteffect.gameObject.SetActive(false);
 
     }
 
@@ -65,6 +67,7 @@ public class Toyboxopen : MonoBehaviour
             {
                 // Fire2が押されたらCanvasをfalseに
                 butteryAget.gameObject.SetActive(false);
+                itemgeteffect.gameObject.SetActive(false);
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
                 playerScript.enabled = true;
             }
@@ -125,7 +128,9 @@ public class Toyboxopen : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 1.7秒待機
-        yield return new WaitForSeconds(1.7f);
+        yield return new WaitForSeconds(1f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.8f);
         butteryAget.gameObject.SetActive(true);
 
         if (!itemgetpanelLogged)

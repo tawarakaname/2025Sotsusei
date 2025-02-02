@@ -7,7 +7,6 @@ public class BoxAopen : MonoBehaviour
     public GameObject shita;
     private Animator ueAnimator;
     private Animator shitaAnimator;
-    private FlagManager flagManager;
     [SerializeField] private Collider ABoxcollider;
     [SerializeField] GameObject Illustpasswordobj;
     [SerializeField] Canvas capsuleDget;
@@ -22,6 +21,8 @@ public class BoxAopen : MonoBehaviour
     private bool itemgetpanelLogged = false;
     [SerializeField] private float animatedTime;
     private Coroutine boxAOpenCoroutine;
+    
+    [SerializeField] private GameObject itemgeteffect;
 
     void Start()
     {
@@ -29,6 +30,7 @@ public class BoxAopen : MonoBehaviour
         capsuleDget.gameObject.SetActive(false);
         if (ue != null) ueAnimator = ue.GetComponent<Animator>();
         if (shita != null) shitaAnimator = shita.GetComponent<Animator>();
+        itemgeteffect.gameObject.SetActive(false);
     }
 
     void Update()
@@ -58,6 +60,7 @@ public class BoxAopen : MonoBehaviour
                 Input.GetButtonDown("Fire2"))
             {
                 capsuleDget.gameObject.SetActive(false);
+                itemgeteffect.gameObject.SetActive(false);
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
                 playerScript.enabled = true;
             }
@@ -114,7 +117,9 @@ public class BoxAopen : MonoBehaviour
     private IEnumerator EnableCanvasAfterDelay()
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.8f);
         capsuleDget.gameObject.SetActive(true);
 
         if (!itemgetpanelLogged)

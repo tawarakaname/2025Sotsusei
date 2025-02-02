@@ -91,14 +91,14 @@ public class Tu_06doorAopen : MonoBehaviour
         // プレイヤー操作を再び有効化
         EnablePlayerControls();
 
+        // スクリプトを無効化
+        DisableScript();
+
         // Telop_Aオブジェクトを非表示
         if (in_AGameObject != null)
         {
             in_AGameObject.SetActive(false);
         }
-
-        // スクリプトを無効化
-        DisableScript();
     }
 
     private void DisableScript()
@@ -106,7 +106,7 @@ public class Tu_06doorAopen : MonoBehaviour
         // イベントの登録解除
         if (director != null)
         {
-            director.stopped -= OnPlayableDirectorStopped;
+           // director.stopped -= OnPlayableDirectorStopped;
 
             // タイムラインを強制停止
             director.Stop();

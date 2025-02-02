@@ -151,4 +151,10 @@ public class PickupObj : MonoBehaviour
             FlagManager.Instance.SetFlag(FlagManager.FlagType.havecaudlonkey, true);
         }
     }
+
+    public static void ResetPickedItems()
+    {
+        pickeditem.Clear();
+    }
+
 }

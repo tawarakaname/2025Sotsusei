@@ -21,6 +21,7 @@ public class BalloonSet : MonoBehaviour
     private bool itemgetpanelLogged = false;
     [SerializeField] private float animatedTime;
     private Coroutine balloonCoroutine;
+    [SerializeField] private GameObject itemgeteffect;
 
     [SerializeField] private SetObj setObj;
     private bool isFreeInteract = true;
@@ -36,6 +37,7 @@ public class BalloonSet : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         Akeyget.gameObject.SetActive(false);
+        itemgeteffect.gameObject.SetActive(false);
 
         if (balloonanim != null) balloonAnimator = balloonanim.GetComponent<Animator>();
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
@@ -105,6 +107,7 @@ public class BalloonSet : MonoBehaviour
             Input.GetButtonDown("Fire2"))
         {
             Akeyget.gameObject.SetActive(false);
+            itemgeteffect.gameObject.SetActive(false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
             playerScript.enabled = true;
         }
@@ -167,8 +170,11 @@ public class BalloonSet : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 6秒待機
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(5.3f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.8f);
         Akeyget.gameObject.SetActive(true);
+       
         // Akeygetをtrueにする
 
         if (!itemgetpanelLogged)

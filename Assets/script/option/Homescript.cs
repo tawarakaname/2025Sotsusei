@@ -16,6 +16,7 @@ public class HomeScript : MonoBehaviour
     private float moveCooldown = 0.2f; // 入力クールダウン時間
     private FlagManager flagManager; // フラグマネージャーのインスタンス
     private SceneTransitionManager transitionManager; // シーン遷移マネージャー
+    private bool isProcessingFire1 = false;
 
     void Start()
     {
@@ -30,7 +31,6 @@ public class HomeScript : MonoBehaviour
         transitionManager = FindObjectOfType<SceneTransitionManager>(); // シーン遷移マネージャーを探す
         if (transitionManager == null)
         {
-            Debug.LogError("SceneTransitionManagerが見つかりません！");
             return;
         }
 
@@ -82,6 +82,13 @@ public class HomeScript : MonoBehaviour
 
     private void HandleFire2Input()
     {
+        StartCoroutine(DelayedHandleFire2Input());
+    }
+
+    private IEnumerator DelayedHandleFire2Input()
+    {
+        yield return null; // 1フレーム待機
+
         if (Input.GetButtonDown("Fire2"))
         {
             // choiceUIが表示されているか確認
@@ -91,6 +98,7 @@ public class HomeScript : MonoBehaviour
             }
         }
     }
+
 
     private void PerformActionBasedOnSelection()
     {
@@ -138,14 +146,21 @@ public class HomeScript : MonoBehaviour
 
     private void HandleFire1Input()
     {
-        StartCoroutine(DelayedHandleFire1Input());
+        if (!isProcessingFire1)
+        {
+            StartCoroutine(DelayedHandleFire1Input());
+        }
     }
 
     private IEnumerator DelayedHandleFire1Input()
     {
+      
+        isProcessingFire1 = true; // 処理中フラグを立てる
         yield return null; // 1フレーム待機
         contentImage.gameObject.SetActive(false);
         flagManager.SetFlag(FlagManager.FlagType.Home, false);
+        yield return new WaitForSeconds(0.5f); // 0.5秒のクールダウン
+        isProcessingFire1 = false; // 処理完了後にフラグを解除
     }
 
 }

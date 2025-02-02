@@ -163,6 +163,13 @@ public class FlagManager : MonoBehaviour
         crystalA,
         crystalB,
         crystalC,
+        Ep01_clear,
+        Ep02_clear,
+        Ep03_clear,
+        crystalclear,
+        Cdooropen,
+        comebackAtoB,
+        comebackBtoC,
     }
 
     // シングルトンインスタンス
@@ -283,4 +290,13 @@ public class FlagManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
     }
+
+    public void ResetFlags()
+    {
+        foreach (FlagType flagType in Enum.GetValues(typeof(FlagType)))
+        {
+            flagDictionary[flagType] = false;
+        }
+    }
+
 }
