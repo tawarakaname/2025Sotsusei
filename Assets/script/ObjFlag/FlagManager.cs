@@ -99,6 +99,7 @@ public class FlagManager : MonoBehaviour
         BatteryCamera1,
         BatteryCamera2,
         BatteryCamera3,
+        BatteryCamera4,
         NoteCCamera,
         ElectronicCamera,
         Bstartsceneok,
@@ -151,7 +152,6 @@ public class FlagManager : MonoBehaviour
         Tu_05clear,
         Tu_06clear,
         NabeCamera,
-        specialnowanim,
         otomokakuho,
         caudlonkey,
         havecaudlonkey,
@@ -170,6 +170,10 @@ public class FlagManager : MonoBehaviour
         Cdooropen,
         comebackAtoB,
         comebackBtoC,
+        switch1ON,
+        switch2ON,
+        getbatterD,
+        MainMeterCamera,
     }
 
     // シングルトンインスタンス

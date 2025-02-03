@@ -10,6 +10,8 @@ public class ComebackB : MonoBehaviour
     [SerializeField] private PlayableDirector director; // 再生させるDirector
     [SerializeField] private GameObject targetCamera;   // アニメーション後に無効化するカメラ
     [SerializeField] private Collider triggerCollider;
+    [SerializeField] private GameObject playerObject;    // プレイヤー
+    [SerializeField] private Vector3 playerPosition;    //　プレイヤー移動先の位置
 
 
     private bool hasPlayedDirector = false; // Directorが再生されたかを追跡
@@ -17,40 +19,38 @@ public class ComebackB : MonoBehaviour
     private bool hasMovedTarget = false;    // オブジェクトを移動したかどうかを追跡
     private FlagManager flagManager;
 
-    void Update()
+    void Start()
     {
-        // フラグがfalseの場合、一切動作しない
-        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
-        {
-            return; // Updateメソッドを早期終了
-        }
+        flagManager = FlagManager.Instance;
 
-        // PlayableDirectorの停止イベントにハンドラーを登録
-        if (director != null)
-        {
-            director.stopped += OnPlayableDirectorStopped;
-        }
-
+        // コライダーを無効化
         if (triggerCollider != null)
         {
             triggerCollider.enabled = true;
         }
 
-        // comebackB フラグが true になったらオブジェクトの位置を移動
+        // comebackA フラグが true になったらオブジェクトの位置を移動
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB) && !isDoorOpened)
         {
             MoveTargetObject();
         }
 
-        // Bdooropen と comebackB フラグが true かつ、初回再生時のみDirectorを再生
+        // Adooropen と comebackA フラグが true かつ、初回再生時のみDirectorを再生
         if (ShouldPlayDirector())
         {
+            // PlayableDirectorの停止イベントにハンドラーを登録
+            if (director != null)
+            {
+                director.stopped += OnPlayableDirectorStopped;
+            }
+
             director.Play();
             hasPlayedDirector = true; // 再生済みと記録
-            FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackBanim, true);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Nowanim, true); // Nowanim フラグを true に設定
+
         }
     }
+ 
 
     // 指定した位置にオブジェクトを移動させるメソッド
     private void MoveTargetObject()
@@ -61,6 +61,10 @@ public class ComebackB : MonoBehaviour
             hasMovedTarget = true; // 移動済みと記録
             Debug.Log("2回目の移動完了");
         }
+        if (playerObject != null)
+        {
+            playerObject.transform.position = playerPosition;
+        }
     }
 
     // Director再生条件をチェックするメソッド
@@ -70,6 +74,7 @@ public class ComebackB : MonoBehaviour
                && FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB)
                && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Nowanim)
                && !FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackBanim)
+               && FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown)
                && !hasPlayedDirector;
     }
 
@@ -80,6 +85,7 @@ public class ComebackB : MonoBehaviour
         if (flagManager != null)
         {
             flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackBanim, true);
         }
 
         // targetCamera を無効化

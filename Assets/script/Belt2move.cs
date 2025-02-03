@@ -23,7 +23,8 @@ public class Belt2move : MonoBehaviour
     {
         if (flagManager.GetFlagByType(Item.Type.batteryC) &&
             flagManager.GetFlagByType(Item.Type.batteryD) &&
-            !flagManager.GetFlag(FlagManager.FlagType.Belt2move))
+            !flagManager.GetFlag(FlagManager.FlagType.Belt2move) &&
+            !flagManager.GetFlag(FlagManager.FlagType.Belt1move))
         {
             Movebelt2();
         }

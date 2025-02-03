@@ -48,7 +48,6 @@ public class ItemCanvas : MonoBehaviour
             !flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
             !flagManager.GetFlag(FlagManager.FlagType.Telop) &&
             !flagManager.GetFlag(FlagManager.FlagType.Nowanim) &&
-            !flagManager.GetFlag(FlagManager.FlagType.specialnowanim) &&
             !flagManager.GetFlag(FlagManager.FlagType.Option) &&
             !flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel);
 
@@ -57,7 +56,6 @@ public class ItemCanvas : MonoBehaviour
             !flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
             !flagManager.GetFlag(FlagManager.FlagType.Telop) &&
             !flagManager.GetFlag(FlagManager.FlagType.Nowanim) &&
-            !flagManager.GetFlag(FlagManager.FlagType.specialnowanim) &&
             !flagManager.GetFlag(FlagManager.FlagType.itembox) &&
             !flagManager.GetFlag(FlagManager.FlagType.Itemgetpanel);
 

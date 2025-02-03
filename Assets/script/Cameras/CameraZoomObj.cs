@@ -34,7 +34,6 @@ public class CameraZoomObj : MonoBehaviour
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.itembox) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Option) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) &&
-            !FlagManager.Instance.GetFlag(FlagManager.FlagType.specialnowanim) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Itemgetpanel);
 
         if (isAllRequiredFlagsOff &&
@@ -149,12 +148,14 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.NoteBCamera;
             case "NoteCCamera":
                 return FlagManager.FlagType.NoteCCamera;
-            case " BatteryCamera1":
+            case "BatteryCamera1":
                 return FlagManager.FlagType.BatteryCamera1;
-            case " BatteryCamera2":
+            case "BatteryCamera2":
                 return FlagManager.FlagType.BatteryCamera2;
-            case " BatteryCamera3":
+            case "BatteryCamera3":
                 return FlagManager.FlagType.BatteryCamera3;
+            case "BatteryCamera4":
+                return FlagManager.FlagType.BatteryCamera4;
             case "ElectronicCamera":
                 return FlagManager.FlagType.ElectronicCamera;
             case "ToyboxCamera":
@@ -171,6 +172,8 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.cupCCamera;
             case "NabeCamera":
                 return FlagManager.FlagType.NabeCamera;
+            case "MainMeterCamera":
+                return FlagManager.FlagType.MainMeterCamera;
             default:
                 return null;
         }
