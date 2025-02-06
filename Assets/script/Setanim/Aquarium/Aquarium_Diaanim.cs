@@ -25,6 +25,8 @@ public class Aquarium_diaanim : MonoBehaviour
     [SerializeField] private float animatedTime;
     private Coroutine Aquarium0waterCoroutine;
 
+    [SerializeField] private GameObject itemgeteffect;
+
     void Start()
     {
         Diacup2get.gameObject.SetActive(false);
@@ -33,6 +35,7 @@ public class Aquarium_diaanim : MonoBehaviour
         if (wateranimDia != null) wateranimDiaAnimator = wateranimDia.GetComponent<Animator>();
 
         audioSource = GetComponent<AudioSource>();
+        itemgeteffect.gameObject.SetActive(false);
 
     }
 
@@ -72,6 +75,7 @@ public class Aquarium_diaanim : MonoBehaviour
         {
             // Canvasを非表示にし、フラグを更新
             Diacup2get.gameObject.SetActive(false);
+            itemgeteffect.gameObject.SetActive(false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
             playerScript.enabled = true;
         }
@@ -125,7 +129,9 @@ public class Aquarium_diaanim : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 1.7秒待機
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.1f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
         Diacup2get.gameObject.SetActive(true);
         Diacup2.SetActive(true);
         setcup.SetActive(false);

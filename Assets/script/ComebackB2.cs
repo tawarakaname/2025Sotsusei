@@ -22,10 +22,13 @@ public class ComebackB2 : MonoBehaviour
             director.stopped += OnPlayableDirectorStopped;
         }
 
-        // コライダーを無効化
-        if (triggerCollider != null)
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Bdooropen) && !FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
         {
-            triggerCollider.enabled = false;
+            // コライダーを無効化
+            if (triggerCollider != null)
+            {
+                triggerCollider.enabled = false;
+            }
         }
 
         // Adooropen と comebackA フラグが true かつ、初回再生時のみDirectorを再生

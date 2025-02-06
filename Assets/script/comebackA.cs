@@ -24,10 +24,14 @@ public class ComebackA : MonoBehaviour
     {
         flagManager = FlagManager.Instance;
 
-        // コライダーを無効化
-        if (triggerCollider != null)
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen) && !FlagManager.Instance.GetFlagByType(Item.Type.BTB))
         {
-            triggerCollider.enabled = false;
+            // コライダーを無効化
+            if (triggerCollider != null)
+            {
+                Debug.Log("falseだや");
+                triggerCollider.enabled = false;
+            }
         }
 
         // comebackA フラグが true になったらオブジェクトの位置を移動

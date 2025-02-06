@@ -23,6 +23,11 @@ public class Tu_05itemuse : MonoBehaviour
     private void Update()
     {
 
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Be_Aclear))
+        {
+            return;
+        }
+
         // 指定のフラグが全てtrueの場合、Textboxを呼び出す
         if (isPlayerInCollider &&
             FlagManager.Instance.GetFlag(FlagManager.FlagType.Tu_04clear) &&

@@ -137,9 +137,9 @@ public class BoxBopen : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 1.7秒待機
-        yield return new WaitForSeconds(0.9f);
+        yield return new WaitForSeconds(1.2f);
         itemgeteffect.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
         balloonget.gameObject.SetActive(true);
 
         if (!itemgetpanelLogged)

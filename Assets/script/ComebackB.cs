@@ -23,12 +23,15 @@ public class ComebackB : MonoBehaviour
     {
         flagManager = FlagManager.Instance;
 
-        // コライダーを無効化
-        if (triggerCollider != null)
-        {
-            triggerCollider.enabled = true;
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Bdooropen) && FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
+        {// コライダーを無効化
+            if (triggerCollider != null)
+            {
+                triggerCollider.enabled = true;
+            }
         }
 
+        
         // comebackA フラグが true になったらオブジェクトの位置を移動
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB) && !isDoorOpened)
         {

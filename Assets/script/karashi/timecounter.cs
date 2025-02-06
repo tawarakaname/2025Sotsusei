@@ -10,11 +10,9 @@ using UnityEngine.SceneManagement;
 public class timecounter : MonoBehaviour
 {
 
-    private float step_time;
-
     private void Start()
     {
-        Invoke("SceneChange", 10);
+        Invoke("SceneChange", 36f);
 
     }
 

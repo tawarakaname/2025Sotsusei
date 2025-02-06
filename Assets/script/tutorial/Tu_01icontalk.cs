@@ -17,6 +17,8 @@ public class Tu_01icontalk : MonoBehaviour
 
     void Start()
     {
+      
+
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         isTextboxActive = false; // 初期状態は非アクティブ
         isPlayerInCollider = false; // プレイヤーがコライダーにいない状態
@@ -33,6 +35,11 @@ public class Tu_01icontalk : MonoBehaviour
 
     private void Update()
     {
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Be_Aclear))
+        {
+            return;
+        }
+
         if (isPlayerInCollider && !hasSetAnimFlag)
         {
             // Setanim を一度だけセットする

@@ -16,6 +16,8 @@ public class Aquarium_heartanim : MonoBehaviour
     [SerializeField] private GameObject Heartcup2; // 最初に非表示のオブジェクト
     [SerializeField] private GameObject setcup; // 最初に表示のオブジェクト
 
+    [SerializeField] private GameObject itemgeteffect;
+
     // Playerクラスの参照（プレイヤーの操作を無効化するため）
     [SerializeField] private MonoBehaviour playerScript;  // Playerクラスをアタッチ
     private bool controlsDisabled = false;  // 操作無効フラグ
@@ -32,6 +34,8 @@ public class Aquarium_heartanim : MonoBehaviour
         if (wateranimHeart != null) wateranimHeartAnimator = wateranimHeart.GetComponent<Animator>();
 
         audioSource = GetComponent<AudioSource>();
+        itemgeteffect.gameObject.SetActive(false);
+
 
     }
 
@@ -71,6 +75,8 @@ public class Aquarium_heartanim : MonoBehaviour
             // Canvasを非表示にし、フラグを更新
             Heartcup2get.gameObject.SetActive(false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
+
+            itemgeteffect.gameObject.SetActive(false);
             playerScript.enabled = true;
         }
 
@@ -124,7 +130,9 @@ public class Aquarium_heartanim : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 1.7秒待機
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.1f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
         Heartcup2get.gameObject.SetActive(true);
         Heartcup2.SetActive(true);
         setcup.SetActive(false);

@@ -14,6 +14,8 @@ public class Tu_00marubutton : MonoBehaviour
 
     void Start()
     {
+    
+
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         isTextboxActive = false; // 初期状態は非アクティブ
         isPlayerInCollider = false; // プレイヤーがコライダーにいない状態
@@ -22,6 +24,10 @@ public class Tu_00marubutton : MonoBehaviour
 
     private void Update()
     {
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Be_Aclear))
+        {
+            return;
+        }
         // Greetingフラグがfalseの場合、処理を終了
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Greeting))
         {

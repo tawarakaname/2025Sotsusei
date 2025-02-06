@@ -16,21 +16,30 @@ public class Tu_06doorAopen : MonoBehaviour
 
     void Start()
     {
+   
+
         flagManager = FlagManager.Instance;
     }
 
     void Update()
     {
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Be_Aclear))
+        {
+            return;
+        }
         if (hasStarted || flagManager == null)
         {
             return;
         }
 
         // Tu_06clear フラグが true になったタイミングで実行
-        if (flagManager.GetFlag(FlagManager.FlagType.Tu_06clear))
+        if (flagManager.GetFlag(FlagManager.FlagType.Tu_06clear) && (!flagManager.GetFlag(FlagManager.FlagType.Result_A)))
         {
             hasStarted = true; // 二度と実行しないようにフラグを立てる
             ExecuteEvent();
+
+            // プレイヤー操作を無効化
+            DisablePlayerControls();
         }
     }
 
@@ -52,14 +61,14 @@ public class Tu_06doorAopen : MonoBehaviour
 
     private void TelopA()
     {
+
         // タイムラインの再生
         if (director != null)
         {
             director.Play();
         }
 
-        // プレイヤー操作を無効化
-        DisablePlayerControls();
+      
     }
 
     private void DisablePlayerControls()

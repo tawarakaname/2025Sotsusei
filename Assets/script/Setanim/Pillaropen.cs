@@ -22,6 +22,8 @@ public class Pillaropen : MonoBehaviour
 
     // PlayableDirectorの追加
     [SerializeField] private PlayableDirector director;
+    [SerializeField] private GameObject itemgeteffect;
+
 
     // 独自のフラグを追加
     private bool playerDisabledOnce = false;
@@ -31,6 +33,7 @@ public class Pillaropen : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         jouroget.gameObject.SetActive(false);
+        itemgeteffect.gameObject.SetActive(false);
     }
 
     void Update()
@@ -58,6 +61,7 @@ public class Pillaropen : MonoBehaviour
             {
                 jouroget.gameObject.SetActive(false);
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
+                itemgeteffect.gameObject.SetActive(false);
                 targetCamera.SetActive(false);
             }
         }
@@ -123,7 +127,9 @@ public class Pillaropen : MonoBehaviour
     private IEnumerator EnableCanvasAfterDelay()
     {
         watercan.SetActive(true);
-        yield return new WaitForSeconds(4.5f);
+        yield return new WaitForSeconds(4.0f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         jouroget.gameObject.SetActive(true);
 

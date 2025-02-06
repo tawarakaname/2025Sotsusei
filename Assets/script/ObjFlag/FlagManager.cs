@@ -174,6 +174,12 @@ public class FlagManager : MonoBehaviour
         switch2ON,
         getbatterD,
         MainMeterCamera,
+        Result_A,
+        Result_B,
+        Result_C,
+        Be_Aclear,
+        Be_Bclear,
+        Be_Cclear,
     }
 
     // シングルトンインスタンス

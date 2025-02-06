@@ -16,6 +16,11 @@ public class Tu_02camerazoom : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Be_Aclear))
+        {
+            return;
+        }
+
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
     }
 

@@ -129,9 +129,9 @@ public class Toolboxopen : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 1.7秒待機
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.3f);
         itemgeteffect.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
         Dryberget.gameObject.SetActive(true);
 
         if (!itemgetpanelLogged)

@@ -10,6 +10,7 @@ public class Watercanset : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip soundEffect; // 音声クリップをシリアライズ
     [SerializeField] private GameObject Bkey; // 最初に非表示のオブジェクト
+    [SerializeField] private GameObject itemgeteffect;
 
     private bool soundPlaying = false;
 
@@ -29,6 +30,7 @@ public class Watercanset : MonoBehaviour
         }
 
         Bkeyget.gameObject.SetActive(false);
+        itemgeteffect.gameObject.SetActive(false);
     }
 
     void Update()
@@ -57,6 +59,7 @@ public class Watercanset : MonoBehaviour
         {
             Bkeyget.gameObject.SetActive(false);
             flagManager.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
+            itemgeteffect.gameObject.SetActive(false);
             if (playerScript != null) playerScript.enabled = true;
         }
     }
@@ -107,6 +110,9 @@ public class Watercanset : MonoBehaviour
     private IEnumerator ShowItemGetPanelWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(0.3f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
         Bkey.SetActive(true);
         Itemgetpanel();
     }

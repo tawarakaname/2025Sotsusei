@@ -117,9 +117,9 @@ public class BoxAopen : MonoBehaviour
     private IEnumerator EnableCanvasAfterDelay()
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.6f);
         itemgeteffect.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
         capsuleDget.gameObject.SetActive(true);
 
         if (!itemgetpanelLogged)

@@ -18,11 +18,17 @@ public class Tu_04itemget : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
     }
     // Update is called once per frame
     void Update()
     {
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Be_Aclear))
+        {
+            return;
+        }
+
         // Fire2入力がある場合にフラグとキーワードをチェック
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.havecaudlonkey) && !hasCauldronColliderBeenEnabled)
         {

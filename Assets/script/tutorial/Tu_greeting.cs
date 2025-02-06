@@ -15,6 +15,12 @@ public class Tu_greeting : MonoBehaviour
     {
         flagManager = FlagManager.Instance;
 
+        if (flagManager.GetFlag(FlagManager.FlagType.Greeting))
+        {
+            DisableScript();
+            return;
+        }
+
         if (director != null)
         {
             director.stopped += OnPlayableDirectorStopped;
@@ -23,6 +29,12 @@ public class Tu_greeting : MonoBehaviour
         if (!flagManager.GetFlag(FlagManager.FlagType.Greeting))
         {
             Greeting();
+        }
+
+        if (flagManager.GetFlag(FlagManager.FlagType.Be_Aclear))
+        {
+            DisableScript();
+            return;
         }
     }
 
@@ -33,6 +45,7 @@ public class Tu_greeting : MonoBehaviour
             !flagManager.GetFlag(FlagManager.FlagType.Nowanim))
         {
             flagManager.SetFlag(FlagManager.FlagType.Nowanim, true);
+            Debug.Log("greeting");
             director.Play();
             DisablePlayerControls();
         }
@@ -64,7 +77,6 @@ public class Tu_greeting : MonoBehaviour
 
     private void OnPlayableDirectorStopped(PlayableDirector director)
     {
-        flagManager.SetFlag(FlagManager.FlagType.Greeting, true);
         flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
         EnablePlayerControls();
 
@@ -72,6 +84,23 @@ public class Tu_greeting : MonoBehaviour
         {
             targetCamera.SetActive(false);
         }
+
+
+        flagManager.SetFlag(FlagManager.FlagType.Greeting, true);
     }
 
+    private void DisableScript()
+    {
+        // イベントの登録解除
+        if (director != null)
+        {
+            director.stopped -= OnPlayableDirectorStopped;
+
+            // タイムラインを強制停止
+            director.Stop();
+        }
+
+        // スクリプトを無効化
+        this.enabled = false;
+    }
 }

@@ -10,6 +10,8 @@ public class Smellopen : MonoBehaviour
     [SerializeField] private MonoBehaviour playerScript;
     [SerializeField] private float animatedTime;
     [SerializeField] private Collider OdogurCollider;  // トリガーコライダー追加
+    [SerializeField] private GameObject itemgeteffect;
+
 
     private Animator blueoriAnimator;
     private bool controlsDisabled = false;
@@ -26,6 +28,7 @@ public class Smellopen : MonoBehaviour
 
         if (Blueori != null)
             blueoriAnimator = Blueori.GetComponent<Animator>();
+        itemgeteffect.gameObject.SetActive(false);
     }
 
     void Update()
@@ -60,6 +63,7 @@ public class Smellopen : MonoBehaviour
 
         {
             bluekeyGet.gameObject.SetActive(false);
+            itemgeteffect.gameObject.SetActive(false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
             playerScript.enabled = true;
 
@@ -107,8 +111,11 @@ public class Smellopen : MonoBehaviour
         }
         if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Blueoriopen))
         {
+
+            yield return new WaitForSeconds(0.6f);
+            itemgeteffect.gameObject.SetActive(true);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
 
             bluekeyGet.gameObject.SetActive(true);
 

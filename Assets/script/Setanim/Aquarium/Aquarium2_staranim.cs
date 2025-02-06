@@ -25,6 +25,7 @@ public class Aquarium_staranim : MonoBehaviour
     [SerializeField] private float animatedTime;
     private Coroutine Aquarium2waterCoroutine;
 
+   [SerializeField] private GameObject itemgeteffect;
     void Start()
     {
         Starcup2get.gameObject.SetActive(false);
@@ -33,6 +34,7 @@ public class Aquarium_staranim : MonoBehaviour
         if (wateranimStar != null) wateranimStarAnimator = wateranimStar.GetComponent<Animator>();
 
         audioSource = GetComponent<AudioSource>();
+        itemgeteffect.gameObject.SetActive(false);
 
     }
 
@@ -72,6 +74,7 @@ public class Aquarium_staranim : MonoBehaviour
             // Canvasを非表示にし、フラグを更新
             Starcup2get.gameObject.SetActive(false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
+            itemgeteffect.gameObject.SetActive(false);
             playerScript.enabled = true;
         }
 
@@ -123,7 +126,9 @@ public class Aquarium_staranim : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 1.7秒待機
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.1f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
         Starcup2get.gameObject.SetActive(true);
         Starcup2.SetActive(true);
         setcup.SetActive(false);

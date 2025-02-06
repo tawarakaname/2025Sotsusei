@@ -21,6 +21,7 @@ public class BluekeySet : MonoBehaviour
     private Coroutine BlueBoxCoroutine;
     private TextManager textManager;
 
+    [SerializeField] private GameObject itemgeteffect;
     [SerializeField] private SetObj setObj;
     private bool isFreeInteract = true;
     void Start()
@@ -31,6 +32,7 @@ public class BluekeySet : MonoBehaviour
         // ueとshitaのAnimatorコンポーネントを取得
         if (BlueBoxanim != null) BlueBoxAnimator = BlueBoxanim.GetComponent<Animator>();
         setObj.IsFreeInteract = false;
+        itemgeteffect.gameObject.SetActive(false);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -98,6 +100,7 @@ public class BluekeySet : MonoBehaviour
             // Fire2が押されたらCanvasをfalseに
             Bluekeyget.gameObject.SetActive(false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
+            itemgeteffect.gameObject.SetActive(false);
             FlagManager.Instance.SetFlagByType(Item.Type.bluekey, false);
             playerScript.enabled = true;
         }
@@ -162,7 +165,9 @@ public class BluekeySet : MonoBehaviour
 
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 0.8秒待機
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.3f);
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
         Bluekeyget.gameObject.SetActive(true);
 
         if (!itemgetpanelLogged)

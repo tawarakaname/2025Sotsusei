@@ -35,6 +35,7 @@ public class comebackA2 : MonoBehaviour
             MoveTargetObject();
             if (triggerCollider != null)
             {
+                Debug.Log("trueだや");
                 triggerCollider.enabled = true;
             }
         }

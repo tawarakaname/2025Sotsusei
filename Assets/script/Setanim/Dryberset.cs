@@ -153,9 +153,9 @@ public class Dryberset : MonoBehaviour
     {
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         // 6秒待機
-        yield return new WaitForSeconds(5.3f);
+        yield return new WaitForSeconds(5.6f);
         itemgeteffect.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.5f);
         batteryBget.gameObject.SetActive(true);
         // Akeygetをtrueにする
 
