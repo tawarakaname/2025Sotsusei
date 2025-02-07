@@ -26,6 +26,8 @@ public class ItemCanvas : MonoBehaviour
     private void Awake()
     {
         CheckSingleton();
+        gameObject.SetActive(false); // 最初は非表示
+
     }
 
     private void CheckSingleton()

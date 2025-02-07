@@ -28,6 +28,11 @@ public class TitleSceneManager : MonoBehaviour
             FlagManager.Instance.ResetFlags();
         }
 
+        // アイテムリセット
+        Itembox.instance?.ResetItembox();
+        PickupObj.ResetPickedItems();
+
+
         PickupObj.ResetPickedItems();
         Debug.Log("進行状況をリセットしました。");
     }

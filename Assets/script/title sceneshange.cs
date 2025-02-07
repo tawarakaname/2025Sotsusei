@@ -18,10 +18,11 @@ public class TitleSceneChange : MonoBehaviour
     // シーン遷移を遅らせるためのコルーチン
     IEnumerator WaitAndChangeScene()
     {
-        // 1秒待つ
+        // 2秒待機
         yield return new WaitForSeconds(2f);
 
         // シーンを"OP"に切り替え
         SceneManager.LoadScene("OP");
     }
+
 }
