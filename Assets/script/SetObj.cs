@@ -26,7 +26,6 @@ public class SetObj : MonoBehaviour
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         selectedItem = GameObject.FindWithTag("SelectedItem").GetComponent<SelectedItem>();
         targetUI.SetActive(false); // 初期状態でUIを非表示に設定
-        Debug.Log("e?");
         audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
         audioSource2 = GetComponents<AudioSource>()[1]; // 2つ目のAudioSourceコンポーネントを取得
     }

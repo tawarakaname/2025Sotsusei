@@ -17,16 +17,15 @@ public class AkeyItem : MonoBehaviour
         }
     }
 
-    void Update()//鍵が2回表示されるバグの根源
+    void Update()
     {
         if (Akey == null) return; // Akeyが設定されていない場合は何もしない
 
         // Akeygetフラグがtrueかどうかを確認
         bool isAkeygetFlagOn = flagManager.GetFlag(FlagManager.FlagType.Akeyget);
-        bool isAdooropenFlagOn = flagManager.GetFlag(FlagManager.FlagType.Adooropen);
 
         // Akeygetフラグがtrueで、まだAkeyを表示していない場合
-        if (isAkeygetFlagOn && !hasAkeyShown && !isAdooropenFlagOn)
+        if (isAkeygetFlagOn && !hasAkeyShown)
         {
             // Akeyを表示
             Akey.SetActive(true);
