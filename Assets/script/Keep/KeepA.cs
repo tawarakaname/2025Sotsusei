@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class KeepA : MonoBehaviour
 {
+    [Header("Result_A")]
     [SerializeField] private GameObject[] DeleteObjects; // 複数形にリネーム
     [SerializeField] private GameObject[] GenerateObjects; // 複数形にリネーム
+
+    [Header("青い箱")]
+    [SerializeField] private GameObject[] DeleteObjects1; // 対象のGameObjectをInspectorで設定
+    [SerializeField] private GameObject[] GenerateObjects1; // 対象のGameObjectをInspectorで設定
 
     void Start()
     {
@@ -13,6 +18,12 @@ public class KeepA : MonoBehaviour
         {
             SetActiveForObjects(DeleteObjects, false);
             SetActiveForObjects(GenerateObjects, true);
+        }
+
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.playBlueBox))
+        {
+            SetActiveForObjects(GenerateObjects1, true);
+            SetActiveForObjects(DeleteObjects1, false);
         }
     }
 

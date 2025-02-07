@@ -22,6 +22,8 @@ public class GasbanerCclose : MonoBehaviour
     private bool burntCup3Set = false; // `burntcup3get` が設定済みか追跡
     private Coroutine activePanelCoroutine;
 
+    [SerializeField] private GameObject itemgeteffect;
+
     void Start()
     {
         foreach (GameObject panel in panels)
@@ -98,7 +100,8 @@ public class GasbanerCclose : MonoBehaviour
 
         // ドアのアニメーション完了フラグを設定
         FlagManager.Instance.SetFlag(FlagManager.FlagType.DoorAnimComplete, true);
-
+        itemgeteffect.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
         // パネルを表示
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
         panel.SetActive(true);
@@ -114,6 +117,7 @@ public class GasbanerCclose : MonoBehaviour
             Input.GetButtonDown("Fire2"));
 
         // パネルを非表示
+        itemgeteffect.gameObject.SetActive(false);
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
         panel.SetActive(false);
 

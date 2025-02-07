@@ -98,20 +98,20 @@ public class ZukanScript : MonoBehaviour
         if (flagManager == null)
             return;
 
-        // FlagManager から現在のフラグ状態を取得
-        bool isRegistered = flagManager.GetFlag(FlagManager.FlagType.Adooropen);
+        // フラグ状態を取得
+        bool isARegistered = flagManager.GetFlag(FlagManager.FlagType.Adooropen);
+        bool isBRegistered = flagManager.GetFlag(FlagManager.FlagType.Bdooropen);
+        bool isCRegistered = flagManager.GetFlag(FlagManager.FlagType.Cdooropen);
 
-        // 選択するSpriteを条件に基づいて決定
-        Sprite selectedSprite = null;
-        if (isRegistered && currentIndex <= 4)
+        // 初期状態では未登録スプライト
+        Sprite selectedSprite = sprites.Length > currentIndex ? sprites[currentIndex] : null;
+
+        // フラグの状態に応じてクリアスプライトを適用
+        if ((isARegistered && currentIndex <= 4) ||
+            (isBRegistered && currentIndex <= 10) ||
+            (isCRegistered && currentIndex <= 14))
         {
-            // Adooropen が true かつ currentIndex が 0～4 の場合、登録済みのスプライトを使用
-            selectedSprite = clearsprites.Length > currentIndex ? clearsprites[currentIndex] : null;
-        }
-        else
-        {
-            // それ以外の場合、未登録のスプライトを使用
-            selectedSprite = sprites.Length > currentIndex ? sprites[currentIndex] : null;
+            selectedSprite = clearsprites.Length > currentIndex ? clearsprites[currentIndex] : selectedSprite;
         }
 
         // 選択されたスプライトを Image に適用
@@ -120,6 +120,7 @@ public class ZukanScript : MonoBehaviour
             contentImage.sprite = selectedSprite;
         }
     }
+
 
 
     private Sprite[] GetActiveSprites()

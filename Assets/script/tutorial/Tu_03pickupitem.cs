@@ -120,7 +120,7 @@ public class Tu_03pickupitem : MonoBehaviour
         textManager.DisplayTextForKeyword(currentKeyword);
         if (UIAnimator != null)
         {
-            UIAnimator.SetTrigger("maru");
+            UIAnimator.SetTrigger("Tu_panel");
         }
     }
 
@@ -129,6 +129,11 @@ public class Tu_03pickupitem : MonoBehaviour
     {
         yield return new WaitForSeconds(1f); // 1秒待つ
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Setanim, false);
+
+        if (UIAnimator != null)
+        {
+            UIAnimator.gameObject.SetActive(false);
+        }
 
         // Tu_03pickupCollider を無効化
         if (Tu_03pickupCollider != null)
@@ -151,9 +156,6 @@ public class Tu_03pickupitem : MonoBehaviour
         // コルーチンを開始して1秒後に処理を実行
         StartCoroutine(DisableTu_03colliderWithDelay());
 
-        if (UIAnimator != null)
-        {
-            UIAnimator.SetTrigger("marudefault");
-        }
+       
     }
 }
