@@ -23,9 +23,13 @@ public class AkeyItem : MonoBehaviour
 
         // Akeygetフラグがtrueかどうかを確認
         bool isAkeygetFlagOn = flagManager.GetFlag(FlagManager.FlagType.Akeyget);
+        bool isAdooropenFlagOn = flagManager.GetFlag(FlagManager.FlagType.Adooropen);
+
+
 
         // Akeygetフラグがtrueで、まだAkeyを表示していない場合
-        if (isAkeygetFlagOn && !hasAkeyShown)
+        if (isAkeygetFlagOn && !hasAkeyShown && !isAdooropenFlagOn)
+
         {
             // Akeyを表示
             Akey.SetActive(true);

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
+
 
 public class SetObj : MonoBehaviour
 {
@@ -24,10 +26,16 @@ public class SetObj : MonoBehaviour
     private void Start()
     {
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
-        selectedItem = GameObject.FindWithTag("SelectedItem").GetComponent<SelectedItem>();
+        StartCoroutine(FindSelectedItemWithDelay());
         targetUI.SetActive(false); // 初期状態でUIを非表示に設定
         audioSource = GetComponent<AudioSource>(); // AudioSourceコンポーネントを取得
         audioSource2 = GetComponents<AudioSource>()[1]; // 2つ目のAudioSourceコンポーネントを取得
+    }
+
+    private IEnumerator FindSelectedItemWithDelay()
+    {
+        yield return new WaitForSeconds(0.2f); // 0.2秒遅らせる
+        selectedItem = GameObject.FindWithTag("SelectedItem")?.GetComponent<SelectedItem>();
     }
 
     private void Update()

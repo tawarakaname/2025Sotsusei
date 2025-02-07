@@ -198,5 +198,19 @@ public class Itembox : MonoBehaviour
     }
 
 
+    public void ResetItembox()
+    {
+        Debug.Log("deleteitems");
+        // スロットの内容をクリア
+        foreach (Slot slot in slots)
+        {
+            slot.SetItem(null);  // スロットのアイテムを消去
+            slot.HideBGPanel();  // 背景パネルを非表示
+        }
+
+        selectedSlot = null;  // 選択されているスロットもクリア
+        selectedItemPanel.UpdateSelectedItem(null);  // 選択アイテムパネルをクリア
+    }
+
 
 }

@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class ItemCanvas : MonoBehaviour
 {
     [SerializeField] private GameObject Canvas;
+    [SerializeField] private GameObject defaultCanvas;
     [SerializeField] private GameObject OptionCanvas;
     private FlagManager flagManager;
     private bool currentZoomPanelFlag;
@@ -14,8 +15,49 @@ public class ItemCanvas : MonoBehaviour
     [SerializeField] private Image inventryImage;
     [SerializeField] private Image inventrynameImage;
     private TextManager textManager;
+    public SelectedItem selectedItem { get; private set; }
 
-    void Start()
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        string sceneName = scene.name;
+
+        // Title, Op の時は Canvas だけを非表示
+        bool shouldBeVisible = !(sceneName == "title" || sceneName == "OP" || sceneName == "Z");
+        Canvas.SetActive(shouldBeVisible);
+        OptionCanvas.SetActive(shouldBeVisible);
+
+        // Title に戻ったときはリセット
+        if (sceneName == "title")
+        {
+            ResetItemCanvas();
+        }
+        // Title に戻ったときはリセット
+        if (sceneName == "OP")
+        {
+            ResetItemCanvas();
+        }
+        if (sceneName == "Z")
+        {
+            RefleshItemCanvas();
+        }
+    }
+
+    private void ResetItemCanvas()
+    {
+        Canvas.SetActive(false);
+        OptionCanvas.SetActive(false);
+        hasClosedOptionPanel = false; // オプションパネル閉じた記録をリセット
+        defaultCanvas.SetActive(false);
+    }
+    private void RefleshItemCanvas()
+    {
+        Canvas.SetActive(false);
+        OptionCanvas.SetActive(false);
+        hasClosedOptionPanel = false; // オプションパネル閉じた記録をリセット
+        defaultCanvas.SetActive(true);
+    }
+
+        void Start()
     {
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         Canvas.SetActive(false);
@@ -26,6 +68,7 @@ public class ItemCanvas : MonoBehaviour
     private void Awake()
     {
         CheckSingleton();
+        SceneManager.sceneLoaded += OnSceneLoaded; // ここで登録
     }
 
     private void CheckSingleton()
@@ -43,6 +86,11 @@ public class ItemCanvas : MonoBehaviour
 
     void Update()
     {
+        if (!flagManager.GetFlag(FlagManager.FlagType.Z))
+        {
+            return;
+        }
+
         bool isAllFlagsOff =
             !flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
             !flagManager.GetFlag(FlagManager.FlagType.Textbox) &&
@@ -97,6 +145,11 @@ public class ItemCanvas : MonoBehaviour
             CloseOptionPanel();
             hasClosedOptionPanel = true; // 一度閉じたことを記録する
         }
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; // 破棄時に解除
     }
 
     public void ClosePanel()

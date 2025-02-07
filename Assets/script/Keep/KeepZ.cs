@@ -9,6 +9,8 @@ public class KeepZ : MonoBehaviour
 
     void Start()
     {
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Z, true);
+
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Result_A))
         {
             SetActiveForObjects(DeleteObjects, false);

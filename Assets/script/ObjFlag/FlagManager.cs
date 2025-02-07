@@ -180,6 +180,7 @@ public class FlagManager : MonoBehaviour
         Be_Aclear,
         Be_Bclear,
         Be_Cclear,
+        Z,
     }
 
     // シングルトンインスタンス
