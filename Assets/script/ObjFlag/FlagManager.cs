@@ -307,6 +307,7 @@ public class FlagManager : MonoBehaviour
         foreach (FlagType flagType in Enum.GetValues(typeof(FlagType)))
         {
             flagDictionary[flagType] = false;
+            Debug.Log("flagrest");
         }
     }
 

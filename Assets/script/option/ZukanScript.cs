@@ -106,6 +106,13 @@ public class ZukanScript : MonoBehaviour
         // 初期状態では未登録スプライト
         Sprite selectedSprite = sprites.Length > currentIndex ? sprites[currentIndex] : null;
 
+        // Zukan フラグが false なら自動的に非表示にする
+        if (!flagManager.GetFlag(FlagManager.FlagType.Zukan) && contentImage.gameObject.activeSelf)
+        {
+            contentImage.gameObject.SetActive(false);
+            Debug.Log("ZukanScript: 自動で非表示にしました。");
+        }
+
         // フラグの状態に応じてクリアスプライトを適用
         if ((isARegistered && currentIndex <= 4) ||
             (isBRegistered && currentIndex <= 10) ||
@@ -146,4 +153,5 @@ public class ZukanScript : MonoBehaviour
         contentImage.gameObject.SetActive(false);
         flagManager.SetFlag(FlagManager.FlagType.Zukan, false);
     }
+
 }

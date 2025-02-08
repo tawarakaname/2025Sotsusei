@@ -92,7 +92,7 @@ public class Tu_04itemget : MonoBehaviour
         // アニメーションを再生
         if (UIAnimator != null)
         {
-            UIAnimator.SetTrigger("batu");
+            UIAnimator.SetTrigger("sikaku");
         }
     }
 
@@ -103,7 +103,7 @@ public class Tu_04itemget : MonoBehaviour
                                              // アニメーションを再生
         if (UIAnimator != null)
         {
-            UIAnimator.SetTrigger("batudefault");
+            UIAnimator.SetTrigger("sikakudefault");
         }
         this.enabled = false; // このスクリプトを無効化
     }

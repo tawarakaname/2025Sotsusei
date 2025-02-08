@@ -9,6 +9,7 @@ public class ItemCanvas : MonoBehaviour
     [SerializeField] private GameObject Canvas;
     [SerializeField] private GameObject defaultCanvas;
     [SerializeField] private GameObject OptionCanvas;
+    [SerializeField] private GameObject Zukan;
     private FlagManager flagManager;
     private bool currentZoomPanelFlag;
     private bool hasClosedOptionPanel = false; // オプションパネルを閉じたかどうかを記録
@@ -22,33 +23,34 @@ public class ItemCanvas : MonoBehaviour
         string sceneName = scene.name;
 
         // Title, Op の時は Canvas だけを非表示
-        bool shouldBeVisible = !(sceneName == "title" || sceneName == "OP" || sceneName == "Z");
-        Canvas.SetActive(shouldBeVisible);
-        OptionCanvas.SetActive(shouldBeVisible);
+       // bool shouldBeVisible = !(sceneName == "title" || sceneName == "OP" || sceneName == "Z");
+        Canvas.SetActive(false);
+        OptionCanvas.SetActive(false);
+        Zukan.SetActive(false);
 
-        // Title に戻ったときはリセット
-        if (sceneName == "title")
-        {
-            ResetItemCanvas();
-        }
-        // Title に戻ったときはリセット
-        if (sceneName == "OP")
-        {
-            ResetItemCanvas();
-        }
+        //// Title に戻ったときはリセット
+        //if (sceneName == "title")
+        //{
+        //    ResetItemCanvas();
+        //}
+        //// Title に戻ったときはリセット
+        //if (sceneName == "OP")
+        //{
+        //    ResetItemCanvas();
+        //}
         if (sceneName == "Z")
         {
             RefleshItemCanvas();
         }
     }
 
-    private void ResetItemCanvas()
-    {
-        Canvas.SetActive(false);
-        OptionCanvas.SetActive(false);
-        hasClosedOptionPanel = false; // オプションパネル閉じた記録をリセット
-        defaultCanvas.SetActive(false);
-    }
+    //private void ResetItemCanvas()
+    //{
+    //    Canvas.SetActive(false);
+    //    OptionCanvas.SetActive(false);
+    //    hasClosedOptionPanel = false; // オプションパネル閉じた記録をリセット
+    //    defaultCanvas.SetActive(false);
+    //}
     private void RefleshItemCanvas()
     {
         Canvas.SetActive(false);
@@ -163,4 +165,23 @@ public class ItemCanvas : MonoBehaviour
         OptionCanvas.SetActive(false);
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Option, false);
     }
+
+    public void ResetItemCanvas()
+    {
+        // Canvas や OptionCanvas を非表示にする
+        Canvas.SetActive(false);
+        OptionCanvas.SetActive(false);
+
+        // フラグリセット
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.itembox, false);
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Option, false);
+
+        //// 必要に応じて、他のUI状態をリセットする
+        //// 例: スロット選択状態など
+        //Itembox.instance.ResetItembox();
+
+        hasClosedOptionPanel = false; // オプションパネルを閉じた状態をリセット
+        defaultCanvas.SetActive(false); // もしdefaultCanvasがあれば非表示にする
+    }
+
 }

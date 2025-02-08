@@ -163,4 +163,17 @@ public class HomeScript : MonoBehaviour
         isProcessingFire1 = false; // 処理完了後にフラグを解除
     }
 
+    public void ResetHome()
+    {
+        // フラグをリセット
+        flagManager.SetFlag(FlagManager.FlagType.Home, false);
+        contentImage.gameObject.SetActive(false);  // contentImageを非表示にする
+
+        // choiceUIを非表示にする
+        foreach (var ui in choiceUI)
+        {
+            ui.gameObject.SetActive(false);
+        }
+    }
+
 }

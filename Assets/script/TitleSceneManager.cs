@@ -27,12 +27,23 @@ public class TitleSceneManager : MonoBehaviour
         {
             FlagManager.Instance.ResetFlags();
         }
+
         // アイテムリセット
         Itembox.instance?.ResetItembox();
-
         PickupObj.ResetPickedItems();
+
+        // Canvas や OptionCanvas をリセット
+        var itemCanvas = FindObjectOfType<ItemCanvas>();
+        if (itemCanvas != null)
+        {
+            itemCanvas.ResetItemCanvas(); // Canvas と OptionCanvas を非表示にする
+        }
+
+        // ZukanScript にアクセスせず、フラグをリセットするだけ
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Zukan, false);
+
+
         Debug.Log("進行状況をリセットしました。");
-
-
     }
+
 }

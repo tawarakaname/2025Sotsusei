@@ -47,4 +47,12 @@ public class OperationScript : MonoBehaviour
         contentImage.gameObject.SetActive(false);
         flagManager.SetFlag(FlagManager.FlagType.Operation, false);
     }
+
+    public void ResetOperation()
+    {
+        // フラグをリセット
+        flagManager.SetFlag(FlagManager.FlagType.Operation, false);
+        contentImage.gameObject.SetActive(false);  // contentImageを非表示にする
+    }
+
 }
