@@ -15,6 +15,7 @@ public class Be_02Bclear : MonoBehaviour
     {
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         flagManager = FlagManager.Instance;
+        Collider.enabled = false;
 
         if (!flagManager.GetFlag(FlagManager.FlagType.Greeting))
         {
@@ -89,7 +90,6 @@ public class Be_02Bclear : MonoBehaviour
             if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) && isTextboxActive)
             {
                 isTextboxActive = false;
-
                 Collider.enabled = true;
                 flagManager.SetFlag(FlagManager.FlagType.Be_Bclear, true);
                 flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);

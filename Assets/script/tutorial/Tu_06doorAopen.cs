@@ -33,7 +33,7 @@ public class Tu_06doorAopen : MonoBehaviour
         }
 
         // Tu_06clear フラグが true になったタイミングで実行
-        if (flagManager.GetFlag(FlagManager.FlagType.Tu_06clear) && (!flagManager.GetFlag(FlagManager.FlagType.Result_A)))
+        if (flagManager.GetFlag(FlagManager.FlagType.Tu_06clear) && FlagManager.Instance.GetFlagByType(Item.Type.caudlonkey) && (!flagManager.GetFlag(FlagManager.FlagType.Result_A)))
         {
             hasStarted = true; // 二度と実行しないようにフラグを立てる
             ExecuteEvent();

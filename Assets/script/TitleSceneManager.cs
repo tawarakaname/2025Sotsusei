@@ -20,7 +20,6 @@ public class TitleSceneManager : MonoBehaviour
             ResetProgress();
         }
     }
-
     private void ResetProgress()
     {
         if (FlagManager.Instance != null)
@@ -42,8 +41,15 @@ public class TitleSceneManager : MonoBehaviour
         // ZukanScript にアクセスせず、フラグをリセットするだけ
         FlagManager.Instance.SetFlag(FlagManager.FlagType.Zukan, false);
 
+        // **TextManager のリセット**
+        var textManager = FindObjectOfType<TextManager>();
+        if (textManager != null)
+        {
+            textManager.ResetTextManager();
+        }
 
         Debug.Log("進行状況をリセットしました。");
     }
+
 
 }

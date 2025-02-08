@@ -13,6 +13,8 @@ public class CharactorMove : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         SceneTransitionManager transitionManager = FindObjectOfType<SceneTransitionManager>();
+        GameObject warpObject = collision.gameObject; // ワープオブジェクトの参照
+        string warpName = warpObject.name;
 
         // warpAtoBに衝突した場合、フラグが有効ならシーン遷移
         if (collision.gameObject.name == "warpAtoB")
@@ -58,18 +60,20 @@ public class CharactorMove : MonoBehaviour
         {
             transitionManager.LoadScene("A");
             this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定
-
+            warpObject.SetActive(false); // ワープオブジェクトを無効化
         }
         if (collision.gameObject.name == "warpZtoB")
         {
             transitionManager.LoadScene("B");
             this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定
+            warpObject.SetActive(false); // ワープオブジェクトを無効化
 
         }
         if (collision.gameObject.name == "warpZtoC")
         {
             transitionManager.LoadScene("C");
             this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定
+            warpObject.SetActive(false); // ワープオブジェクトを無効化
 
         }
     }

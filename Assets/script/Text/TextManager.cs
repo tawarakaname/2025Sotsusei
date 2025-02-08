@@ -310,4 +310,24 @@ public class TextManager : MonoBehaviour
         }
     }
 
+    public void ResetTextManager()
+    {
+        // テキスト関連のリセット
+        currentTextLines = null;
+        currentLineIndex = 0;
+        talkText.text = "";
+        OtherTalkText.text = "";
+
+        // UIの非表示
+        TextBox.SetActive(false);
+        OtherTextBox.SetActive(false);
+
+        // 画像のリセット
+        HIcon.sprite = null;
+        OtherIcon.sprite = null;
+
+        Debug.Log("[TextManager] リセットしました。");
+    }
+
+
 }

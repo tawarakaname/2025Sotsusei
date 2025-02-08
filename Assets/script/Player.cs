@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     private Vector3 movement;
     private FlagManager flagManager;
 
+    private bool canMove = true;
+
     [SerializeField] private GameObject playersheet; // playersheetをインスペクターから設定可能にする
 
     // Start is called before the first frame update
@@ -19,6 +21,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!canMove) return; // 入力を無効化
+
         // CameraZoomObj フラグが true の場合、playersheet を非表示
         if (flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj))
         {
@@ -54,6 +58,11 @@ public class Player : MonoBehaviour
         animator.SetFloat("Speed", movement.sqrMagnitude);
     }
 
+    public void SetControlEnabled(bool enabled)
+    {
+        canMove = enabled;
+    }
+
     void FixedUpdate()
     {
         // wipe中かつCameraZoomObjがまだfalseの場合は待機（移動を無効化するがreturnしない）
@@ -67,4 +76,6 @@ public class Player : MonoBehaviour
         // 通常の移動処理
         theRB.MovePosition(theRB.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
+
+
 }
