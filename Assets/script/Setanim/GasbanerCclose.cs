@@ -19,7 +19,7 @@ public class GasbanerCclose : MonoBehaviour
     private bool diaUsed = false;
     private bool starUsed = false;
 
-    private bool burntCup3Set = false; // `burntcup3get` が設定済みか追跡
+    private bool burntCup3Set = false; // burntcup3get が設定済みか追跡
     private Coroutine activePanelCoroutine;
 
     [SerializeField] private GameObject itemgeteffect;
@@ -74,62 +74,54 @@ public class GasbanerCclose : MonoBehaviour
 
     private IEnumerator HandlePanel(GameObject panel, GameObject associatedCup2, GameObject associatedCup3, System.Action onPanelUsed)
     {
-        // 対応する cup3 オブジェクトをアクティブ化
-        if (associatedCup3 != null)
+        try
         {
-            associatedCup3.SetActive(true);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
+
+            if (associatedCup3 != null)
+                associatedCup3.SetActive(true);
+
+            GasCdoorAnimator.SetTrigger("Cdoorclose");
+
+            if (associatedCup2 != null)
+                associatedCup2.SetActive(false);
+
+            yield return new WaitForSeconds(1f);
+
+            GasCdoorAnimator.SetTrigger("Cdooropen");
+
+            yield return new WaitForSeconds(0.2f);
+
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.DoorAnimComplete, true);
+
+            itemgeteffect.gameObject.SetActive(true);
+            audioSource.PlayOneShot(soundEffect);
+
+            yield return new WaitForSeconds(0.5f);
+            panel.SetActive(true);
+
+            // Fire2の入力があるまで無制限に待つ
+            while (!(FlagManager.Instance.GetFlag(FlagManager.FlagType.DoorAnimComplete) &&
+                     FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
+                     FlagManager.Instance.GetFlag(FlagManager.FlagType.GasCamera2) &&
+                     Input.GetButtonDown("Fire2")))
+            {
+                yield return null; // 1フレーム待機して再チェック
+            }
+
+            itemgeteffect.gameObject.SetActive(false);
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
+            panel.SetActive(false);
+
+            onPanelUsed?.Invoke();
+            FlagManager.Instance.SetFlag(FlagManager.FlagType.DoorAnimComplete, false);
         }
-
-        // ドアを閉じるアニメーション
-        GasCdoorAnimator.SetTrigger("Cdoorclose");
-
-        // 対応する cup2 オブジェクトを非アクティブ化
-        if (associatedCup2 != null)
+        finally
         {
-            associatedCup2.SetActive(false);
+            activePanelCoroutine = null; // 確実にリセット
         }
-
-        // アニメーションが完了するまで待機
-        yield return new WaitForSeconds(animatedTime);
-
-        // ドアを開くアニメーション
-        GasCdoorAnimator.SetTrigger("Cdooropen");
-
-        // ドア開くアニメーションの完了待機
-        yield return new WaitForSeconds(animatedTime); // ここで開くアニメーションの再生時間を待つ
-
-        // ドアのアニメーション完了フラグを設定
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.DoorAnimComplete, true);
-        itemgeteffect.gameObject.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
-        // パネルを表示
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
-        panel.SetActive(true);
-
-        // 音声を再生
-        audioSource.PlayOneShot(soundEffect);
-
-        // Fire2キーの入力待機（条件にアニメーション完了フラグを追加）
-        yield return new WaitUntil(() =>
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.DoorAnimComplete) && // アニメーション完了フラグ
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.GasCamera2) &&
-            Input.GetButtonDown("Fire2"));
-
-        // パネルを非表示
-        itemgeteffect.gameObject.SetActive(false);
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, false);
-        panel.SetActive(false);
-
-        // フラグを更新
-        onPanelUsed?.Invoke();
-
-        // ドアアニメーション完了フラグをリセット
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.DoorAnimComplete, false);
-
-        // コルーチンの最後でリセット
-        activePanelCoroutine = null;
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
