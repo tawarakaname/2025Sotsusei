@@ -23,7 +23,7 @@ public class CharactorMove : MonoBehaviour
             if (isAdooropenFlagOn)
             {
                 transitionManager.LoadScene("B");
-                this.transform.position = new Vector3(0, 0, 8);
+                this.transform.position = new Vector3(-5.7f, 0, 8);
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackA, false);
                 FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackAtoB, true);
             }
@@ -31,7 +31,7 @@ public class CharactorMove : MonoBehaviour
         if (collision.gameObject.name == "warpBtoA")
         {
             transitionManager.LoadScene("A");
-             this.transform.position = new Vector3(8.47f, 0.79f, 8.76f); // シーン遷移後の新しい位置を設定
+             this.transform.position = new Vector3(0f, 0.84f, -3.4f); // シーン遷移後の新しい位置を設定
              FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackA, true);
              FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackAtoB, false);
             

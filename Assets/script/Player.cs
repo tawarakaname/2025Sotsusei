@@ -77,5 +77,11 @@ public class Player : MonoBehaviour
         theRB.MovePosition(theRB.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
 
+    public void StopMovement()
+    {
+        movement = Vector3.zero; // ← 追加: 直前の移動入力をリセット
+        theRB.velocity = Vector3.zero; // ← 追加: Rigidbodyの速度もリセット
+        animator.SetFloat("Speed", 0f); // ← 追加: アニメーションも停止
+    }
 
 }
