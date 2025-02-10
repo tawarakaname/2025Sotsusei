@@ -7,6 +7,7 @@ public class KeepC : MonoBehaviour
     [Header("Belt1move")]
     [SerializeField] private GameObject[] DeleteObjects; // 対象のGameObjectをInspectorで設定
     [SerializeField] private GameObject[] GenerateObjects; // 対象のGameObjectをInspectorで設定
+    [SerializeField] private Collider[] GenerateColliders; // 有効化するコライダー（ここを追加）
 
     [Header("leverdown")]
     [SerializeField] private GameObject[] DeleteObjects1; // 対象のGameObjectをInspectorで設定
@@ -38,6 +39,7 @@ public class KeepC : MonoBehaviour
         {
             SetActiveForObjects(GenerateObjects, true);
             SetActiveForObjects(DeleteObjects, false);
+            EnableColliders(GenerateColliders, true);  // ここでコライダーを有効化
         }
 
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
@@ -81,6 +83,14 @@ public class KeepC : MonoBehaviour
             {
                 obj.SetActive(state);
             }
+        }
+    }
+
+    private void EnableColliders(Collider[] colliders, bool state)
+    {
+        foreach (Collider col in colliders)
+        {
+            col.enabled = state;
         }
     }
 }
