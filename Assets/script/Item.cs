@@ -46,6 +46,7 @@ public class Item
         crystalA,
         crystalB,
         crystalC,
+        Allcupwater,
 
     }
 

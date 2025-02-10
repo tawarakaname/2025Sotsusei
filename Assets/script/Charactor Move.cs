@@ -42,7 +42,7 @@ public class CharactorMove : MonoBehaviour
         if (collision.gameObject.name == "warpBtoC")
         {
             transitionManager.LoadScene("C");
-            this.transform.position = new Vector3(0, 10, 8);
+            this.transform.position = new Vector3(0, 0.84f, -3.4f);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackB, false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackBtoC,true);
         }
@@ -50,7 +50,7 @@ public class CharactorMove : MonoBehaviour
         if (collision.gameObject.name == "warpCtoB")
         {
             transitionManager.LoadScene("B");
-            this.transform.position = new Vector3(0, 0, 8); // シーン遷移後の新しい位置を設定
+            this.transform.position = new Vector3(-6.5f,1.37f,2.84f); // シーン遷移後の新しい位置を設定
             FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackB, true);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackBtoC, false);
 

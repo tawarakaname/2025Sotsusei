@@ -27,7 +27,10 @@ public class Tu_08doorCopen : MonoBehaviour
         }
 
         // crystalAフラグが true になったタイミングで実行
-        if (flagManager.GetFlagByType(Item.Type.crystalB))
+        if (flagManager.GetFlagByType(Item.Type.crystalB) &&
+            flagManager.GetFlagByType(Item.Type.heartcup3) &&
+            flagManager.GetFlagByType(Item.Type.diacup3) &&
+            flagManager.GetFlagByType(Item.Type.starcup3))
         {
             hasStarted = true; // 二度と実行しないようにフラグを立てる
             ExecuteEvent();

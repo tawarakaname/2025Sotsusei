@@ -10,6 +10,8 @@ public class Be_02Bclear : MonoBehaviour
     private string currentKeyword;
     [SerializeField] private GameObject hanamaru;
     [SerializeField] private Collider Collider; // 台座コライダー
+    [SerializeField] private SetObj setObj;
+    [SerializeField] private Collider colliderToEnable;       // 最初に有効化するコライダー
 
     void Start()
     {
@@ -89,10 +91,16 @@ public class Be_02Bclear : MonoBehaviour
             // テキスト終了後の処理
             if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) && isTextboxActive)
             {
+                setObj.IsFreeInteract = true;
                 isTextboxActive = false;
                 Collider.enabled = true;
                 flagManager.SetFlag(FlagManager.FlagType.Be_Bclear, true);
                 flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
+                // 初期状態でコライダーを有効化
+                if (colliderToEnable != null)
+                {
+                    colliderToEnable.enabled = true;
+                }
             }
 
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
