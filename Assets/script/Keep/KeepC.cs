@@ -44,7 +44,8 @@ public class KeepC : MonoBehaviour
             SetActiveForObjects(GenerateObjects, true);
             SetActiveForObjects(DeleteObjects, false);
             EnableColliders(GenerateColliders, true);  // ここでコライダーを有効化
-            ChangeYPosition(targetObject, newYPosition); // Y座標変更処理
+            ChangeYRotation(targetObject, 90f); // Y軸を90度回転
+
         }
 
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
@@ -99,13 +100,14 @@ public class KeepC : MonoBehaviour
         }
     }
 
-    private void ChangeYPosition(GameObject obj, float newY)
+    private void ChangeYRotation(GameObject obj, float newYRotation)
     {
         if (obj != null)
         {
-            Vector3 position = obj.transform.position;
-            position.y = newY;
-            obj.transform.position = position;
+            Vector3 rotation = obj.transform.eulerAngles;
+            rotation.y = newYRotation;
+            obj.transform.eulerAngles = rotation;
         }
     }
+
 }
