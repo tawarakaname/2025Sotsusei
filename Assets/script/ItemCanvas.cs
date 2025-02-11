@@ -88,10 +88,10 @@ public class ItemCanvas : MonoBehaviour
 
     void Update()
     {
-        //if (!flagManager.GetFlag(FlagManager.FlagType.Z))
-        //{
-        //    return;
-        //}
+        if (!flagManager.GetFlag(FlagManager.FlagType.Z))
+        {
+            return;
+        }
 
         bool isAllFlagsOff =
             !flagManager.GetFlag(FlagManager.FlagType.CameraZoomObj) &&
