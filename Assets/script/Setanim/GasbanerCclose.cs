@@ -86,7 +86,7 @@ public class GasbanerCclose : MonoBehaviour
             if (associatedCup2 != null)
                 associatedCup2.SetActive(false);
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.2f);
 
             GasCdoorAnimator.SetTrigger("Cdooropen");
 
@@ -95,9 +95,10 @@ public class GasbanerCclose : MonoBehaviour
             FlagManager.Instance.SetFlag(FlagManager.FlagType.DoorAnimComplete, true);
 
             itemgeteffect.gameObject.SetActive(true);
-            audioSource.PlayOneShot(soundEffect);
 
             yield return new WaitForSeconds(0.5f);
+
+            audioSource.PlayOneShot(soundEffect);
             panel.SetActive(true);
 
             // Fire2の入力があるまで無制限に待つ

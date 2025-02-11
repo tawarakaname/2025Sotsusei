@@ -50,7 +50,7 @@ public class Watercanset : MonoBehaviour
             animationCompleted = false;
 
             // 0.7秒の遅延を追加
-            StartCoroutine(ShowItemGetPanelWithDelay(1f));
+            StartCoroutine(ShowItemGetPanelWithDelay(0.1f));
         }
 
         if (Bkeyget.gameObject.activeSelf &&

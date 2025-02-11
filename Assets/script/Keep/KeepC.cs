@@ -9,6 +9,10 @@ public class KeepC : MonoBehaviour
     [SerializeField] private GameObject[] GenerateObjects; // 対象のGameObjectをInspectorで設定
     [SerializeField] private Collider[] GenerateColliders; // 有効化するコライダー（ここを追加）
 
+    [Header("Belt1move Y Position Change")]
+    [SerializeField] private GameObject targetObject; // Y座標を変更する対象
+    [SerializeField] private float newYPosition; // 新しいY座標の値
+
     [Header("leverdown")]
     [SerializeField] private GameObject[] DeleteObjects1; // 対象のGameObjectをInspectorで設定
     [SerializeField] private GameObject[] GenerateObjects1; // 対象のGameObjectをInspectorで設定
@@ -40,6 +44,7 @@ public class KeepC : MonoBehaviour
             SetActiveForObjects(GenerateObjects, true);
             SetActiveForObjects(DeleteObjects, false);
             EnableColliders(GenerateColliders, true);  // ここでコライダーを有効化
+            ChangeYPosition(targetObject, newYPosition); // Y座標変更処理
         }
 
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
@@ -91,6 +96,16 @@ public class KeepC : MonoBehaviour
         foreach (Collider col in colliders)
         {
             col.enabled = state;
+        }
+    }
+
+    private void ChangeYPosition(GameObject obj, float newY)
+    {
+        if (obj != null)
+        {
+            Vector3 position = obj.transform.position;
+            position.y = newY;
+            obj.transform.position = position;
         }
     }
 }
