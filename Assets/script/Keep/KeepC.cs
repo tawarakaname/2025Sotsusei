@@ -11,7 +11,6 @@ public class KeepC : MonoBehaviour
 
     [Header("Belt1move Y Position Change")]
     [SerializeField] private GameObject targetObject; // Y座標を変更する対象
-    [SerializeField] private float newYPosition; // 新しいY座標の値
 
     [Header("leverdown")]
     [SerializeField] private GameObject[] DeleteObjects1; // 対象のGameObjectをInspectorで設定
@@ -29,9 +28,9 @@ public class KeepC : MonoBehaviour
     [SerializeField] private GameObject[] DeleteObjects4; // 複数形にリネーム
     [SerializeField] private GameObject[] GenerateObjects4; // 複数形にリネーム
 
-    //[Header("mix")]
-    //[SerializeField] private GameObject[] DeleteObjects5; // 複数形にリネーム
-    //[SerializeField] private GameObject[] GenerateObjects5; // 複数形にリネーム
+    [Header("getbatterD")]
+    [SerializeField] private GameObject[] DeleteObjects5; // 複数形にリネーム
+    [SerializeField] private GameObject[] GenerateObjects5; // 複数形にリネーム
 
     //[Header("watercan")]
     //[SerializeField] private GameObject[] DeleteObjects6; // 複数形にリネーム
@@ -44,7 +43,7 @@ public class KeepC : MonoBehaviour
             SetActiveForObjects(GenerateObjects, true);
             SetActiveForObjects(DeleteObjects, false);
             EnableColliders(GenerateColliders, true);  // ここでコライダーを有効化
-            ChangeYRotation(targetObject, 90f); // Y軸を90度回転
+            ChangeRotation(targetObject, 180f, 90f, -180f); // X=0, Y=90, Z=0 の回転にする
 
         }
 
@@ -72,11 +71,11 @@ public class KeepC : MonoBehaviour
             SetActiveForObjects(DeleteObjects4, false);
         }
 
-        //if (FlagManager.Instance.GetFlagByType(Item.Type.watercan))
-        //{
-        //    SetActiveForObjects(GenerateObjects6, true);
-        //    SetActiveForObjects(DeleteObjects6, false);
-        //}
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.getbatterD))
+        {
+            SetActiveForObjects(GenerateObjects5, true);
+            SetActiveForObjects(DeleteObjects5, false);
+        }
     }
 
     private void SetActiveForObjects(GameObject[] objects, bool state)
@@ -100,14 +99,14 @@ public class KeepC : MonoBehaviour
         }
     }
 
-    private void ChangeYRotation(GameObject obj, float newYRotation)
+    private void ChangeRotation(GameObject obj, float x, float y, float z)
     {
         if (obj != null)
         {
-            Vector3 rotation = obj.transform.eulerAngles;
-            rotation.y = newYRotation;
-            obj.transform.eulerAngles = rotation;
+            obj.transform.rotation = Quaternion.Euler(x, y, z);
         }
     }
+
+
 
 }

@@ -41,10 +41,12 @@ public class Switchon : MonoBehaviour
         {
             if (ButtonUIImage.activeSelf && Input.GetButtonDown("Fire2"))
             {
+               
                 BeltTurnon();
             }
             else if (!switch1ON)
             {
+                
                 pushswitch();
             }
         }
@@ -86,25 +88,43 @@ public class Switchon : MonoBehaviour
            flagManager.SetFlag(FlagManager.FlagType.switch1ON, true);
            // フラグを解除
            isswitch1ON = false;
+
+            // ButtonUIImageを表示
+            if (ButtonUIImage != null)
+            {
+                ButtonUIImage.SetActive(false);
+            }
         }
     }
 
     private void pushswitch2()
     {
-        // 既にトリガーが実行されている場合は処理を終了
         if (isswitch2ON || flagManager.GetFlag(FlagManager.FlagType.switch2ON))
             return;
 
-        // ButtonUIImageを表示
         if (ButtonUIImage != null)
         {
             ButtonUIImage.SetActive(true);
         }
 
-        // トリガー済みフラグを設定
         isswitch2ON = true;
 
+        // 1フレーム待機してから入力を受け付けるコルーチンを開始
+        StartCoroutine(WaitForFire2());
     }
+
+    private IEnumerator WaitForFire2()
+    {
+
+        // 1フレーム待機（これでFire2が押される前に一旦リセットされる）
+        yield return null;
+
+        // Fire2 が押されるまで待機
+        yield return new WaitUntil(() => Input.GetButtonDown("Fire2"));
+
+        BeltTurnon2();
+    }
+
 
     private void BeltTurnon2()
     {
@@ -112,6 +132,12 @@ public class Switchon : MonoBehaviour
             flagManager.SetFlag(FlagManager.FlagType.switch2ON, true);
             // フラグを解除
             isswitch2ON = false;
+
+            // ButtonUIImageを表示
+            if (ButtonUIImage != null)
+            {
+                ButtonUIImage.SetActive(false);
+            }
         }
     }
 

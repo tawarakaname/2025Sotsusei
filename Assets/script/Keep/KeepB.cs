@@ -30,6 +30,10 @@ public class KeepB : MonoBehaviour
     [SerializeField] private GameObject[] DeleteObjects6; // 複数形にリネーム
     [SerializeField] private GameObject[] GenerateObjects6; // 複数形にリネーム
 
+    [Header("effect")]
+    [SerializeField] private GameObject[] DeleteObjects7; // 複数形にリネーム
+    [SerializeField] private GameObject[] GenerateObjects7; // 複数形にリネーム
+
     void Start()
     {
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.SmellPasswordclear))
@@ -66,6 +70,12 @@ public class KeepB : MonoBehaviour
         {
             SetActiveForObjects(GenerateObjects6, true);
             SetActiveForObjects(DeleteObjects6, false);
+        }
+
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackBanim))
+        {
+            SetActiveForObjects(GenerateObjects7, true);
+            SetActiveForObjects(DeleteObjects7, false);
         }
     }
 

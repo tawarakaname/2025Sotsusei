@@ -46,6 +46,10 @@ public class Aquarium_staranim : MonoBehaviour
         {
             return; // 早期リターン
         }
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB))
+        {
+            return; // 早期リターン
+        }
 
         // キャッシュするフラグ
         bool isStarcupFlagActive = FlagManager.Instance.GetFlagByType(Item.Type.starcup);

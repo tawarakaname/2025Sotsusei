@@ -9,6 +9,7 @@ public class ComebackB2 : MonoBehaviour
     [SerializeField] private Vector3 targetPosition;    // 移動先の位置
     [SerializeField] private Collider triggerCollider;
     [SerializeField] private PlayableDirector director; // 再生させるDirector
+    //[SerializeField] private GameObject sandereffect;   // 位置を移動させたいオブジェクト
 
     private bool hasMovedTarget = false;    // オブジェクトを移動したかどうかを追跡
     private FlagManager flagManager;
@@ -78,6 +79,8 @@ public class ComebackB2 : MonoBehaviour
     // タイムラインが停止したときに呼ばれる
     private void OnPlayableDirectorStopped(PlayableDirector director)
     {
+        //sandereffect.SetActive(true);
+
         // Nowanim フラグを false に設定
         if (flagManager != null)
         {

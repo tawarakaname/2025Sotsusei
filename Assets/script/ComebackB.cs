@@ -10,14 +10,17 @@ public class ComebackB : MonoBehaviour
     [SerializeField] private PlayableDirector director; // 再生させるDirector
     [SerializeField] private GameObject targetCamera;   // アニメーション後に無効化するカメラ
     [SerializeField] private Collider triggerCollider;
+    [SerializeField] private Collider otherCollider;
     [SerializeField] private GameObject playerObject;    // プレイヤー
     [SerializeField] private Vector3 playerPosition;    //　プレイヤー移動先の位置
+    [SerializeField] private GameObject sandereffect;   // 位置を移動させたいオブジェクト
 
 
     private bool hasPlayedDirector = false; // Directorが再生されたかを追跡
     private bool isDoorOpened = false;      // ドアが開いたかどうかのフラグ
     private bool hasMovedTarget = false;    // オブジェクトを移動したかどうかを追跡
     private FlagManager flagManager;
+    private bool hasActivatedEffect = false; // エフェクトが有効化されたか追跡
 
     void Start()
     {
@@ -28,6 +31,10 @@ public class ComebackB : MonoBehaviour
             if (triggerCollider != null)
             {
                 triggerCollider.enabled = true;
+            }
+            if (otherCollider != null)
+            {
+                otherCollider.enabled = false;
             }
         }
 
@@ -53,7 +60,35 @@ public class ComebackB : MonoBehaviour
 
         }
     }
- 
+    private void Update()
+    {
+        // comebackB が false の場合は処理をスキップ
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB))
+        {
+            return;
+        }
+
+        // comebackBanim が false の場合は処理をスキップ
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackBanim))
+        {
+            return;
+        }
+
+        // すでにエフェクトを有効化していたらスキップ
+        if (hasActivatedEffect)
+        {
+            return;
+        }
+
+        // エフェクトを有効化（初回のみ）
+        if (sandereffect != null)
+        {
+            sandereffect.SetActive(true);
+        }
+
+        hasActivatedEffect = true; // 1回だけ実行
+    }
+
 
     // 指定した位置にオブジェクトを移動させるメソッド
     private void MoveTargetObject()
@@ -84,13 +119,14 @@ public class ComebackB : MonoBehaviour
     // タイムラインが停止したときに呼ばれる
     private void OnPlayableDirectorStopped(PlayableDirector director)
     {
+
+
         // Nowanim フラグを false に設定
         if (flagManager != null)
         {
             flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
             FlagManager.Instance.SetFlag(FlagManager.FlagType.comebackBanim, true);
         }
-
         // targetCamera を無効化
         if (targetCamera != null)
         {

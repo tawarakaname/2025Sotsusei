@@ -47,7 +47,11 @@ public class Aquarium_heartanim : MonoBehaviour
         {
             return; // 早期リターン
         }
-
+        // Aquariumcamera0 フラグが true の場合に処理を開始
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB))
+        {
+            return; // 早期リターン
+        }
         // キャッシュするフラグ
         bool isHeartcupFlagActive = FlagManager.Instance.GetFlagByType(Item.Type.heartcup);
         bool isHeartcup2getFlagActive = FlagManager.Instance.GetFlag(FlagManager.FlagType.Heartcup2get);
