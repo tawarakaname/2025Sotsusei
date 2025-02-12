@@ -36,6 +36,12 @@ public class Toyboxopen : MonoBehaviour
 
     void Update()
     {
+
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt1move))
+        {
+            return; // 早期リターン
+        }
+
         // プレイヤーがコライダー内にいる場合のみ処理を行う
         if (playerInsideCollider)
         {
