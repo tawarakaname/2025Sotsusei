@@ -32,6 +32,14 @@ public class KeepC : MonoBehaviour
     [SerializeField] private GameObject[] DeleteObjects5; // 複数形にリネーム
     [SerializeField] private GameObject[] GenerateObjects5; // 複数形にリネーム
 
+    [Header("batterD")]
+    [SerializeField] private GameObject[] DeleteObjects6; // 複数形にリネーム
+    [SerializeField] private GameObject[] GenerateObjects6; // 複数形にリネーム
+
+    [Header("batterC")]
+    [SerializeField] private GameObject[] DeleteObjects7; // 複数形にリネーム
+    [SerializeField] private GameObject[] GenerateObjects7; // 複数形にリネーム
+
     //[Header("watercan")]
     //[SerializeField] private GameObject[] DeleteObjects6; // 複数形にリネーム
     //[SerializeField] private GameObject[] GenerateObjects6; // 複数形にリネーム
@@ -75,6 +83,18 @@ public class KeepC : MonoBehaviour
         {
             SetActiveForObjects(GenerateObjects5, true);
             SetActiveForObjects(DeleteObjects5, false);
+        }
+
+        if (FlagManager.Instance.GetFlagByType(Item.Type.batteryD))
+        {
+            SetActiveForObjects(GenerateObjects6, true);
+            SetActiveForObjects(DeleteObjects6, false);
+        }
+
+        if (FlagManager.Instance.GetFlagByType(Item.Type.batteryC))
+        {
+            SetActiveForObjects(GenerateObjects6, true);
+            SetActiveForObjects(DeleteObjects6, false);
         }
     }
 
