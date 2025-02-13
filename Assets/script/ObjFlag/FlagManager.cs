@@ -181,6 +181,7 @@ public class FlagManager : MonoBehaviour
         Be_Bclear,
         Be_Cclear,
         Allcupwater,
+        Allcupwaterget,
         getallcup,
         Z,
     }

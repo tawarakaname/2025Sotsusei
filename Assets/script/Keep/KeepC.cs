@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class KeepC : MonoBehaviour
 {
+    [Header("Allcupwaterget")]
+    [SerializeField] private GameObject[] SetObjTargets; // `SetObj` スクリプトを持つオブジェクトの配列
+
     [Header("Belt1move")]
     [SerializeField] private GameObject[] DeleteObjects; // 対象のGameObjectをInspectorで設定
     [SerializeField] private GameObject[] GenerateObjects; // 対象のGameObjectをInspectorで設定
@@ -93,8 +96,13 @@ public class KeepC : MonoBehaviour
 
         if (FlagManager.Instance.GetFlagByType(Item.Type.batteryC))
         {
-            SetActiveForObjects(GenerateObjects6, true);
-            SetActiveForObjects(DeleteObjects6, false);
+            SetActiveForObjects(GenerateObjects7, true);
+            SetActiveForObjects(DeleteObjects7, false);
+        }
+
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Allcupwaterget))
+        {
+            EnableFreeInteractForSetObjs(SetObjTargets);
         }
     }
 
@@ -127,6 +135,21 @@ public class KeepC : MonoBehaviour
         }
     }
 
+    private void EnableFreeInteractForSetObjs(GameObject[] objects)
+    {
+        if (objects == null) return;
 
+        foreach (GameObject obj in objects)
+        {
+            if (obj != null)
+            {
+                SetObj setObjScript = obj.GetComponent<SetObj>();
+                if (setObjScript != null)
+                {
+                    setObjScript.IsFreeInteract = true;
+                }
+            }
+        }
+    }
 
 }

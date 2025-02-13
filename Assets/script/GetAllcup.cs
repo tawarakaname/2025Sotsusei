@@ -35,8 +35,7 @@ public class GetAllcup : MonoBehaviour
             return;
         }
 
-        // BatteryDが取得済みならコライダーを無効化
-        if (pickeditem.ContainsKey(Item.Type.batteryD) && pickeditem[Item.Type.allcup])
+        if (pickeditem.ContainsKey(Item.Type.allcup) && pickeditem[Item.Type.allcup])
         {
             AllcupDCollider.enabled = false;
             pickupObj.enabled = false; // 初期状態でスクリプトを無効化
@@ -62,15 +61,15 @@ public class GetAllcup : MonoBehaviour
         // Fire2入力がある場合にテキストを表示
         if (Input.GetButtonDown("Fire2") && currentKeyword != null &&
             FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) &&
-            !FlagManager.Instance.GetFlag(FlagManager.FlagType.getbatterD) && isPlayerInCollider)
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.getallcup) && isPlayerInCollider)
         {
             textManager.DisplayCurrentLine();
         }
 
         // Textboxが終了したらフラグを更新
         if (isPlayerInCollider &&
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt1move) &&
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.BatteryCamera1) &&
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt2move) &&
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.cupCCamera) &&
             FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) == false &&
             isTextboxActive)
         {

@@ -56,7 +56,7 @@ public class Aquarium_allanim : MonoBehaviour
         }
         // キャッシュするフラグ
         bool isAllcupFlagActive = FlagManager.Instance.GetFlagByType(Item.Type.allcup);
-        bool isAllcup2getFlagActive = FlagManager.Instance.GetFlag(FlagManager.FlagType.Allcupwater);
+        bool isAllcup2getFlagActive = FlagManager.Instance.GetFlag(FlagManager.FlagType.Allcupwaterget);
         bool isCameraZoomFlagActive = FlagManager.Instance.GetFlag(FlagManager.FlagType.CameraZoomObj);
 
         // diacup フラグが true かつ Aquarium0water コルーチンがまだ開始されていない場合
@@ -98,13 +98,13 @@ public class Aquarium_allanim : MonoBehaviour
     private IEnumerator BoxBAnimCompleted()
     {
         yield return new WaitForSeconds(animatedTime);
-        FlagManager.Instance.SetFlag(FlagManager.FlagType.Allcupwater, true);
+        FlagManager.Instance.SetFlag(FlagManager.FlagType.Allcupwaterget, true);
     }
 
     private IEnumerator OnClickBbox()
     {
         // Diacup2getがまだ開かれていない場合のみアニメーションを再生
-        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Allcupwater))
+        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Allcupwaterget))
         {
             // Fire1, Fire2 入力を無効にするフラグを立てる
             controlsDisabled = true;

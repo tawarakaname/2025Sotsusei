@@ -76,12 +76,10 @@ public class Dryberset : MonoBehaviour
 
     private void Update()
     {
-        // Adooropen フラグが true の場合、このスクリプトを無効化
-        //if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Cdooropen))
-        //{
-        //    enabled = false;
-        //    return;
-        //}
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt2move))
+        {
+            return; // 早期リターン
+        }
 
         isFreeInteract = !FlagManager.Instance.GetFlag(FlagManager.FlagType.toolPasswordclear);
         setObj.IsFreeInteract = FlagManager.Instance.GetFlag(FlagManager.FlagType.toolPasswordclear);
