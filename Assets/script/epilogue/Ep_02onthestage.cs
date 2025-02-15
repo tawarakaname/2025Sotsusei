@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement; // シーン管理に必要
 
 public class Ep_02onthestage : MonoBehaviour
 {
@@ -138,12 +139,16 @@ public class Ep_02onthestage : MonoBehaviour
         // プレイヤー操作を再び有効化
         EnablePlayerControls();
 
+        // シーンを"OP"に切り替え
+        SceneManager.LoadScene("ED");
+
         // スクリプトを無効化
         DisableScript();
     }
 
     private void DisableScript()
     {
+
         // イベントの登録解除
         if (director != null)
         {

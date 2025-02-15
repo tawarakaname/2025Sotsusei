@@ -174,6 +174,8 @@ public class CameraZoomObj : MonoBehaviour
                 return FlagManager.FlagType.NabeCamera;
             case "MainMeterCamera":
                 return FlagManager.FlagType.MainMeterCamera;
+            case "yappiCamera":
+                return FlagManager.FlagType.yappiCamera;
             default:
                 return null;
         }

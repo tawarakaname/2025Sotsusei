@@ -46,14 +46,15 @@ public static class Textkeyword
                 !FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen))
                 return "Hint8";
         }
-
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) &&
+    
+            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) &&
             FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackAanim) &&
             !FlagManager.Instance.GetFlagByType(Item.Type.BTB))
             return "Hint9";
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackA) &&
             FlagManager.Instance.GetFlagByType(Item.Type.BTB))
             return "Hint10";
+
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Adooropen) &&
             FlagManager.Instance.GetFlag(FlagManager.FlagType.Result_A) &&
             !FlagManager.Instance.GetFlagByType(Item.Type.crystalA) &&
@@ -116,17 +117,84 @@ public static class Textkeyword
                 FlagManager.Instance.GetFlagByType(Item.Type.watercan))
                 return "Hint21";
         }
-        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Cstartsceneok) &&
-           !FlagManager.Instance.GetFlag(FlagManager.FlagType.Yappi1kaiwa))
-            return "Hint22";
+
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackBanim) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
             return "Hint23";
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB) &&
             FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackBanim) &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt2move) &&
             FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
             return "Hint24";
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB) &&
+          FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackBanim) &&
+          FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt2move) &&
+          FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
+            return "Hint40";
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Bdooropen) &&
+           FlagManager.Instance.GetFlag(FlagManager.FlagType.Result_B) &&
+           !FlagManager.Instance.GetFlag(FlagManager.FlagType.Cstartsceneok))
+            return "Be_Bclear2";
+
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Cstartsceneok) &&
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt1move) &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.comebackB) &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Result_C))
+        {
+            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Cstartsceneok) &&
+         　　　  !FlagManager.Instance.GetFlag(FlagManager.FlagType.Yappi1kaiwa))
+                return "Hint22";
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.getbatterD) &&
+                !FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown) &&
+          　　　　FlagManager.Instance.GetFlag(FlagManager.FlagType.Yappi1kaiwa))
+                return "Hint30";
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.getbatterD) &&
+                 FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown) &&
+          　　　　FlagManager.Instance.GetFlag(FlagManager.FlagType.Yappi1kaiwa))
+                return "Hint30";
+            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.getbatterD) &&
+                !FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
+                return "Hint31";
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.toolPasswordclear) &&
+                FlagManager.Instance.GetFlag(FlagManager.FlagType.getbatterD) &&
+                FlagManager.Instance.GetFlag(FlagManager.FlagType.Leverdown))
+                return "Hint32";
+            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.toolPasswordclear) &&
+               !FlagManager.Instance.GetFlag(FlagManager.FlagType.playironplate))
+                return "Hint33";
+            if (!FlagManager.Instance.GetFlagByType(Item.Type.batteryC) &&
+                !FlagManager.Instance.GetFlag(FlagManager.FlagType.switch2ON) &&
+                FlagManager.Instance.GetFlag(FlagManager.FlagType.playironplate))
+                return "Hint34";
+            if (FlagManager.Instance.GetFlagByType(Item.Type.batteryC) &&
+                !FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt2move) &&
+                FlagManager.Instance.GetFlag(FlagManager.FlagType.playironplate))
+                return "Hint35";
+            if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.getallcup) &&
+               FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt2move))
+                return "Hint36";
+            if (FlagManager.Instance.GetFlag(FlagManager.FlagType.getallcup) &&
+               !FlagManager.Instance.GetFlag(FlagManager.FlagType.Allcupwaterget))
+                return "Hint37";
+            if (!FlagManager.Instance.GetFlagByType(Item.Type.Allcupwater) &&
+               FlagManager.Instance.GetFlag(FlagManager.FlagType.Allcupwaterget))
+                return "Hint38";
+            if (FlagManager.Instance.GetFlagByType(Item.Type.Allcupwater) &&
+                !FlagManager.Instance.GetFlag(FlagManager.FlagType.Cdooropen) &&
+              !FlagManager.Instance.GetFlag(FlagManager.FlagType.Ckeygivefase))
+                return "Hint39";
+        }
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Cdooropen) &&
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.Result_C) &&
+            !FlagManager.Instance.GetFlagByType(Item.Type.crystalC) &&
+            !FlagManager.Instance.GetFlag(FlagManager.FlagType.Ep01_clear))
+            return "Be_Cclear2";
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Cdooropen) &&
+            FlagManager.Instance.GetFlag(FlagManager.FlagType.Result_C) &&
+            FlagManager.Instance.GetFlagByType(Item.Type.crystalC) &&
+           !FlagManager.Instance.GetFlag(FlagManager.FlagType.Ep02_clear))
+            return "Be_Cclear3";
 
 
 

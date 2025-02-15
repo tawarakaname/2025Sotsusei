@@ -18,7 +18,7 @@ public class PickupObj : MonoBehaviour
     private bool ispickup = false;
     private bool hasDisplayedText = false;
 
-    static Dictionary<Item.Type, bool> pickeditem = new Dictionary<Item.Type, bool>();
+    public　static Dictionary<Item.Type, bool> pickeditem = new Dictionary<Item.Type, bool>();
 
     private void Start()
     {

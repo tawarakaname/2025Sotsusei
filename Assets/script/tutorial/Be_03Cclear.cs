@@ -11,10 +11,24 @@ public class Be_03Cclear : MonoBehaviour
     [SerializeField] private GameObject hanamaru;
     [SerializeField] private Collider Collider; // 台座コライダー
 
+
     void Start()
     {
         textManager = GameObject.FindWithTag("TextManager").GetComponent<TextManager>();
         flagManager = FlagManager.Instance;
+        Collider.enabled = false;
+
+        if (!flagManager.GetFlag(FlagManager.FlagType.Greeting))
+        {
+            DisableScript();
+            return;
+        }
+
+        if (flagManager.GetFlag(FlagManager.FlagType.crystalclear))
+        {
+            DisableScript();
+            return;
+        }
 
         if (director != null)
         {
@@ -55,20 +69,19 @@ public class Be_03Cclear : MonoBehaviour
     {
         if (!flagManager.GetFlag(FlagManager.FlagType.Greeting))
         {
-            DisableScript();
             return;
         }
 
-        if (flagManager.GetFlag(FlagManager.FlagType.Be_Cclear))
+        if (!flagManager.GetFlag(FlagManager.FlagType.Result_C))
         {
-            DisableScript();
             return;
         }
 
         if (!flagManager.GetFlag(FlagManager.FlagType.Be_Cclear) &&
-             flagManager.GetFlag(FlagManager.FlagType.Result_C) &&
-             flagManager.GetFlag(FlagManager.FlagType.Nowanim))
+              flagManager.GetFlag(FlagManager.FlagType.Result_C) &&
+              flagManager.GetFlag(FlagManager.FlagType.Nowanim))
         {
+
             // Fire2 ボタンで次のテキストを表示
             if (Input.GetButtonDown("Fire2") && isTextboxActive && FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))
             {
@@ -79,10 +92,10 @@ public class Be_03Cclear : MonoBehaviour
             if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox) && isTextboxActive)
             {
                 isTextboxActive = false;
-
                 Collider.enabled = true;
                 flagManager.SetFlag(FlagManager.FlagType.Be_Cclear, true);
                 flagManager.SetFlag(FlagManager.FlagType.Nowanim, false);
+             
             }
 
             if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Textbox))

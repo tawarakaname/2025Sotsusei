@@ -43,12 +43,18 @@ public class KeepC : MonoBehaviour
     [SerializeField] private GameObject[] DeleteObjects7; // 複数形にリネーム
     [SerializeField] private GameObject[] GenerateObjects7; // 複数形にリネーム
 
+    [Header("Dkey1")]
+    [SerializeField] private GameObject[] DeleteObjects8; // 複数形にリネーム
+    [SerializeField] private GameObject[] GenerateObjects8; // 複数形にリネーム
+
     //[Header("watercan")]
     //[SerializeField] private GameObject[] DeleteObjects6; // 複数形にリネーム
     //[SerializeField] private GameObject[] GenerateObjects6; // 複数形にリネーム
 
+
     void Start()
     {
+
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt1move))
         {
             SetActiveForObjects(GenerateObjects, true);
@@ -104,6 +110,14 @@ public class KeepC : MonoBehaviour
         {
             EnableFreeInteractForSetObjs(SetObjTargets);
         }
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt2move) &&
+   　　　　　  (!PickupObj.pickeditem.ContainsKey(Item.Type.Dkey1) || !PickupObj.pickeditem[Item.Type.Dkey1]))
+        {
+            SetActiveForObjects(GenerateObjects8, true);
+            SetActiveForObjects(DeleteObjects8, false);
+        }
+
+
     }
 
     private void SetActiveForObjects(GameObject[] objects, bool state)

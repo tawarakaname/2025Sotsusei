@@ -183,6 +183,10 @@ public class FlagManager : MonoBehaviour
         Allcupwater,
         Allcupwaterget,
         getallcup,
+        yappiclear,
+        Ckeygivefase,
+        yappiCamera,
+        getckeyfull,
         Z,
     }
 

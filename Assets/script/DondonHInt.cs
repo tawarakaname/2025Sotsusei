@@ -51,6 +51,15 @@ public class DondonHInt : MonoBehaviour
 
     void Update()
     {
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Ckeygivefase))
+        {
+            if (targetImage != null)
+            {
+                targetImage.SetActive(false);
+            }
+            return;
+        }
+
         bool isAllRequiredFlagsOff =
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.itembox) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.Itemgetpanel);

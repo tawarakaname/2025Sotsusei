@@ -18,7 +18,7 @@ public class TimecounterED : MonoBehaviour
 
     void SceneChange()
     {
-        SceneManager.LoadScene("End credits");
+        SceneManager.LoadScene("title");
 
     }
 }
