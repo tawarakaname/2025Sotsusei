@@ -49,7 +49,7 @@ public class Aquarium_diaanim : MonoBehaviour
         }
 
         // Aquariumcamera0 フラグが true の場合に処理を開始
-        if (!FlagManager.Instance.GetFlag(FlagManager.FlagType.burntcup3get))
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.burntcup3get))
         {
             return; // 早期リターン
         }
