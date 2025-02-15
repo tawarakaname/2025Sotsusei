@@ -36,7 +36,14 @@ public class GasbanerCclose : MonoBehaviour
 
         if (audioSource == null)
             audioSource = GetComponent<AudioSource>();
+
+        // シーン移動時にフラグをリセット
+        heartUsed = false;
+        diaUsed = false;
+        starUsed = false;
+        burntCup3Set = false;
     }
+
 
     void Update()
     {
