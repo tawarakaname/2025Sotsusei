@@ -40,6 +40,10 @@ public class GasbanerCclose : MonoBehaviour
 
     void Update()
     {
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.ThreePasswordclear))
+        {
+            return; // Updateメソッドを早期終了
+        }
         // BTBフラグがfalseの場合、一切動作しない
         if (!FlagManager.Instance.GetFlagByType(Item.Type.BTB))
         {
@@ -74,6 +78,8 @@ public class GasbanerCclose : MonoBehaviour
 
     private IEnumerator HandlePanel(GameObject panel, GameObject associatedCup2, GameObject associatedCup3, System.Action onPanelUsed)
     {
+      
+
         try
         {
             FlagManager.Instance.SetFlag(FlagManager.FlagType.Itemgetpanel, true);
