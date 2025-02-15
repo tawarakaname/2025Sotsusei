@@ -47,6 +47,10 @@ public class KeepC : MonoBehaviour
     [SerializeField] private GameObject[] DeleteObjects8; // 複数形にリネーム
     [SerializeField] private GameObject[] GenerateObjects8; // 複数形にリネーム
 
+    [Header("getallcup")]
+    [SerializeField] private GameObject[] DeleteObjects9; // 複数形にリネーム
+    [SerializeField] private GameObject[] GenerateObjects9; // 複数形にリネーム
+
     //[Header("watercan")]
     //[SerializeField] private GameObject[] DeleteObjects6; // 複数形にリネーム
     //[SerializeField] private GameObject[] GenerateObjects6; // 複数形にリネーム
@@ -117,7 +121,11 @@ public class KeepC : MonoBehaviour
             SetActiveForObjects(DeleteObjects8, false);
         }
 
-
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.getallcup))
+        {
+            SetActiveForObjects(GenerateObjects9, true);
+            SetActiveForObjects(DeleteObjects9, false);
+        }
     }
 
     private void SetActiveForObjects(GameObject[] objects, bool state)

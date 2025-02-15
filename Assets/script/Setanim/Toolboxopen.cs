@@ -37,6 +37,11 @@ public class Toolboxopen : MonoBehaviour
 
     void Update()
     {
+        if (FlagManager.Instance.GetFlag(FlagManager.FlagType.playironplate))
+        {
+            return;
+        }
+
         // プレイヤーがコライダー内にいる場合のみ処理を行う
         if (playerInsideCollider)
         {

@@ -27,7 +27,6 @@ public class Allcuptrue : MonoBehaviour
         }
 
         if (FlagManager.Instance.GetFlag(FlagManager.FlagType.Belt2move) &&
-            FlagManager.Instance.GetFlag(FlagManager.FlagType.cupCCamera) &&
             !FlagManager.Instance.GetFlag(FlagManager.FlagType.getallcup))
         {
             if (huta != null)

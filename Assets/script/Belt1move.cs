@@ -8,6 +8,7 @@ public class Belt1move : MonoBehaviour
     [SerializeField] private Collider[] colliders;                 // 制御する複数のコライダー
     [SerializeField] private GameObject targetObject;              // 位置を移動させたいオブジェクト
     [SerializeField] private GameObject Otomo;
+    [SerializeField] private GameObject dammyOtomo;
     private FlagManager flagManager;                               // フラグマネージャー
     public PlayableDirector director;
 
@@ -109,6 +110,7 @@ public class Belt1move : MonoBehaviour
             }
         }
         Otomo.SetActive(true);
+        dammyOtomo.SetActive(false);
     }
 
     // タイムラインが停止したときに呼ばれる
