@@ -13,10 +13,10 @@ public class FireParticle : MonoBehaviour
     private ParticleSystem[] particleSystems;
     private Color[] particleColors =
         {
-            Color.yellow,
-            new (0.3f, 1f, 0.5f),
-            new (1f, 0.176f, 0.761f),
-            new (0.698f, 0.259f, 0f)
+    　　　　new Color(1.0f, 0.933f, 0.0f), // FFEE00
+    　　　　new Color(0.3f, 1f, 0.5f),     // そのまま
+    　　　　new Color(0.988f, 0.573f, 0.969f), // FC92F7
+    　　　　new Color(1.0f, 0.38f, 0.0f)   // FF6100
         };
 
     void Start()
@@ -97,10 +97,26 @@ public class FireParticle : MonoBehaviour
     private void ChangeParticleColor(ParticleSystem particleSystem, Color newColor)
     {
         if (particleSystem == null) return;
+
         var mainModule = particleSystem.main;
-        mainModule.startColor = newColor;
+        mainModule.startColor = newColor; // startColorを変更
+
+        // ColorOverLifetimeの色を単色に設定
+        var colorOverLifetime = particleSystem.colorOverLifetime;
+        if (colorOverLifetime.enabled) // モジュールが有効なら変更
+        {
+            Gradient gradient = new Gradient();
+            gradient.SetKeys(
+                new GradientColorKey[] { new GradientColorKey(newColor, 0f), new GradientColorKey(newColor, 1f) },
+                new GradientAlphaKey[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 1f) }
+            );
+            colorOverLifetime.color = new ParticleSystem.MinMaxGradient(gradient);
+        }
+
+        // 再生
         particleSystem.Stop();
         particleSystem.Clear();
         particleSystem.Play();
     }
+
 }
